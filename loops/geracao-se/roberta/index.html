@@ -125,21 +125,67 @@
   .fran-title { font-size: 11px; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
   .fran-cred { font-size: 11px; color: #4A4440; margin-top: 4px; }
 
-  footer { background: var(--ink); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
-  footer .brand { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
+/* ─── FOOTER NAV ─── */
+  footer {
+    background: var(--ink);
+    padding: 32px 40px 22px;
+    border-top: 1px solid #2A2622;
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #2A2622;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-home {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .footer-home:hover { opacity: 1; }
+  .footer-nav {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .footer-link {
+    font-size: 11px;
+    color: #4A4440;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: var(--gold); }
+  .footer-link.active { color: var(--gold); font-weight: 500; }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.5;
+  }
   footer .date { font-size: 10px; color: #4A4440; letter-spacing: 0.08em; }
 
   @media (max-width: 640px) {
-    .hero { padding: 52px 28px 48px; }
-    .hero-label { left: 28px; }
-    .hero-num { right: 28px; }
-    section { padding: 56px 28px; }
-    .mangue-feature { padding: 56px 28px; }
-    .dark-band { padding: 56px 28px; }
-    .loop-strip { padding: 48px 28px; }
-    .steps-grid { grid-template-columns: 1fr; }
-    .closing { padding: 60px 28px 48px; }
-    footer { padding: 18px 28px; flex-direction: column; gap: 8px; text-align: center; }
+    footer { padding: 28px 24px 18px; }
+    .footer-top { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .footer-nav { gap: 16px; }
+  }
     .loop-flow { flex-direction: column; }
     .loop-arrow { transform: rotate(90deg); padding: 6px 0; justify-content: center; }
   }
@@ -285,8 +331,19 @@
 </div>
 
 <footer>
-  <div class="brand">Eatlooper</div>
-  <div class="date">Loop Geração SE · Abril 2026 · Aracaju, SE</div>
+  <div class="footer-top">
+    <a href="../" class="footer-home">← Loop Geração SE</a>
+    <nav class="footer-nav">
+      <a href="../yasmin/" class="footer-link">Tolé Cozinha</a>
+      <a href="../samuel/" class="footer-link">Gratto</a>
+      <a href="../roberta/" class="footer-link active">Casa do Mangue</a>
+      <a href="../geon/" class="footer-link">Zōi</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <div class="brand">Eatlooper</div>
+    <div class="date">Loop Geração SE · A gastronomia que ficou · Aracaju SE</div>
+  </div>
 </footer>
 
 </body>
