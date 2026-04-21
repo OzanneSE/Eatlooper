@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta Tolé · Loop Geração SE · Eatlooper</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --beige:   #FDF6EE;
+  --beige-2: #F4EADA;
+  --dark:    #1A1A1A;
+  --ink:     #2A2622;
+  --gold:    #B89364;
+  --muted:   #6B6159;
+  --line:    #E4D8C5;
+  --green:   #2BAF5A;
+  --green-dk:#1C7A3E;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--beige);
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+/* ── CAPA ── */
+.capa {
+  background: var(--dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 72px 88px 64px;
+  position: relative;
+  overflow: hidden;
+}
+.capa::before {
+  content: 'SE';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 520px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.028);
+  position: absolute;
+  right: -50px;
+  bottom: -100px;
+  line-height: 1;
+  pointer-events: none;
+  letter-spacing: -20px;
+}
+.capa-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.capa-brand {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.capa-loop-tag {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(184,147,100,0.45);
+  text-transform: uppercase;
+  text-align: right;
+  line-height: 1.8;
+}
+.capa-centro {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0 40px;
+}
+.capa-para {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(184,147,100,0.6);
+  margin-bottom: 20px;
+}
+.capa-nome {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 86px;
+  font-weight: 300;
+  color: #FDF6EE;
+  line-height: 0.95;
+  margin-bottom: 6px;
+}
+.capa-nome em { font-style: italic; color: var(--gold); }
+.capa-casa {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(253,246,238,0.25);
+  margin-bottom: 56px;
+}
+.capa-citacao {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 23px;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(253,246,238,0.55);
+  max-width: 500px;
+  line-height: 1.5;
+  padding-left: 24px;
+  border-left: 2px solid rgba(184,147,100,0.5);
+}
+.capa-rodape {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid rgba(184,147,100,0.15);
+  padding-top: 32px;
+}
+.capa-assin {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-style: italic;
+  color: rgba(253,246,238,0.4);
+  line-height: 1.6;
+}
+.capa-assin strong {
+  display: block;
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: rgba(253,246,238,0.65);
+  font-family: 'Outfit', sans-serif;
+  margin-top: 2px;
+}
+.capa-data {
+  font-size: 11px;
+  color: rgba(184,147,100,0.35);
+  letter-spacing: 2px;
+  text-align: right;
+}
+
+/* ── CONTAINER ── */
+.wrap {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+/* ── SEÇÕES ── */
+.sec {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--line);
+}
+.sec:last-child { border-bottom: none; }
+.sec-tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sec-tag::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.sec-h {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 50px;
+  font-weight: 300;
+  line-height: 1.08;
+  margin-bottom: 36px;
+  color: var(--ink);
+}
+.sec-h em { font-style: italic; color: var(--gold); }
+.corpo {
+  font-size: 15.5px;
+  color: var(--ink);
+  line-height: 1.82;
+  max-width: 620px;
+}
+.corpo p + p { margin-top: 22px; }
+
+/* ── CARTA ── */
+.carta {
+  background: var(--dark);
+  color: #FDF6EE;
+  border-radius: 10px;
+  padding: 60px 68px;
+  margin: 48px 0;
+  position: relative;
+  overflow: hidden;
+}
+.carta::before {
+  content: '"';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 280px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.035);
+  position: absolute;
+  top: -40px; left: 20px;
+  line-height: 1;
+  pointer-events: none;
+}
+.carta-voz {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(184,147,100,0.6);
+  margin-bottom: 28px;
+}
+.carta-corpo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 27px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.55;
+  color: rgba(253,246,238,0.85);
+  position: relative;
+}
+.carta-assin {
+  margin-top: 32px;
+  font-size: 12px;
+  color: rgba(184,147,100,0.5);
+  letter-spacing: 1px;
+}
+
+/* ── MAPA TEXTUAL / CONSTELAÇÃO ── */
+.constelacao {
+  margin: 48px 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.const-header {
+  background: var(--dark);
+  padding: 24px 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.const-titulo {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.const-geo {
+  font-size: 11px;
+  color: rgba(184,147,100,0.45);
+  letter-spacing: 1px;
+}
+.casa-item {
+  padding: 28px 36px;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 20px;
+  align-items: center;
+}
+.casa-item:last-child { border-bottom: none; }
+.casa-item.destaque {
+  background: var(--beige-2);
+}
+.casa-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--line);
+}
+.casa-item.destaque .casa-num { color: var(--green); }
+.casa-nome {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.casa-item.destaque .casa-nome { font-weight: 500; }
+.casa-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.casa-role {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.casa-item.destaque .casa-role {
+  color: var(--green-dk);
+  background: rgba(43,175,90,0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* ── FRASE CENTRAL ── */
+.frase-bloco {
+  background: var(--green);
+  border-radius: 10px;
+  padding: 52px 64px;
+  margin: 48px 0;
+  text-align: center;
+}
+.frase-bloco-texto {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 300;
+  font-style: italic;
+  color: white;
+  line-height: 1.35;
+}
+.frase-bloco-sub {
+  margin-top: 20px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+}
+
+/* ── MENU ── */
+.menu-bloco {
+  background: var(--dark);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 40px 0;
+}
+.menu-hdr {
+  padding: 36px 44px 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.menu-casa {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 400;
+  color: #FDF6EE;
+}
+.menu-chef {
+  font-size: 12px;
+  color: rgba(184,147,100,0.6);
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+.menu-fio {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: rgba(253,246,238,0.28);
+  margin-top: 12px;
+}
+.menu-curso {
+  padding: 32px 44px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 28px;
+}
+.menu-curso:last-child { border-bottom: none; }
+.curso-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(184,147,100,0.5);
+  padding-top: 5px;
+}
+.prato-nome {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: #FDF6EE;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.prato-desc {
+  font-size: 13.5px;
+  color: rgba(253,246,238,0.48);
+  line-height: 1.7;
+}
+.prato-nota {
+  font-size: 11px;
+  color: rgba(184,147,100,0.5);
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* ── O QUE ACONTECE ── */
+.linha-do-tempo {
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.lt-item {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+.lt-item:last-child { border-bottom: none; }
+.lt-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--line);
+  line-height: 1;
+  padding-top: 2px;
+}
+.lt-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.lt-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ── O QUE VOCÊ RECEBE ── */
+.recebe-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 36px 0;
+}
+.recebe-item {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+.recebe-item:last-child { border-bottom: none; }
+.recebe-mark {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+.recebe-nome {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.recebe-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── CTA ── */
+.cta {
+  background: var(--dark);
+  padding: 88px 88px 72px;
+  text-align: center;
+}
+.cta-supra {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(184,147,100,0.5);
+  margin-bottom: 36px;
+}
+.cta-h {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 58px;
+  font-weight: 300;
+  color: #FDF6EE;
+  line-height: 1.1;
+  margin-bottom: 28px;
+}
+.cta-h em { font-style: italic; color: var(--gold); }
+.cta-desc {
+  font-size: 15px;
+  color: rgba(253,246,238,0.45);
+  max-width: 460px;
+  margin: 0 auto 52px;
+  line-height: 1.75;
+}
+.cta-btn {
+  display: inline-block;
+  border: 1px solid rgba(184,147,100,0.45);
+  border-radius: 4px;
+  padding: 16px 44px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+}
+.cta-pie {
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(184,147,100,0.12);
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: rgba(184,147,100,0.3);
+  letter-spacing: 1px;
+}
+
+/* ── RODAPÉ ── */
+.rodape {
+  background: var(--dark);
+  padding: 32px 88px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(184,147,100,0.08);
+}
+.rodape-brand {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.rodape-info {
+  font-size: 11px;
+  color: rgba(184,147,100,0.3);
+}
+
+/* ─── FOOTER NAV (adicionado para deploy) ─── */
+footer.site-footer {
+  background: #2A2622;
+  padding: 32px 40px 22px;
+  border-top: 1px solid #332E28;
+}
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #332E28;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-home {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  opacity: 0.7;
+}
+.footer-home:hover { opacity: 1; }
+.footer-nav { display: flex; gap: 28px; flex-wrap: wrap; }
+.footer-link { font-size: 11px; color: #6B6159; text-decoration: none; letter-spacing: 0.06em; }
+.footer-link:hover { color: var(--gold); }
+.footer-link.active { color: var(--gold); font-weight: 500; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.5;
+}
+.footer-date { font-size: 10px; color: #4A4440; letter-spacing: 0.08em; }
+@media (max-width: 640px) {
+  footer.site-footer { padding: 28px 24px 18px; }
+  .footer-top { flex-direction: column; align-items: flex-start; }
+  .footer-nav { gap: 14px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══ CAPA ════════════════════════════════════════════════ -->
+<div class="capa">
+  <div class="capa-topo">
+    <div class="capa-brand">Eatlooper</div>
+    <div class="capa-loop-tag">
+      Loop Geração SE<br>
+      Edição de Lançamento · Maio 2026
+    </div>
+  </div>
+
+  <div class="capa-centro">
+    <div class="capa-para">Uma proposta para</div>
+    <div class="capa-nome">Yasmin<br><em>Rosendo</em></div>
+    <div class="capa-casa">Tolé Cozinha · Aracaju SE</div>
+    <div class="capa-citacao">
+      "Mar pequeno, sabor imenso.<br>
+      O siri de Sergipe não deve nada<br>
+      ao camarão do mundo."
+    </div>
+  </div>
+
+  <div class="capa-rodape">
+    <div class="capa-assin">
+      apresentado por
+      <strong>Chef François Ozanne · Curador Eatlooper</strong>
+    </div>
+    <div class="capa-data">
+      Aracaju, 21 de abril de 2026
+    </div>
+  </div>
+</div>
+
+<!-- ══ BODY ════════════════════════════════════════════════ -->
+<div class="wrap">
+
+  <!-- ── 1. ABERTURA ── -->
+  <section class="sec">
+    <div class="sec-tag">Ponto de partida</div>
+    <div class="sec-h">Uma conversa<br>antes de tudo</div>
+
+    <div class="carta">
+      <div class="carta-voz">Para Yasmin</div>
+      <div class="carta-corpo">
+        Você acabou de voltar das férias.<br>
+        Este não é um contrato. Não é um pitch.<br><br>
+        É um convite para ouvir algo que foi construído em torno de uma tese sobre Aracaju — e onde o Tolé ocupa um lugar que nenhuma outra casa pode ocupar.<br><br>
+        A decisão é inteiramente sua. Mas a proposta foi pensada especificamente para o que você já faz.
+      </div>
+      <div class="carta-assin">— François Ozanne, Chef Curador</div>
+    </div>
+
+    <div class="corpo">
+      <p>O Eatlooper é uma plataforma de assinatura gastronômica curada. Não é um aplicativo de desconto nem de delivery. É um circuito editorial — o Chef Curador seleciona casas, propõe menus exclusivos, assina o conteúdo e apresenta cada experiência aos assinantes que fazem parte do projeto.</p>
+      <p>Assinatura mensal de R$&nbsp;34,90. Sem taxa de adesão. O assinante acessa os circuitos ativos e vai aos restaurantes parceiros com o menu curado disponível por 14 a 21 dias.</p>
+    </div>
+  </section>
+
+  <!-- ── 2. O CIRCUITO ── -->
+  <section class="sec">
+    <div class="sec-tag">Loop Geração SE</div>
+    <div class="sec-h">Quatro casas.<br><em>Um quilômetro.</em></div>
+
+    <div class="corpo">
+      <p>Existe uma geração de chefs que se formou com técnica, foi buscar referência fora e voltou pra cozinhar aqui. Não como nostalgia — como argumento. O Loop Geração SE é um circuito construído em torno dessa tese.</p>
+      <p>As quatro casas escolhidas estão dentro de um raio de menos de dois quilômetros em Aracaju. Um assinante consegue fazer o circuito completo num fim de semana a pé. Essa proximidade geográfica não é acidente — é parte do argumento. A mesma cidade, quatro expressões, uma geração.</p>
+    </div>
+
+    <div class="frase-bloco">
+      <div class="frase-bloco-texto">"Dez restaurantes. Uma geração.<br>A gastronomia que ficou."</div>
+      <div class="frase-bloco-sub">frase central do circuito</div>
+    </div>
+
+    <div class="constelacao">
+      <div class="const-header">
+        <div class="const-titulo">As quatro casas · Loop Geração SE</div>
+        <div class="const-geo">Aracaju · &lt; 2 km de raio</div>
+      </div>
+      <div class="casa-item">
+        <div class="casa-num">01</div>
+        <div>
+          <div class="casa-nome">Tabuará</div>
+          <div class="casa-desc">Cozinha autoral do mangue. Frutos do litoral com técnica e memória afetiva.</div>
+        </div>
+        <div class="casa-role">confirmado</div>
+      </div>
+      <div class="casa-item">
+        <div class="casa-num">02</div>
+        <div>
+          <div class="casa-nome">Gratto</div>
+          <div class="casa-desc">Carne, brasa e matéria-prima selecionada. A linguagem da proteína no Nordeste.</div>
+        </div>
+        <div class="casa-role">confirmado</div>
+      </div>
+      <div class="casa-item">
+        <div class="casa-num">03</div>
+        <div>
+          <div class="casa-nome">Casa do Mangue</div>
+          <div class="casa-desc">Frutos do mar da região, identidade territorial clara, execução consistente.</div>
+        </div>
+        <div class="casa-role">confirmado</div>
+      </div>
+      <div class="casa-item destaque">
+        <div class="casa-num">04</div>
+        <div>
+          <div class="casa-nome">Tolé Cozinha</div>
+          <div class="casa-desc">A âncora técnica do circuito. Ostras, polvo, arroz meloso — o litoral sergipano com precisão de mise en place.</div>
+        </div>
+        <div class="casa-role">esta proposta</div>
+      </div>
+    </div>
+
+    <div class="corpo">
+      <p>O Tolé é a quarta casa — e é a que fecha o argumento do circuito. As outras três casas trazem brasilidade, território e proteína. O Tolé traz o que o loop precisa para ter credibilidade técnica: rigor de execução, ingrediente trabalhado com intenção, e um prato de prato principal que convence qualquer um de que Aracaju tem cozinha de verdade.</p>
+    </div>
+  </section>
+
+  <!-- ── 3. MENU ── -->
+  <section class="sec">
+    <div class="sec-tag">Proposta criativa · Menu exclusivo</div>
+    <div class="sec-h">O que propomos<br><em>para o Tolé</em></div>
+
+    <div class="corpo">
+      <p>Cada casa do loop tem um menu exclusivo de três tempos — entrada, prato e sobremesa — com um fio ingrediente-território que amarra os três momentos. O menu não existe no cardápio regular: é criado em conjunto, validado com o chef, e disponibilizado apenas durante o período do circuito.</p>
+      <p>Para o Tolé, a proposta parte das ostras do litoral sergipano e termina com a memória afetiva da feira. O fio condutor é o mar narrado com contenção crescente.</p>
+    </div>
+
+    <div class="menu-bloco">
+      <div class="menu-hdr">
+        <div class="menu-casa">Tolé Cozinha</div>
+        <div class="menu-chef">Chef Yasmin · Menu exclusivo Loop Geração SE</div>
+        <div class="menu-fio">O mar narrado com contenção crescente</div>
+      </div>
+
+      <div class="menu-curso">
+        <div class="curso-label">Entrada</div>
+        <div>
+          <div class="prato-nome">Ostra ao Natural · Mignonette de Biri Biri</div>
+          <div class="prato-desc">A ostra no limite do minimalismo — pura, fria, viva. A mignonette substitui o vinagre branco pelo biri biri: a acidez nativa entra sem pedir licença. <em>O mar em uma colherada. Nada mais necessário.</em></div>
+          <div class="prato-nota">Ingrediente âncora: Ostras do litoral sergipano · Biri biri</div>
+        </div>
+      </div>
+
+      <div class="menu-curso">
+        <div class="curso-label">Prato</div>
+        <div>
+          <div class="prato-nome">Arroz Meloso de Polvo · Caldo de Aratu · Azeite de Mangaba</div>
+          <div class="prato-desc">O arroz meloso como linguagem — não como guarnição. O caldo é de aratu: identidade do mangue sergipano dentro do prato. O polvo com grelha final. Azeite de mangaba fecha com acidez aromática e cor. <em>Profundo, untuoso, territorial.</em></div>
+          <div class="prato-nota">Técnica: caldo de aratu em pressão · polvo sous-vide · infusão de mangaba a frio</div>
+        </div>
+      </div>
+
+      <div class="menu-curso">
+        <div class="curso-label">Sobremesa</div>
+        <div>
+          <div class="prato-nome">Semifreddo de Mangaba · Caramelo Salgado · Crocante de Amendoim Cozido</div>
+          <div class="prato-desc">O caramelo salgado traz o mar de volta. O amendoim cozido em crocante chega com memória afetiva de feira. Mangaba no lugar do caju — a fruta que pertence a dois biomas e fecha o circuito no território. <em>Doce, salgado, inesperadamente familiar.</em></div>
+          <div class="prato-nota">Ingrediente âncora: Mangaba · Amendoim cozido do interior</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="corpo">
+      <p>Estes são pontos de partida — não receitas fechadas. A validação do menu acontece numa visita ao Tolé, onde Fran prova e ajusta junto com você. O menu final é assinado pelos dois e pertence ao circuito pelo período do loop.</p>
+    </div>
+  </section>
+
+  <!-- ── 4. COMO FUNCIONA ── -->
+  <section class="sec">
+    <div class="sec-tag">Operação · Na prática</div>
+    <div class="sec-h">Três movimentos.<br><em>Uma tarde por mês.</em></div>
+
+    <div class="linha-do-tempo">
+      <div class="lt-item">
+        <div class="lt-num">01</div>
+        <div>
+          <div class="lt-titulo">Uma visita · Validação do menu</div>
+          <div class="lt-desc">Fran vai ao Tolé, prova as três preparações, ajusta o que precisar junto com você. O custo é o dos ingredientes — nada além disso. O menu é assinado pelos dois.</div>
+        </div>
+      </div>
+      <div class="lt-item">
+        <div class="lt-num">02</div>
+        <div>
+          <div class="lt-titulo">Uma tarde · Filmagem editorial</div>
+          <div class="lt-desc">Matheus e Wagner passam pelo Tolé. Você na cozinha, o prato no seu contexto. O vídeo é produzido pela equipe Eatlooper e fica com você para usar como quiser — sem exclusividade, sem prazo.</div>
+        </div>
+      </div>
+      <div class="lt-item">
+        <div class="lt-num">03</div>
+        <div>
+          <div class="lt-titulo">Semana de 5 de maio · O loop vai ao ar</div>
+          <div class="lt-desc">O Loop Geração SE é lançado. Os assinantes recebem o circuito e o menu exclusivo do Tolé fica disponível por 14 a 21 dias. Você e a equipe decidem juntos a capacidade de atendimento.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 5. O QUE VOCÊ RECEBE ── -->
+  <section class="sec">
+    <div class="sec-tag">A troca</div>
+    <div class="sec-h">O que o Tolé<br><em>recebe</em></div>
+
+    <div class="recebe-lista">
+      <div class="recebe-item">
+        <div class="recebe-mark"></div>
+        <div>
+          <div class="recebe-nome">Vídeo editorial profissional</div>
+          <div class="recebe-desc">Produção completa da equipe Eatlooper — Matheus na direção, Wagner na câmera. Material seu, para usar em qualquer canal, sem prazo de exclusividade.</div>
+        </div>
+      </div>
+      <div class="recebe-item">
+        <div class="recebe-mark"></div>
+        <div>
+          <div class="recebe-nome">Curadoria assinada pelo Chef Curador</div>
+          <div class="recebe-desc">O Tolé apresentado e descrito pela voz do François Ozanne — Le Cordon Bleu Lima, Prêmio Dolma. Não é uma listagem: é uma recomendação editorial com nome e credencial.</div>
+        </div>
+      </div>
+      <div class="recebe-item">
+        <div class="recebe-mark"></div>
+        <div>
+          <div class="recebe-nome">Público qualificado</div>
+          <div class="recebe-desc">Assinantes Eatlooper têm perfil de consumo alinhado com o ticket e a proposta do Tolé. Não é tráfego — é a pessoa certa chegando com a expectativa certa.</div>
+        </div>
+      </div>
+      <div class="recebe-item">
+        <div class="recebe-mark"></div>
+        <div>
+          <div class="recebe-nome">Código promocional próprio</div>
+          <div class="recebe-desc">20% de desconto na assinatura via link do Tolé. Ferramenta de aquisição que você controla — distribui para quem quiser, quando quiser.</div>
+        </div>
+      </div>
+      <div class="recebe-item">
+        <div class="recebe-mark"></div>
+        <div>
+          <div class="recebe-nome">Pertencimento ao circuito</div>
+          <div class="recebe-desc">O Tolé não aparece numa lista de restaurantes. Aparece como âncora técnica de um loop editorial com tese, narrativa e quatro casas selecionadas. Isso tem peso diferente no mercado — e na percepção de quem ainda não conhece o restaurante.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+
+<!-- ══ CTA ══════════════════════════════════════════════════ -->
+<div class="cta">
+  <div class="cta-supra">O próximo passo</div>
+  <div class="cta-h">
+    Uma conversa.<br>
+    <em>Quando você quiser.</em>
+  </div>
+  <div class="cta-desc">
+    Sem prazo, sem pressão. Se o projeto fizer sentido para você, Fran está disponível para uma visita ao Tolé ou um café onde preferir. A decisão é inteiramente sua — e vai continuar sendo em cada etapa.
+  </div>
+  <div class="cta-btn">François Ozanne · fran.ozanne@gmail.com</div>
+
+  <div class="cta-pie">
+    <span>Loop Geração SE · Eatlooper · Maio 2026</span>
+    <span>Confidencial</span>
+    <span>eatlooper.com.br</span>
+  </div>
+</div>
+
+<!-- ══ FOOTER NAV ══ -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <a href="../" class="footer-home">← Loop Geração SE</a>
+    <nav class="footer-nav">
+      <a href="../yasmin/" class="footer-link active">Tolé Cozinha</a>
+      <a href="../samuel/" class="footer-link">Gratto</a>
+      <a href="../roberta/" class="footer-link">Casa do Mangue</a>
+      <a href="../geon/" class="footer-link">Zōi</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-brand">Eatlooper</div>
+    <div class="footer-date">Loop Geração SE · A gastronomia que ficou · Aracaju SE</div>
+  </div>
+</footer>
+
+</body>
+</html>
