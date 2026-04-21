@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roberta · Eatlooper · Loop Geração SE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --beige: #FDF6EE;
+    --dark: #1A1A1A;
+    --gold: #B89364;
+    --ink: #2A2622;
+    --muted: #6B6159;
+    --line: #E4D8C5;
+    --beige-2: #F4EADA;
+    --accent: #3A6E80;
+    --accent-light: #EAF4F8;
+    --accent-border: #C0DDE6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--beige); font-family: 'Outfit', sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  .hero {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 60px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(58,110,128,0.20) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 90%, rgba(58,110,128,0.10) 0%, transparent 45%);
+  }
+
+  .hero-label { position: absolute; top: 44px; left: 48px; font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+  .hero-num { position: absolute; top: 40px; right: 48px; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #3A3530; }
+
+  .hero-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; position: relative; }
+
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 62px); font-weight: 500; color: var(--beige); line-height: 1.05; position: relative; max-width: 700px; }
+  .hero-title em { color: var(--accent); font-style: italic; }
+
+  .hero-bar { width: 48px; height: 2px; background: var(--accent); margin-bottom: 28px; position: relative; }
+  .hero-sub { font-size: 14px; color: #6B6159; margin-top: 20px; position: relative; letter-spacing: 0.03em; }
+
+  section { max-width: 760px; margin: 0 auto; padding: 72px 40px; }
+
+  .s-label { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .s-label::after { content: ''; flex: 1; height: 1px; background: var(--line); max-width: 60px; }
+
+  .manifesto { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 3.5vw, 36px); font-weight: 400; color: var(--ink); line-height: 1.45; }
+  .manifesto em { color: var(--accent); font-style: italic; }
+  .manifesto strong { font-weight: 600; color: var(--dark); }
+
+  .body-text { font-size: 16px; color: var(--ink); line-height: 1.75; }
+  .body-text strong { font-weight: 600; color: var(--dark); }
+  .body-text + .body-text { margin-top: 20px; }
+
+  .divider { width: 48px; height: 1px; background: var(--line); margin: 32px 0; }
+
+  .pull-quote { border-left: 3px solid var(--accent); padding: 20px 28px; margin: 40px 0; background: var(--accent-light); border-radius: 0 12px 12px 0; }
+  .pull-quote p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--accent); line-height: 1.5; }
+
+  /* MANGUE FEATURE */
+  .mangue-feature {
+    background: var(--accent);
+    padding: 72px 40px;
+  }
+  .mangue-inner { max-width: 760px; margin: 0 auto; }
+  .mangue-feature .s-label { color: rgba(255,255,255,0.6); }
+  .mangue-feature .s-label::after { background: rgba(255,255,255,0.2); }
+  .mangue-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 500; color: #fff; line-height: 1.1; margin-bottom: 24px; }
+  .mangue-title em { font-style: italic; color: rgba(255,255,255,0.75); }
+  .mangue-text { font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.75; }
+  .mangue-text strong { color: #fff; font-weight: 600; }
+  .mangue-text + .mangue-text { margin-top: 18px; }
+
+  .dark-band { background: var(--dark); padding: 64px 40px; }
+  .dark-band-inner { max-width: 760px; margin: 0 auto; }
+  .dark-band .s-label { color: var(--gold); }
+  .dark-band .s-label::after { background: #3A3530; }
+
+  .loop-strip { background: var(--ink); padding: 48px 40px; }
+  .loop-strip-inner { max-width: 760px; margin: 0 auto; }
+  .loop-strip .s-label { color: var(--gold); margin-bottom: 28px; }
+  .loop-strip .s-label::after { background: #3A3530; }
+
+  .loop-flow { display: flex; align-items: stretch; gap: 0; margin-bottom: 20px; }
+  .loop-stop { flex: 1; padding: 18px 16px; border-radius: 10px; background: #2A2622; }
+  .loop-stop.you { background: var(--accent); }
+  .loop-stop-num { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); margin-bottom: 6px; text-transform: uppercase; }
+  .loop-stop.you .loop-stop-num { color: rgba(255,255,255,0.7); }
+  .loop-stop-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: #FDF6EE; line-height: 1.1; }
+  .loop-stop-bairro { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+  .loop-stop.you .loop-stop-bairro { color: rgba(255,255,255,0.65); }
+  .loop-arrow { display: flex; align-items: center; padding: 0 10px; color: #4A4440; font-size: 18px; }
+  .loop-caption { font-size: 12px; color: #6B6159; line-height: 1.6; }
+  .loop-caption strong { color: var(--gold); font-weight: 500; }
+
+  .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  .step-card { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 22px 18px; border-top: 3px solid var(--accent); }
+  .step-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 10px; }
+  .step-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: var(--dark); margin-bottom: 8px; line-height: 1.2; }
+  .step-text { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+  .closing { background: var(--dark); padding: 80px 40px 60px; text-align: center; }
+  .closing-inner { max-width: 600px; margin: 0 auto; }
+  .closing-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 5vw, 46px); font-weight: 400; color: var(--beige); line-height: 1.2; margin-bottom: 20px; }
+  .closing-title em { color: var(--accent); font-style: italic; }
+  .closing-text { font-size: 14px; color: #6B6159; line-height: 1.7; margin-bottom: 40px; }
+
+  .fran-sig { border-top: 1px solid #3A3530; padding-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .fran-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: var(--beige); }
+  .fran-title { font-size: 11px; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
+  .fran-cred { font-size: 11px; color: #4A4440; margin-top: 4px; }
+
+  footer { background: var(--ink); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+  footer .brand { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
+  footer .date { font-size: 10px; color: #4A4440; letter-spacing: 0.08em; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 52px 28px 48px; }
+    .hero-label { left: 28px; }
+    .hero-num { right: 28px; }
+    section { padding: 56px 28px; }
+    .mangue-feature { padding: 56px 28px; }
+    .dark-band { padding: 56px 28px; }
+    .loop-strip { padding: 48px 28px; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .closing { padding: 60px 28px 48px; }
+    footer { padding: 18px 28px; flex-direction: column; gap: 8px; text-align: center; }
+    .loop-flow { flex-direction: column; }
+    .loop-arrow { transform: rotate(90deg); padding: 6px 0; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Eatlooper</div>
+  <div class="hero-num">Loop Geração SE · 03 de 04</div>
+
+  <div class="hero-eyebrow">Para Roberta Nascimento · Casa do Mangue</div>
+  <div class="hero-bar"></div>
+  <h1 class="hero-title">
+    O mangue não é<br>o cenário.<br><em>É o co-autor.</em>
+  </h1>
+  <p class="hero-sub">Rua Alu Campos, 180 · Farolândia · Aracaju, SE</p>
+</div>
+
+<!-- MANIFESTO -->
+<section>
+  <div class="s-label">O que ninguém disse ainda</div>
+  <p class="manifesto">
+    O restaurante se chama Casa do Mangue. Não <em>"perto do mangue"</em>. Não <em>"vista para o mangue"</em>. <strong>Casa.</strong>
+  </p>
+
+  <div class="divider"></div>
+
+  <p class="body-text">
+    Isso é uma declaração de autoria que a maioria das pessoas passa reto sem perceber. E é exatamente o que nos fez parar.
+  </p>
+  <p class="body-text">
+    Roberta Nascimento não cozinha <em>no</em> mangue. Ela cozinha <em>com</em> o mangue. A salinidade do ar, a luz que muda com a maré, os ingredientes que chegam pela água — tudo isso é parte da receita, mesmo quando não está na ficha técnica. <strong>Esse tipo de cozinha não existe em mais lugar nenhum</strong>. Não pode existir. É irreproduzível por definição.
+  </p>
+
+  <div class="pull-quote">
+    <p>"Um prato que poderia ser servido em qualquer lugar já fracassou antes de ser provado."</p>
+  </div>
+
+  <p class="body-text">
+    O Loop Geração SE existe pra contar histórias que só existem aqui. A Casa do Mangue é, talvez, o argumento mais forte do circuito inteiro. Não porque é o mais famoso — porque é o mais <strong>verdadeiro</strong>.
+  </p>
+</section>
+
+<!-- MANGUE FEATURE -->
+<div class="mangue-feature">
+  <div class="mangue-inner">
+    <div class="s-label">A tese da Casa do Mangue</div>
+    <h2 class="mangue-title">Uma cozinha mediterrânea<br>com <em>alma de mangue sergipano.</em></h2>
+    <p class="mangue-text">
+      A combinação soa improvável até você provar. E aí faz todo sentido. O bistrô italiano que só poderia ter nascido em Farolândia, com os frutos do mar do Rio Poxim, a erva-doce que cresce na beira d'água, a leveza mediterrânea que encontra a profundidade do Nordeste.
+    </p>
+    <p class="mangue-text">
+      <strong>É sobre isso que o Eatlooper vai contar.</strong> Não a receita — a origem. Não o prato — a escolha de Roberta de construir aqui, ao lado do mangue, com os ingredientes de cá.
+    </p>
+  </div>
+</div>
+
+<!-- O QUE É O EATLOOPER -->
+<div class="dark-band">
+  <div class="dark-band-inner">
+    <div class="s-label">O que é o Eatlooper</div>
+    <p class="manifesto" style="color:#C8B8A0;font-size:clamp(20px,2.8vw,28px);">
+      Não é um aplicativo de desconto.<br>Não é uma listagem de restaurantes.<br>É uma <em style="color:var(--gold);">assinatura de experiência curada.</em>
+    </p>
+    <div class="divider" style="background:#3A3530;margin:28px 0;"></div>
+    <p class="body-text" style="color:#A09080;">
+      O assinante do Eatlooper já sabe quem Roberta é antes de entrar. Já leu sobre a Casa do Mangue, sobre o mangue, sobre a cozinha mediterrânea que nasceu em Farolândia. Chega com contexto, com curiosidade, com intenção. Não é quem passou na rua — é quem <strong style="color:#FDF6EE;">escolheu estar lá</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- LOOP -->
+<div class="loop-strip">
+  <div class="loop-strip-inner">
+    <div class="s-label">O Loop Geração SE</div>
+    <div class="loop-flow">
+      <div class="loop-stop">
+        <div class="loop-stop-num">01</div>
+        <div class="loop-stop-name">Tolé</div>
+        <div class="loop-stop-bairro">Inácio Barbosa</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-stop">
+        <div class="loop-stop-num">02</div>
+        <div class="loop-stop-name">Gratto</div>
+        <div class="loop-stop-bairro">Sensi</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-stop you">
+        <div class="loop-stop-num">03 · você</div>
+        <div class="loop-stop-name">Casa do Mangue</div>
+        <div class="loop-stop-bairro">Farolândia · às margens</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-stop">
+        <div class="loop-stop-num">04</div>
+        <div class="loop-stop-name">Zōi</div>
+        <div class="loop-stop-bairro">Farolândia</div>
+      </div>
+    </div>
+    <p class="loop-caption">Circuito contínuo ao longo do <strong>Rio Poxim</strong> · Inácio Barbosa → Farolândia → Rio Sergipe → mar · ~2,9km · Aracaju, SE</p>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section>
+  <div class="s-label">Como funciona na prática</div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01 ·</div>
+      <div class="step-title">A conversa</div>
+      <div class="step-text">François vem à Casa do Mangue. Queremos ouvir Roberta — a casa, a cozinha, os ingredientes do lugar. Isso guia como vamos contar a história.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02 ·</div>
+      <div class="step-title">O conteúdo</div>
+      <div class="step-text">Produção com o time do Eatlooper. O mangue como personagem, Roberta como narradora. Antes de qualquer coisa ir a público, a casa aparece do jeito certo.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03 ·</div>
+      <div class="step-title">O lançamento</div>
+      <div class="step-text">O loop vai a público para os assinantes. Chegam pessoas que já vieram pelo Rio Poxim, que já conhecem a história — e que vão querer voltar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="closing-inner">
+    <h2 class="closing-title">
+      A gastronomia sergipana<br>que tem <em>nome, face<br>e mangue</em>.
+    </h2>
+    <p class="closing-text">
+      A Geração SE não é sobre restaurantes que ficaram em Sergipe por falta de opção. É sobre quem escolheu construir aqui — com intenção, com técnica, com desenvolvimento contínuo. Roberta faz parte dessa geração. E a Casa do Mangue é a prova mais eloquente disso que temos no circuito.
+    </p>
+    <div class="fran-sig">
+      <div class="fran-name">François Ozanne</div>
+      <div class="fran-title">Chef Curador · Eatlooper</div>
+      <div class="fran-cred">Le Cordon Bleu Lima · Prêmio Dolma · ex-Alma Bistrot</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="brand">Eatlooper</div>
+  <div class="date">Loop Geração SE · Abril 2026 · Aracaju, SE</div>
+</footer>
+
+</body>
+</html>

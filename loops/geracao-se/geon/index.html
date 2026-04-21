@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geon · Eatlooper · Loop Geração SE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --beige: #FDF6EE;
+    --dark: #1A1A1A;
+    --gold: #B89364;
+    --ink: #2A2622;
+    --muted: #6B6159;
+    --line: #E4D8C5;
+    --beige-2: #F4EADA;
+    --accent: #B89364;
+    --accent-deep: #8A6A3A;
+    --accent-light: #F8F0E4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--beige); font-family: 'Outfit', sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  .hero {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 60px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 85% 15%, rgba(184,147,100,0.22) 0%, transparent 50%),
+      radial-gradient(ellipse at 15% 85%, rgba(184,147,100,0.10) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 50%, rgba(42,38,34,0.5) 0%, transparent 80%);
+  }
+
+  /* River animation — subtle */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, rgba(184,147,100,0.4) 60%, transparent 100%);
+  }
+
+  .hero-label { position: absolute; top: 44px; left: 48px; font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+  .hero-num { position: absolute; top: 40px; right: 48px; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #3A3530; }
+
+  .hero-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; position: relative; }
+
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 62px); font-weight: 500; color: var(--beige); line-height: 1.05; position: relative; max-width: 700px; }
+  .hero-title em { color: var(--gold); font-style: italic; }
+
+  .hero-bar { width: 48px; height: 2px; background: var(--gold); margin-bottom: 28px; position: relative; }
+  .hero-sub { font-size: 14px; color: #6B6159; margin-top: 20px; position: relative; letter-spacing: 0.03em; }
+
+  section { max-width: 760px; margin: 0 auto; padding: 72px 40px; }
+
+  .s-label { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .s-label::after { content: ''; flex: 1; height: 1px; background: var(--line); max-width: 60px; }
+
+  .manifesto { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 3.5vw, 36px); font-weight: 400; color: var(--ink); line-height: 1.45; }
+  .manifesto em { color: var(--gold); font-style: italic; }
+  .manifesto strong { font-weight: 600; color: var(--dark); }
+
+  .body-text { font-size: 16px; color: var(--ink); line-height: 1.75; }
+  .body-text strong { font-weight: 600; color: var(--dark); }
+  .body-text + .body-text { margin-top: 20px; }
+
+  .divider { width: 48px; height: 1px; background: var(--line); margin: 32px 0; }
+
+  .pull-quote { border-left: 3px solid var(--gold); padding: 20px 28px; margin: 40px 0; background: var(--accent-light); border-radius: 0 12px 12px 0; }
+  .pull-quote p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--accent-deep); line-height: 1.5; }
+
+  /* ZOI FEATURE */
+  .zoi-feature { background: var(--ink); padding: 72px 40px; }
+  .zoi-inner { max-width: 760px; margin: 0 auto; }
+  .zoi-feature .s-label { color: var(--gold); }
+  .zoi-feature .s-label::after { background: #3A3530; }
+
+  .zoi-word {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(80px, 14vw, 140px);
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(184,147,100,0.15);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: -20px;
+    user-select: none;
+  }
+
+  .zoi-def-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 42px); font-weight: 500; color: #FDF6EE; line-height: 1.15; margin-bottom: 20px; }
+  .zoi-def-title em { color: var(--gold); font-style: italic; }
+  .zoi-def-text { font-size: 15px; color: #A09080; line-height: 1.75; }
+  .zoi-def-text strong { color: #FDF6EE; font-weight: 500; }
+  .zoi-def-text + .zoi-def-text { margin-top: 16px; }
+
+  /* RIO VISUAL */
+  .rio-feature { background: #0F0F0F; padding: 64px 40px; }
+  .rio-inner { max-width: 760px; margin: 0 auto; }
+  .rio-feature .s-label { color: rgba(184,147,100,0.7); }
+  .rio-feature .s-label::after { background: #2A2622; }
+
+  .rio-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 24px 0 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .rio-node { text-align: center; flex-shrink: 0; }
+  .rio-dot { width: 10px; height: 10px; border-radius: 50%; background: #3A3530; margin: 0 auto 8px; }
+  .rio-dot.active { background: var(--gold); width: 14px; height: 14px; box-shadow: 0 0 0 4px rgba(184,147,100,0.2); }
+  .rio-node-name { font-size: 11px; font-weight: 500; color: #6B6159; white-space: nowrap; }
+  .rio-node.active .rio-node-name { color: var(--gold); font-weight: 600; }
+  .rio-connector { flex: 1; height: 1px; background: linear-gradient(90deg, #3A3530, #B89364); min-width: 24px; flex-shrink: 0; margin-bottom: 18px; }
+  .rio-caption { font-size: 13px; color: #4A4440; line-height: 1.6; }
+  .rio-caption strong { color: var(--gold); font-weight: 500; }
+
+  .loop-strip { background: var(--ink); padding: 48px 40px; }
+  .loop-strip-inner { max-width: 760px; margin: 0 auto; }
+  .loop-strip .s-label { color: var(--gold); margin-bottom: 28px; }
+  .loop-strip .s-label::after { background: #3A3530; }
+
+  .loop-flow { display: flex; align-items: stretch; gap: 0; margin-bottom: 20px; }
+  .loop-stop { flex: 1; padding: 18px 16px; border-radius: 10px; background: #2A2622; }
+  .loop-stop.you { background: var(--gold); }
+  .loop-stop-num { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); margin-bottom: 6px; text-transform: uppercase; }
+  .loop-stop.you .loop-stop-num { color: rgba(26,26,26,0.7); }
+  .loop-stop-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: #FDF6EE; line-height: 1.1; }
+  .loop-stop.you .loop-stop-name { color: var(--dark); }
+  .loop-stop-bairro { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+  .loop-stop.you .loop-stop-bairro { color: rgba(26,26,26,0.6); }
+  .loop-arrow { display: flex; align-items: center; padding: 0 10px; color: #4A4440; font-size: 18px; }
+  .loop-caption { font-size: 12px; color: #6B6159; line-height: 1.6; }
+  .loop-caption strong { color: var(--gold); font-weight: 500; }
+
+  .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  .step-card { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 22px 18px; border-top: 3px solid var(--gold); }
+  .step-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 10px; }
+  .step-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: var(--dark); margin-bottom: 8px; line-height: 1.2; }
+  .step-text { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+  .closing { background: var(--dark); padding: 80px 40px 60px; text-align: center; }
+  .closing-inner { max-width: 600px; margin: 0 auto; }
+  .closing-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 5vw, 48px); font-weight: 400; color: var(--beige); line-height: 1.2; margin-bottom: 20px; }
+  .closing-title em { color: var(--gold); font-style: italic; }
+  .closing-text { font-size: 14px; color: #6B6159; line-height: 1.7; margin-bottom: 40px; }
+
+  .fran-sig { border-top: 1px solid #3A3530; padding-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .fran-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: var(--beige); }
+  .fran-title { font-size: 11px; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
+  .fran-cred { font-size: 11px; color: #4A4440; margin-top: 4px; }
+
+  footer { background: var(--ink); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+  footer .brand { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
+  footer .date { font-size: 10px; color: #4A4440; letter-spacing: 0.08em; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 52px 28px 48px; }
+    .hero-label { left: 28px; }
+    .hero-num { right: 28px; }
+    section { padding: 56px 28px; }
+    .zoi-feature { padding: 56px 28px; }
+    .rio-feature { padding: 56px 28px; }
+    .loop-strip { padding: 48px 28px; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .closing { padding: 60px 28px 48px; }
+    footer { padding: 18px 28px; flex-direction: column; gap: 8px; text-align: center; }
+    .loop-flow { flex-direction: column; }
+    .loop-arrow { transform: rotate(90deg); padding: 6px 0; justify-content: center; }
+    .zoi-word { font-size: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Eatlooper</div>
+  <div class="hero-num">Loop Geração SE · 04 de 04</div>
+
+  <div class="hero-eyebrow">Para Geon Cruz · Zōi</div>
+  <div class="hero-bar"></div>
+  <h1 class="hero-title">
+    O loop vai<br>pelo Rio Poxim.<br><em>Termina onde<br>ele vira mar.</em>
+  </h1>
+  <p class="hero-sub">Av. Gov. Paulo Barreto de Menezes, 282 · Farolândia · Aracaju, SE</p>
+</div>
+
+<!-- MANIFESTO -->
+<section>
+  <div class="s-label">Por que o Zōi fecha o loop</div>
+  <p class="manifesto">
+    O Rio Poxim nasce no interior, atravessa Aracaju, banha o mangue de Farolândia e desagua no Rio Sergipe — que vai pro mar. O loop Geração SE segue esse caminho. <em>Termina no Zōi.</em>
+  </p>
+
+  <div class="divider"></div>
+
+  <p class="body-text">
+    Isso não é uma metáfora construída depois. É a geografia. Três das quatro casas ficam às margens da água. O circuito foi sendo desenhado e o desfecho natural sempre apontava pro mesmo lugar: o restaurante que fica onde o rio decide virar outra coisa.
+  </p>
+  <p class="body-text">
+    Geon Cruz é exatamente o tipo de chef que um grande desfecho precisa. <strong>Presença pública, cozinha contemporânea de frutos do mar, uma identidade visual e culinária que sustenta o que veio antes e fecha com força.</strong> O loop não poderia terminar em outro lugar.
+  </p>
+
+  <div class="pull-quote">
+    <p>"O melhor jantar termina com um crescendo — não com um fade. O Zōi é o crescendo do Loop Geração SE."</p>
+  </div>
+</section>
+
+<!-- ZŌI DEFINITION -->
+<div class="zoi-feature">
+  <div class="zoi-inner">
+    <div class="s-label">O nome que é o conceito</div>
+    <div class="zoi-word">Ζωή</div>
+    <h2 class="zoi-def-title">Zōi.<br><em>Em grego: vida.</em></h2>
+    <p class="zoi-def-text">
+      O loop começa no Rio Poxim. Passa por quatro casas, quatro histórias, quatro chefs que escolheram Sergipe. E termina num restaurante cujo nome, em grego, significa <strong>vida</strong>.
+    </p>
+    <p class="zoi-def-text">
+      Esse detalhe não é pequeno. É o argumento inteiro. A Geração SE não é sobre o passado de Sergipe — é sobre o futuro que está sendo construído aqui, agora. O loop termina com vida. Com abertura. Com o mar lá na frente.
+    </p>
+  </div>
+</div>
+
+<!-- RIO FLOW -->
+<div class="rio-feature">
+  <div class="rio-inner">
+    <div class="s-label">O caminho da água</div>
+    <div class="rio-flow">
+      <div class="rio-node">
+        <div class="rio-dot"></div>
+        <div class="rio-node-name">Tolé</div>
+      </div>
+      <div class="rio-connector"></div>
+      <div class="rio-node">
+        <div class="rio-dot"></div>
+        <div class="rio-node-name">Gratto</div>
+      </div>
+      <div class="rio-connector"></div>
+      <div class="rio-node">
+        <div class="rio-dot"></div>
+        <div class="rio-node-name">Casa do Mangue</div>
+      </div>
+      <div class="rio-connector"></div>
+      <div class="rio-node active">
+        <div class="rio-dot active"></div>
+        <div class="rio-node-name">Zōi</div>
+      </div>
+      <div class="rio-connector"></div>
+      <div class="rio-node">
+        <div class="rio-dot"></div>
+        <div class="rio-node-name">Rio Sergipe</div>
+      </div>
+      <div class="rio-connector"></div>
+      <div class="rio-node">
+        <div class="rio-dot"></div>
+        <div class="rio-node-name">mar</div>
+      </div>
+    </div>
+    <p class="rio-caption">O <strong>Rio Poxim</strong> conecta as quatro casas antes de encontrar o Rio Sergipe e o mar. O Zōi está no ponto de transformação — onde o rio vira outra coisa.</p>
+  </div>
+</div>
+
+<!-- O QUE É O EATLOOPER -->
+<section>
+  <div class="s-label">O que é o Eatlooper</div>
+  <p class="manifesto" style="font-size:clamp(20px,2.8vw,28px);">
+    Não é um aplicativo de desconto.<br>Não é uma listagem de restaurantes.<br>É uma <em>assinatura de experiência curada.</em>
+  </p>
+
+  <div class="divider"></div>
+
+  <p class="body-text">
+    O assinante do Eatlooper já sabe quem Geon é antes de entrar no Zōi. Já percorreu o loop. Já passou pelo Tolé, pelo Gratto, pela Casa do Mangue. Chega ao Zōi sabendo que é o desfecho — e com essa expectativa amplificada. <strong>Esse público não é passante. É participante.</strong>
+  </p>
+</section>
+
+<!-- LOOP -->
+<div class="loop-strip">
+  <div class="loop-strip-inner">
+    <div class="s-label">O Loop Geração SE</div>
+    <div class="loop-flow">
+      <div class="loop-stop">
+        <div class="loop-stop-num">01</div>
+        <div class="loop-stop-name">Tolé</div>
+        <div class="loop-stop-bairro">Inácio Barbosa</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-stop">
+        <div class="loop-stop-num">02</div>
+        <div class="loop-stop-name">Gratto</div>
+        <div class="loop-stop-bairro">Sensi</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-stop">
+        <div class="loop-stop-num">03</div>
+        <div class="loop-stop-name">Casa do Mangue</div>
+        <div class="loop-stop-bairro">Farolândia</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-stop you">
+        <div class="loop-stop-num">04 · você</div>
+        <div class="loop-stop-name">Zōi</div>
+        <div class="loop-stop-bairro">O desfecho</div>
+      </div>
+    </div>
+    <p class="loop-caption">Circuito contínuo ao longo do <strong>Rio Poxim</strong> · Inácio Barbosa → Farolândia → Rio Sergipe → mar · ~2,9km · Aracaju, SE</p>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section>
+  <div class="s-label">Como funciona na prática</div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01 ·</div>
+      <div class="step-title">A conversa</div>
+      <div class="step-text">François quer ir ao Zōi pessoalmente. Conhecer Geon, a cozinha, o que o restaurante quer ser. A curadoria começa pelo olho no olho.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02 ·</div>
+      <div class="step-title">O conteúdo</div>
+      <div class="step-text">Produção com o time do Eatlooper. O Zōi como desfecho — às margens do Poxim, com Geon em cena. Antes de qualquer coisa ir a público.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03 ·</div>
+      <div class="step-title">O lançamento</div>
+      <div class="step-text">O loop vai a público. Os assinantes chegam ao Zōi pelo caminho da água — e saem sabendo que Sergipe tem uma gastronomia que vai longe.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="closing-inner">
+    <h2 class="closing-title">
+      O loop termina<br>com <em>vida</em>.<br>Com o seu nome.
+    </h2>
+    <p class="closing-text">
+      A Geração SE é sobre a gastronomia sergipana que tem cara, técnica e escolha. Geon Cruz tem as três coisas. O Zōi tem o endereço mais simbólico do circuito. E "vida" é exatamente a palavra certa pra encerrar um loop sobre chefs que decidiram construir aqui — sem desculpa, sem diminuição.
+    </p>
+    <p class="closing-text">
+      Queremos conversar. De preferência lá, com o Rio Poxim do lado de fora.
+    </p>
+    <div class="fran-sig">
+      <div class="fran-name">François Ozanne</div>
+      <div class="fran-title">Chef Curador · Eatlooper</div>
+      <div class="fran-cred">Le Cordon Bleu Lima · Prêmio Dolma · ex-Alma Bistrot</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="brand">Eatlooper</div>
+  <div class="date">Loop Geração SE · Abril 2026 · Aracaju, SE</div>
+</footer>
+
+</body>
+</html>

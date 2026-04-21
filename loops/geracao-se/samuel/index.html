@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samuel · Eatlooper · Loop Geração SE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --beige: #FDF6EE;
+    --dark: #1A1A1A;
+    --gold: #B89364;
+    --ink: #2A2622;
+    --muted: #6B6159;
+    --line: #E4D8C5;
+    --beige-2: #F4EADA;
+    --accent: #7A5C3A;
+    --accent-light: #F0EDE8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--beige); font-family: 'Outfit', sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  .hero {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 60px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(122,92,58,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 10% 80%, rgba(184,147,100,0.10) 0%, transparent 50%);
+  }
+
+  .hero-label { position: absolute; top: 44px; left: 48px; font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+  .hero-num { position: absolute; top: 40px; right: 48px; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #3A3530; }
+  .hero-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; position: relative; }
+  .hero-bar { width: 48px; height: 2px; background: var(--accent); margin-bottom: 28px; position: relative; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 62px); font-weight: 500; color: var(--beige); line-height: 1.05; position: relative; max-width: 700px; }
+  .hero-title em { color: var(--accent); font-style: italic; }
+  .hero-sub { font-size: 14px; color: #6B6159; margin-top: 20px; position: relative; letter-spacing: 0.03em; }
+
+  section { max-width: 760px; margin: 0 auto; padding: 72px 40px; }
+
+  .s-label { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .s-label::after { content: ''; flex: 1; height: 1px; background: var(--line); max-width: 60px; }
+
+  .manifesto { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 3.5vw, 36px); font-weight: 400; color: var(--ink); line-height: 1.45; }
+  .manifesto em { color: var(--accent); font-style: italic; }
+  .manifesto strong { font-weight: 600; color: var(--dark); }
+
+  .body-text { font-size: 16px; color: var(--ink); line-height: 1.75; }
+  .body-text strong { font-weight: 600; color: var(--dark); }
+  .body-text + .body-text { margin-top: 20px; }
+
+  .divider { width: 48px; height: 1px; background: var(--line); margin: 32px 0; }
+
+  .pull-quote { border-left: 3px solid var(--accent); padding: 20px 28px; margin: 40px 0; background: var(--accent-light); border-radius: 0 12px 12px 0; }
+  .pull-quote p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--accent); line-height: 1.5; }
+
+  /* INGREDIENTES FEATURE */
+  .ingredientes-feature { background: var(--ink); padding: 72px 40px; }
+  .ingredientes-inner { max-width: 760px; margin: 0 auto; }
+  .ingredientes-feature .s-label { color: var(--gold); }
+  .ingredientes-feature .s-label::after { background: #3A3530; }
+
+  .ingredientes-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 500; color: #FDF6EE; line-height: 1.15; margin-bottom: 24px; }
+  .ingredientes-title em { color: var(--gold); font-style: italic; }
+
+  .ingredientes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+  .ingrediente-pair { background: #2A2622; border-radius: 10px; padding: 16px 18px; }
+  .ing-raw { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6159; margin-bottom: 4px; }
+  .ing-arrow { font-size: 12px; color: #4A4440; margin: 2px 0; }
+  .ing-cooked { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 500; color: #FDF6EE; line-height: 1.2; }
+  .ing-note { font-size: 11px; color: #6B6159; margin-top: 4px; line-height: 1.4; }
+
+  .ingredientes-text { font-size: 15px; color: #A09080; line-height: 1.75; }
+  .ingredientes-text strong { color: #FDF6EE; font-weight: 500; }
+
+  /* DARK BAND */
+  .dark-band { background: var(--dark); padding: 64px 40px; }
+  .dark-band-inner { max-width: 760px; margin: 0 auto; }
+  .dark-band .s-label { color: var(--gold); }
+  .dark-band .s-label::after { background: #3A3530; }
+
+  /* LOOP */
+  .loop-strip { background: var(--ink); padding: 48px 40px; }
+  .loop-strip-inner { max-width: 760px; margin: 0 auto; }
+  .loop-strip .s-label { color: var(--gold); margin-bottom: 28px; }
+  .loop-strip .s-label::after { background: #3A3530; }
+  .loop-flow { display: flex; align-items: stretch; gap: 0; margin-bottom: 20px; }
+  .loop-stop { flex: 1; padding: 18px 16px; border-radius: 10px; background: #2A2622; }
+  .loop-stop.you { background: var(--accent); }
+  .loop-stop-num { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); margin-bottom: 6px; text-transform: uppercase; }
+  .loop-stop.you .loop-stop-num { color: rgba(255,255,255,0.7); }
+  .loop-stop-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: #FDF6EE; line-height: 1.1; }
+  .loop-stop-bairro { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+  .loop-stop.you .loop-stop-bairro { color: rgba(255,255,255,0.65); }
+  .loop-arrow { display: flex; align-items: center; padding: 0 10px; color: #4A4440; font-size: 18px; }
+  .loop-caption { font-size: 12px; color: #6B6159; line-height: 1.6; }
+  .loop-caption strong { color: var(--gold); font-weight: 500; }
+
+  /* STEPS */
+  .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  .step-card { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 22px 18px; border-top: 3px solid var(--accent); }
+  .step-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 10px; }
+  .step-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: var(--dark); margin-bottom: 8px; line-height: 1.2; }
+  .step-text { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+  /* CLOSING */
+  .closing { background: var(--dark); padding: 80px 40px 60px; text-align: center; }
+  .closing-inner { max-width: 600px; margin: 0 auto; }
+  .closing-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 5vw, 46px); font-weight: 400; color: var(--beige); line-height: 1.2; margin-bottom: 20px; }
+  .closing-title em { color: var(--accent); font-style: italic; }
+  .closing-text { font-size: 14px; color: #6B6159; line-height: 1.7; margin-bottom: 40px; }
+  .fran-sig { border-top: 1px solid #3A3530; padding-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .fran-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: var(--beige); }
+  .fran-title { font-size: 11px; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
+  .fran-cred { font-size: 11px; color: #4A4440; margin-top: 4px; }
+
+  footer { background: var(--ink); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+  footer .brand { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
+  footer .date { font-size: 10px; color: #4A4440; letter-spacing: 0.08em; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 52px 28px 48px; }
+    .hero-label { left: 28px; }
+    .hero-num { right: 28px; }
+    section { padding: 56px 28px; }
+    .ingredientes-feature { padding: 56px 28px; }
+    .dark-band { padding: 56px 28px; }
+    .loop-strip { padding: 48px 28px; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .ingredientes-grid { grid-template-columns: 1fr; }
+    .closing { padding: 60px 28px 48px; }
+    footer { padding: 18px 28px; flex-direction: column; gap: 8px; text-align: center; }
+    .loop-flow { flex-direction: column; }
+    .loop-arrow { transform: rotate(90deg); padding: 6px 0; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Eatlooper</div>
+  <div class="hero-num">Loop Geração SE · 02 de 04</div>
+
+  <div class="hero-eyebrow">Para Samuel · Gratto</div>
+  <div class="hero-bar"></div>
+  <h1 class="hero-title">
+    Macaxeira vira mousseline.<br>Lambreta vira fundo.<br>Baru vira <em>farofa de chef.</em>
+  </h1>
+  <p class="hero-sub">Sensi · Rua Monsenhor Ovídio Teixeira · Aracaju, SE</p>
+</div>
+
+<!-- MANIFESTO -->
+<section>
+  <div class="s-label">O que ninguém disse ainda</div>
+  <p class="manifesto">
+    O Gratto não faz comida nordestina. Não faz comida europeia. Faz <em>comida sergipana</em> — com a linguagem técnica que o ingrediente merecia ter sempre.
+  </p>
+
+  <div class="divider"></div>
+
+  <p class="body-text">
+    Essa distinção importa. Tem uma diferença enorme entre um restaurante que usa ingrediente local como diferencial de marketing e um que usa ingrediente local porque ele é, de fato, o melhor ingrediente disponível pra aquela ideia. O Gratto pertence ao segundo grupo.
+  </p>
+  <p class="body-text">
+    A macaxeira de Sergipe tem uma textura específica. O caldo de lambreta tem uma profundidade que nenhum demi-glace francês replica. A farofa de baru tem umami sem precisar chamar de umami. <strong>O cardápio do Gratto não esconde os ingredientes daqui — ele os coloca no centro da técnica.</strong>
+  </p>
+
+  <div class="pull-quote">
+    <p>"O circuito todo fala de Sergipe pela água. O Gratto fala de Sergipe pela terra — e diz a mesma coisa."</p>
+  </div>
+
+  <p class="body-text">
+    É por isso que o Gratto está no Loop Geração SE. Não porque está no caminho. Porque <strong>a cozinha do Samuel é o argumento que faltava</strong> pra provar que a gastronomia sergipana tem mais de uma linguagem — e todas falam da mesma origem.
+  </p>
+</section>
+
+<!-- INGREDIENTES FEATURE -->
+<div class="ingredientes-feature">
+  <div class="ingredientes-inner">
+    <div class="s-label">Sergipe com técnica</div>
+    <h2 class="ingredientes-title">Os ingredientes de cá.<br><em>A técnica de qualquer lugar do mundo.</em></h2>
+
+    <div class="ingredientes-grid">
+      <div class="ingrediente-pair">
+        <div class="ing-raw">Macaxeira sergipana</div>
+        <div class="ing-arrow">↓</div>
+        <div class="ing-cooked">Mousseline</div>
+        <div class="ing-note">servida com Baby Beef Angus e cebola brûlée</div>
+      </div>
+      <div class="ingrediente-pair">
+        <div class="ing-raw">Lambreta do mangue</div>
+        <div class="ing-arrow">↓</div>
+        <div class="ing-cooked">Caldo escuro</div>
+        <div class="ing-note">base do Peixe da Casa, junto a feijões e amendoim cozido</div>
+      </div>
+      <div class="ingrediente-pair">
+        <div class="ing-raw">Baru do cerrado</div>
+        <div class="ing-arrow">↓</div>
+        <div class="ing-cooked">Farofa de chef</div>
+        <div class="ing-note">acompanha o Beef Ancho Angus com parrilla</div>
+      </div>
+      <div class="ingrediente-pair">
+        <div class="ing-raw">Polvo na brasa</div>
+        <div class="ing-arrow">↓</div>
+        <div class="ing-cooked">Arroz negro</div>
+        <div class="ing-note">leite de coco e páprica — a praia no prato</div>
+      </div>
+    </div>
+
+    <p class="ingredientes-text">
+      Isso não é um cardápio de influências. É um cardápio de <strong>convicções</strong>. O Samuel sabe exatamente o que quer dizer com cada prato — e o que quer dizer é Sergipe, em técnica que não precisa pedir licença pra ninguém.
+    </p>
+  </div>
+</div>
+
+<!-- O QUE É O EATLOOPER -->
+<div class="dark-band">
+  <div class="dark-band-inner">
+    <div class="s-label">O que é o Eatlooper</div>
+    <p class="manifesto" style="color:#C8B8A0;font-size:clamp(20px,2.8vw,28px);">
+      Não é um aplicativo de desconto.<br>Não é uma listagem de restaurantes.<br>É uma <em style="color:var(--gold);">assinatura de experiência curada.</em>
+    </p>
+    <div class="divider" style="background:#3A3530;margin:28px 0;"></div>
+    <p class="body-text" style="color:#A09080;">
+      O assinante do Eatlooper já sabe quem Samuel é antes de entrar no Gratto. Já leu sobre a macaxeira, sobre o caldo de lambreta, sobre a parrilla. Chega com contexto e intenção. Não é quem passou na frente do Sensi e resolveu entrar — é quem <strong style="color:#FDF6EE;">escolheu estar lá</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- LOOP -->
+<div class="loop-strip">
+  <div class="loop-strip-inner">
+    <div class="s-label">O Loop Geração SE</div>
+    <div class="loop-flow">
+      <div class="loop-stop">
+        <div class="loop-stop-num">01</div>
+        <div class="loop-stop-name">Tolé</div>
+        <div class="loop-stop-bairro">Inácio Barbosa</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-stop you">
+        <div class="loop-stop-num">02 · você</div>
+        <div class="loop-stop-name">Gratto</div>
+        <div class="loop-stop-bairro">Sensi · o pivô</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-stop">
+        <div class="loop-stop-num">03</div>
+        <div class="loop-stop-name">Casa do Mangue</div>
+        <div class="loop-stop-bairro">Farolândia</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-stop">
+        <div class="loop-stop-num">04</div>
+        <div class="loop-stop-name">Zōi</div>
+        <div class="loop-stop-bairro">Farolândia</div>
+      </div>
+    </div>
+    <p class="loop-caption">Circuito contínuo ao longo do <strong>Rio Poxim</strong> · Inácio Barbosa → Farolândia → Rio Sergipe → mar · ~2,9km · Aracaju, SE</p>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section>
+  <div class="s-label">Como funciona na prática</div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01 ·</div>
+      <div class="step-title">A conversa</div>
+      <div class="step-text">François vem ao Gratto. Queremos entender a casa, a visão do Samuel, o que a cozinha quer contar. Isso guia como vamos apresentar o Gratto pra quem ainda não conhece.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02 ·</div>
+      <div class="step-title">O conteúdo</div>
+      <div class="step-text">Produção com o time do Eatlooper. O foco nos ingredientes daqui — a macaxeira, o baru, a lambreta — tratados com o cuidado editorial que merecem.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03 ·</div>
+      <div class="step-title">O lançamento</div>
+      <div class="step-text">O loop vai a público para os assinantes. Chegam pessoas que já vieram pelo Rio Poxim, que já conhecem a história — e que querem sentar no Sensi e entender o que o Samuel está fazendo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="closing-inner">
+    <h2 class="closing-title">
+      A Geração SE é sobre<br>quem <em>decidiu ficar</em><br>e transformar o que havia aqui.
+    </h2>
+    <p class="closing-text">
+      O Samuel tem o ingrediente, tem a técnica, tem a identidade. O Gratto no Sensi prova que a gastronomia sergipana não precisa estar à beira da água pra falar de Sergipe com profundidade. Às vezes, o lugar mais urbano do circuito é o que tem o argumento mais sólido. Queremos contar essa história.
+    </p>
+    <div class="fran-sig">
+      <div class="fran-name">François Ozanne</div>
+      <div class="fran-title">Chef Curador · Eatlooper</div>
+      <div class="fran-cred">Le Cordon Bleu Lima · Prêmio Dolma · ex-Alma Bistrot</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="brand">Eatlooper</div>
+  <div class="date">Loop Geração SE · Abril 2026 · Aracaju, SE</div>
+</footer>
+
+</body>
+</html>

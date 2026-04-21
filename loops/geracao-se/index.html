@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loop Geração SE · Eatlooper</title>
+<meta name="description" content="Quatro cozinhas em Aracaju que escolheram ficar. O primeiro loop do Eatlooper.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Sistema Ozanne */
+    --beige:  #FDF6EE;
+    --beige-2:#F4EADA;
+    --ink:    #2A2622;
+    --muted:  #6B6159;
+    --line:   #E4D8C5;
+    --gold:   #B89364;
+    --dark:   #1A1A1A;
+
+    /* Paleta 02 — Mangue Molhado (travada) */
+    --green:  #3E5A47;
+    --green-dk:#2D4334;
+    --yellow: #C9A96A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    color: var(--ink);
+    background: var(--beige);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--green); color: var(--beige); }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .container-narrow {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ============================================================
+     TIPOGRAFIA DE BASE
+  ============================================================ */
+
+  .eyebrow {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .eyebrow .sep {
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--green);
+    opacity: 0.5;
+  }
+
+  .eyebrow .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--yellow);
+  }
+
+  h1, h2, h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  p { font-weight: 300; }
+
+  em { font-style: italic; }
+
+  /* ============================================================
+     HERO
+  ============================================================ */
+
+  .hero {
+    position: relative;
+    padding: 80px 0 120px;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-inner { position: relative; z-index: 2; width: 100%; }
+
+  .hero .eyebrow { margin-bottom: 56px; }
+
+  .hero h1 {
+    font-size: clamp(46px, 7.6vw, 96px);
+    line-height: 0.98;
+    letter-spacing: -0.018em;
+    margin-bottom: 36px;
+    max-width: 15ch;
+  }
+
+  .hero h1 em {
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .hero .subt {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(22px, 2.6vw, 32px);
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.5;
+    margin-bottom: 56px;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hero-meta span {
+    position: relative;
+    padding-left: 14px;
+  }
+
+  .hero-meta span::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    transform: translateY(-50%);
+  }
+
+  .hero-rubrica {
+    position: absolute;
+    bottom: 80px;
+    right: -40px;
+    width: 260px;
+    height: 180px;
+    opacity: 0.12;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-rubrica svg { width: 100%; height: 100%; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--muted);
+    z-index: 3;
+  }
+
+  .scroll-hint .line {
+    width: 48px;
+    height: 1px;
+    background: var(--green);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-hint .line::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -48px;
+    width: 48px;
+    height: 1px;
+    background: var(--yellow);
+    animation: slideHint 2.4s ease-in-out infinite;
+  }
+
+  @keyframes slideHint {
+    0%   { left: -48px; }
+    60%  { left: 48px; }
+    100% { left: 48px; }
+  }
+
+  /* ============================================================
+     STATEMENT DE ABERTURA
+  ============================================================ */
+
+  .statement {
+    padding: 140px 0;
+    background: var(--beige-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .statement blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 3.2vw, 38px);
+    line-height: 1.45;
+    font-weight: 400;
+    color: var(--ink);
+    max-width: 720px;
+    letter-spacing: -0.005em;
+  }
+
+  .statement blockquote::before {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 2px;
+    background: var(--green);
+    margin-bottom: 32px;
+  }
+
+  .statement blockquote em {
+    color: var(--green);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     OS QUATRO (CHEFS)
+  ============================================================ */
+
+  .chefs {
+    padding: 140px 0 80px;
+  }
+
+  .chefs-head {
+    margin-bottom: 100px;
+  }
+
+  .chefs-head .eyebrow { margin-bottom: 24px; }
+
+  .chefs-head h2 {
+    font-size: clamp(42px, 5.4vw, 68px);
+    line-height: 1.05;
+    margin-bottom: 24px;
+    max-width: 14ch;
+  }
+
+  .chefs-head h2 em {
+    color: var(--green);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .chefs-head p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--muted);
+    max-width: 640px;
+    line-height: 1.6;
+  }
+
+  .chef {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+    align-items: center;
+    padding: 80px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .chef:nth-child(even) {
+    grid-template-columns: 1.3fr 1fr;
+  }
+
+  .chef:nth-child(even) .chef-portrait { order: 2; }
+
+  .chef-portrait {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: var(--beige-2);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 32px;
+  }
+
+  .chef-portrait::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(62,90,71,0.85) 100%);
+    z-index: 1;
+  }
+
+  .chef-portrait::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    opacity: 0.95;
+  }
+
+  /* Placeholder patterns pra cada chef (substituir por fotos) */
+  .chef-01 .chef-portrait {
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(201,169,106,0.35), transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(62,90,71,0.4), transparent 60%),
+      var(--beige-2);
+  }
+  .chef-02 .chef-portrait {
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(201,169,106,0.3), transparent 55%),
+      radial-gradient(ellipse at 20% 70%, rgba(45,67,52,0.5), transparent 60%),
+      var(--beige-2);
+  }
+  .chef-03 .chef-portrait {
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(184,147,100,0.3), transparent 50%),
+      radial-gradient(ellipse at 30% 80%, rgba(62,90,71,0.45), transparent 55%),
+      var(--beige-2);
+  }
+  .chef-04 .chef-portrait {
+    background:
+      radial-gradient(ellipse at 80% 40%, rgba(201,169,106,0.35), transparent 55%),
+      radial-gradient(ellipse at 20% 80%, rgba(45,67,52,0.55), transparent 60%),
+      var(--beige-2);
+  }
+
+  .chef-portrait-label {
+    position: relative;
+    z-index: 2;
+    color: var(--beige);
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  .chef-body .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--yellow);
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 18px;
+  }
+
+  .chef-body .house {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 14px;
+  }
+
+  .chef-body .house .bairro {
+    color: var(--muted);
+    margin-left: 12px;
+  }
+
+  .chef-body h3 {
+    font-size: clamp(38px, 4.6vw, 56px);
+    line-height: 1.03;
+    margin-bottom: 28px;
+    letter-spacing: -0.012em;
+  }
+
+  .chef-body h3 em {
+    color: var(--green);
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  .chef-body p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+
+  .chef-body p em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .chef-body .signature {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--muted);
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ============================================================
+     O RIO / REVELAÇÃO SE
+  ============================================================ */
+
+  .rio {
+    padding: 160px 0;
+    background: var(--ink);
+    color: var(--beige);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .rio .container-narrow { position: relative; z-index: 2; }
+
+  .rio .eyebrow { color: rgba(253,246,238,0.5); margin-bottom: 40px; }
+  .rio .eyebrow .sep { background: var(--yellow); opacity: 0.6; }
+  .rio .eyebrow .dot { background: var(--yellow); }
+
+  .rio .rio-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.6;
+    color: rgba(253,246,238,0.7);
+    margin-bottom: 60px;
+    max-width: 600px;
+  }
+
+  .rio-stage {
+    position: relative;
+    margin: 40px auto 60px;
+    max-width: 560px;
+    aspect-ratio: 560 / 870;
+  }
+
+  .rio-stage svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+
+  .rio-path {
+    fill: none;
+    stroke: var(--yellow);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1500;
+    stroke-dashoffset: 1500;
+    transition: stroke-dashoffset 3.2s cubic-bezier(.5,.1,.3,1);
+  }
+
+  .rio-stage.active .rio-path { stroke-dashoffset: 0; }
+
+  .rio-node {
+    opacity: 0;
+    transition: opacity .8s ease, transform .8s ease;
+    transform-origin: center;
+  }
+
+  .rio-node circle.pulse {
+    fill: var(--yellow);
+    opacity: 0.55;
+  }
+
+  .rio-node circle.core {
+    fill: var(--beige);
+    stroke: var(--yellow);
+    stroke-width: 2;
+  }
+
+  .rio-stage.active .rio-node { opacity: 1; }
+  .rio-stage.active .rio-node.n-tole   { transition-delay: 1.6s; }
+  .rio-stage.active .rio-node.n-gratto { transition-delay: 2.0s; }
+  .rio-stage.active .rio-node.n-mangue { transition-delay: 2.4s; }
+  .rio-stage.active .rio-node.n-zoi    { transition-delay: 2.8s; }
+
+  .rio-svg-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    fill: rgba(253,246,238,0.65);
+    opacity: 0;
+    transition: opacity .8s ease;
+  }
+
+  .rio-svg-label .house {
+    font-weight: 500;
+    fill: var(--yellow);
+    font-size: 17px;
+  }
+
+  .rio-svg-label .bairro {
+    fill: rgba(253,246,238,0.45);
+    font-size: 13px;
+  }
+
+  .rio-stage.active .rio-svg-label { opacity: 1; }
+  .rio-stage.active .rio-svg-label.l-tole   { transition-delay: 1.9s; }
+  .rio-stage.active .rio-svg-label.l-gratto { transition-delay: 2.3s; }
+  .rio-stage.active .rio-svg-label.l-mangue { transition-delay: 2.7s; }
+  .rio-stage.active .rio-svg-label.l-zoi    { transition-delay: 3.1s; }
+
+  .rio-cardinal {
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    fill: rgba(253,246,238,0.3);
+    opacity: 0;
+    transition: opacity 1s ease .4s;
+  }
+
+  .rio-stage.active .rio-cardinal { opacity: 1; }
+
+  .rio-assinatura {
+    text-align: center;
+    margin-top: 80px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: rgba(253,246,238,0.7);
+    letter-spacing: 0.01em;
+  }
+
+  .rio-assinatura .si {
+    color: var(--yellow);
+    font-weight: 500;
+    font-size: 24px;
+  }
+
+  /* ============================================================
+     O QUE É O EATLOOPER
+  ============================================================ */
+
+  .model {
+    padding: 140px 0 120px;
+  }
+
+  .model-head {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    margin-bottom: 80px;
+    align-items: start;
+  }
+
+  .model-head h2 {
+    font-size: clamp(36px, 4.4vw, 52px);
+    line-height: 1.1;
+  }
+
+  .model-head h2 em { color: var(--green); font-style: italic; font-weight: 500; }
+
+  .model-head p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+
+  .model-head p em { color: var(--green); font-style: italic; }
+
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .plan {
+    padding: 40px 32px;
+    background: var(--beige-2);
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    transition: all .3s ease;
+  }
+
+  .plan:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(62,90,71,0.08);
+    border-color: var(--green);
+  }
+
+  .plan .plan-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .plan .plan-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .plan .plan-price .cents { font-size: 22px; color: var(--muted); }
+
+  .plan .plan-period {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .plan .plan-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* ============================================================
+     CURADOR (FRAN)
+  ============================================================ */
+
+  .curator {
+    padding: 140px 0;
+    background: var(--beige-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .curator-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .curator-photo {
+    aspect-ratio: 3/4;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(201,169,106,0.25), transparent 55%),
+      radial-gradient(ellipse at 30% 80%, rgba(62,90,71,0.35), transparent 60%),
+      var(--beige);
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-end;
+    padding: 32px;
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  .curator-body .eyebrow { margin-bottom: 28px; }
+
+  .curator-body h2 {
+    font-size: clamp(34px, 4.2vw, 50px);
+    line-height: 1.1;
+    margin-bottom: 32px;
+  }
+
+  .curator-body h2 em { color: var(--green); font-style: italic; font-weight: 500; }
+
+  .curator-body blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--ink);
+    padding-left: 24px;
+    border-left: 2px solid var(--green);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .curator-body .credentials {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    line-height: 1.8;
+  }
+
+  .curator-body .credentials .sep {
+    color: var(--yellow);
+    margin: 0 10px;
+  }
+
+  /* ============================================================
+     CTA
+  ============================================================ */
+
+  .cta {
+    padding: 180px 0;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-size: clamp(46px, 6vw, 76px);
+    line-height: 1.05;
+    margin-bottom: 40px;
+    letter-spacing: -0.015em;
+  }
+
+  .cta h2 em { color: var(--green); font-style: italic; font-weight: 500; }
+
+  .cta p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto 56px;
+    line-height: 1.55;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px 44px;
+    background: var(--green);
+    color: var(--beige);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 48px;
+    transition: all .3s ease;
+    box-shadow: 0 4px 16px rgba(62,90,71,0.15);
+  }
+
+  .btn:hover {
+    background: var(--green-dk);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(62,90,71,0.25);
+  }
+
+  .btn .arrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+
+  footer {
+    padding: 80px 0 60px;
+    background: var(--ink);
+    color: var(--beige);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(253,246,238,0.1);
+  }
+
+  .footer-brand h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--beige);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .footer-brand p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: rgba(253,246,238,0.6);
+    line-height: 1.55;
+    font-style: italic;
+    max-width: 360px;
+  }
+
+  .footer-col .eyebrow {
+    color: rgba(253,246,238,0.5);
+    margin-bottom: 20px;
+  }
+
+  .footer-col .eyebrow .sep { background: var(--yellow); }
+  .footer-col .eyebrow .dot { background: var(--yellow); }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col li {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(253,246,238,0.75);
+    margin-bottom: 10px;
+  }
+
+  .footer-col a {
+    color: inherit;
+    text-decoration: none;
+    transition: color .2s;
+  }
+
+  .footer-col a:hover { color: var(--yellow); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-signature {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(253,246,238,0.5);
+  }
+
+  .footer-signature .si {
+    color: var(--yellow);
+    font-weight: 500;
+    font-size: 19px;
+  }
+
+  .footer-meta {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(253,246,238,0.4);
+  }
+
+  /* ============================================================
+     ANIMAÇÕES ON-SCROLL (IntersectionObserver)
+  ============================================================ */
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ============================================================
+     RESPONSIVO
+  ============================================================ */
+
+  @media (max-width: 860px) {
+    .container, .container-narrow { padding: 0 24px; }
+
+    .hero { padding: 60px 0 100px; min-height: auto; }
+    .hero .eyebrow { margin-bottom: 40px; flex-direction: column; align-items: flex-start; gap: 8px; }
+    .hero .eyebrow .sep { display: none; }
+    .hero-meta { gap: 24px; }
+    .hero-rubrica { width: 180px; height: 130px; right: -20px; bottom: 20px; }
+    .scroll-hint { left: 24px; bottom: 20px; }
+
+    .statement { padding: 100px 0; }
+
+    .chefs { padding: 100px 0 40px; }
+    .chefs-head { margin-bottom: 60px; }
+    .chef {
+      grid-template-columns: 1fr !important;
+      gap: 40px;
+      padding: 60px 0;
+    }
+    .chef:nth-child(even) .chef-portrait { order: 0; }
+
+    .rio { padding: 100px 0; }
+    .rio-stage { max-width: 100%; }
+    .rio-svg-label { font-size: 13px; }
+    .rio-svg-label .house { font-size: 14px; }
+    .rio-svg-label .bairro { font-size: 11px; }
+
+    .model { padding: 100px 0; }
+    .model-head { grid-template-columns: 1fr; gap: 32px; margin-bottom: 48px; }
+    .plans { grid-template-columns: 1fr; gap: 16px; }
+
+    .curator { padding: 100px 0; }
+    .curator-grid { grid-template-columns: 1fr; gap: 40px; }
+
+    .cta { padding: 120px 0; }
+
+    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    .rio-path { stroke-dashoffset: 0 !important; }
+    .rio-node { opacity: 1 !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero">
+  <div class="container hero-inner">
+
+    <div class="eyebrow">
+      <span>Eatlooper</span>
+      <span class="sep"></span>
+      <span>Loop 01</span>
+      <span class="sep"></span>
+      <span>Aracaju · Sergipe</span>
+    </div>
+
+    <h1>Quatro cozinhas<br>que <em>escolheram ficar</em>.</h1>
+
+    <p class="subt">A gastronomia que ficou — e o rio que já tinha assinado embaixo.</p>
+
+    <div class="hero-meta">
+      <span>Quatro chefs</span>
+      <span>Quatro casas</span>
+      <span>Um rio · 2,9 km</span>
+    </div>
+
+  </div>
+
+  <!-- Rubrica SE sutil no canto, background -->
+  <div class="hero-rubrica" aria-hidden="true">
+    <svg viewBox="0 0 260 180">
+      <path d="M 40 30 C 90 20, 140 60, 100 90 C 60 110, 130 120, 180 100 C 220 88, 220 140, 170 155"
+            fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="color: var(--green)"/>
+    </svg>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="line"></div>
+    <span>os quatro</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     STATEMENT DE ABERTURA
+============================================================ -->
+<section class="statement">
+  <div class="container-narrow">
+    <blockquote>
+      Havia quatro chefs que poderiam ter ido embora. Escolheram ficar. E <em>transformaram o que havia aqui</em> em algo que não existe em mais nenhum lugar.
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================================================
+     OS QUATRO — CHEFS
+============================================================ -->
+<section class="chefs">
+  <div class="container">
+
+    <div class="chefs-head fade-up">
+      <div class="eyebrow">
+        <span>Os quatro</span>
+        <span class="sep"></span>
+        <span>Loop Geração SE</span>
+      </div>
+      <h2>Primeiro <em>a gente</em>.<br>O rio vem depois.</h2>
+      <p>Cada casa com sua cozinha, sua mão, seu jeito de enxergar Sergipe. Nenhuma delas precisaria estar aqui — elas estão porque quiseram.</p>
+    </div>
+
+    <!-- YASMIN ROSENDO · TOLÉ -->
+    <article class="chef chef-01 fade-up">
+      <div class="chef-portrait">
+        <div class="chef-portrait-label">Yasmin Rosendo · Tolé</div>
+      </div>
+      <div class="chef-body">
+        <span class="num">01</span>
+        <div class="house">Tolé Cozinha <span class="bairro">Inácio Barbosa</span></div>
+        <h3>A decoração <em>que se come</em>.</h3>
+        <p>Yasmin ama decorar prato — só não com o que não pertence. Cebola grelhada, cebolinha picada, azeite verde, erva que conversa com o caldo. Cada elemento visual é sabor antes de ser imagem.</p>
+        <p>Anti-flor-só-porque-fica-bonito. Pró-folha-que-tem-o-que-dizer. É terroir em mão de cozinheira — inclusive a <em>mangueira dentro do salão</em>, que dá manga que volta pro prato.</p>
+        <div class="signature">Frutos do mar autorais, cozinha do mar, afetividade técnica.</div>
+      </div>
+    </article>
+
+    <!-- SAMUEL BENSON · GRATTO -->
+    <article class="chef chef-02 fade-up">
+      <div class="chef-portrait">
+        <div class="chef-portrait-label">Samuel Benson · Gratto</div>
+      </div>
+      <div class="chef-body">
+        <span class="num">02</span>
+        <div class="house">Gratto <span class="bairro">Sensi · Inácio Barbosa / Farolândia</span></div>
+        <h3>Domínio, <em>não firula</em>.</h3>
+        <p>Samuel Benson é chef maduro. Brasa, peixes locais, fundos longos. Macaxeira virando mousseline. Baru virando farofa. Técnica clássica aplicada a ingrediente sergipano, com um olho na tradição e outro em algo novo que está vindo.</p>
+        <p>É o tipo de cozinha que <em>convence pelo controle</em>, não pela surpresa. Até chegar a próxima ideia — e ela está a caminho.</p>
+        <div class="signature">Mediterrânea contemporânea. Terroir sergipano. Técnica sem vaidade.</div>
+      </div>
+    </article>
+
+    <!-- ROBERTA NASCIMENTO · CASA DO MANGUE -->
+    <article class="chef chef-03 fade-up">
+      <div class="chef-portrait">
+        <div class="chef-portrait-label">Roberta Nascimento · Casa do Mangue</div>
+      </div>
+      <div class="chef-body">
+        <span class="num">03</span>
+        <div class="house">Casa do Mangue <span class="bairro">Farolândia</span></div>
+        <h3>Chique é <em>ter conceito</em>.</h3>
+        <p>Roberta Nascimento faz do espaço uma casa. Música, cozinha, conforto — tudo à beira do mangue. Tem mosquito? talvez. Ar condicionado? não. Chique? <em>chique é ter conceito</em>.</p>
+        <p>A Casa do Mangue é a mais corajosamente ela mesma das quatro. O mangue não é cenário — é co-autor. A cozinha mediterrânea só existe aqui, com esse ar, com esses ingredientes, com essa mulher à frente.</p>
+        <div class="signature">Bistrô mediterrâneo com alma brasileira. Casa de cultura à beira do mangue.</div>
+      </div>
+    </article>
+
+    <!-- GEON CRUZ · ZŌI -->
+    <article class="chef chef-04 fade-up">
+      <div class="chef-portrait">
+        <div class="chef-portrait-label">Geon Cruz · Zōi</div>
+      </div>
+      <div class="chef-body">
+        <span class="num">04</span>
+        <div class="house">Zōi <span class="bairro">Farolândia</span></div>
+        <h3>Pedigree <em>virando liberdade</em>.</h3>
+        <p>Geon Cruz passou anos num dos endereços mais exclusivos de Aracaju. Poderia ter continuado. Abriu o Zōi pra fazer <em>carbonara de polvo com gema de ovo caipira curada</em> — ou seja, pra fazer o que ele quer, do jeito que ele quer.</p>
+        <p>Técnica alta, emplatamento preciso, prato que qualquer um entende. É o que acontece quando a experiência escolhe a liberdade no lugar do prestígio.</p>
+        <div class="signature">Cozinha contemporânea. Frutos do mar e carnes. Emplatamento técnico.</div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     O RIO / REVELAÇÃO SE
+============================================================ -->
+<section class="rio">
+  <div class="container-narrow">
+
+    <div class="eyebrow fade-up">
+      <span>Aliás</span>
+      <span class="sep"></span>
+      <span>O Poxim</span>
+    </div>
+
+    <p class="rio-intro fade-up">
+      Se você olhar o mapa, as quatro casas estão às margens do Rio Poxim — que nasce no interior, atravessa Aracaju, banha o mangue de Farolândia e desagua no Rio Sergipe, que vai ao mar.
+    </p>
+
+    <div class="rio-stage" id="rio-stage">
+      <svg viewBox="0 0 560 870" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa vetorizado do Rio Poxim em Aracaju com os quatro restaurantes do Loop Geração SE — vista girada para revelar o S">
+
+        <!-- Rio Poxim — geometria real (OpenStreetMap), rotacionada 90° para revelar o gesto do "S". Cortado um pouco depois da altura do Zōi. -->
+        <path class="rio-path" d="M 513.33 96.30 C 509.99 94.37, 500.69 90.48, 493.29 84.72 C 485.89 78.97, 481.08 65.88, 468.93 61.77 C 456.78 57.65, 430.81 59.65, 420.39 60.03 C 409.98 60.42, 429.17 44.31, 406.44 64.08 C 383.71 83.86, 306.82 157.77, 284.03 178.67 C 261.24 199.57, 275.74 189.25, 269.68 189.47 C 263.63 189.70, 255.50 182.43, 247.68 180.02 C 239.85 177.61, 232.58 175.52, 222.72 175.00 C 212.87 174.49, 196.39 179.70, 188.53 176.93 C 180.67 174.17, 178.05 166.03, 175.56 158.41 C 173.08 150.79, 173.70 137.32, 173.60 131.21 C 173.50 125.11, 175.96 125.01, 174.98 121.76 C 173.99 118.51, 169.51 113.53, 167.71 111.73 C 165.90 109.93, 168.69 109.96, 164.17 110.96 C 159.65 111.96, 148.06 114.98, 140.59 117.71 C 133.12 120.44, 125.20 118.90, 119.37 127.36 C 113.54 135.81, 108.82 155.36, 105.61 168.44 C 102.40 181.53, 105.09 181.69, 100.11 205.87 C 95.13 230.05, 80.20 293.13, 75.75 313.51 C 71.29 333.89, 73.52 323.57, 73.39 328.17 C 73.26 332.77, 73.26 336.37, 74.96 341.10 C 76.66 345.82, 80.86 352.57, 83.61 356.53 C 86.36 360.48, 84.72 360.13, 91.47 364.82 C 98.21 369.52, 117.83 378.42, 124.08 384.69 C 130.34 390.96, 125.56 393.85, 129.00 402.44 C 132.44 411.02, 141.60 428.39, 144.72 436.20 C 147.83 444.01, 147.89 441.63, 147.66 449.32 C 147.43 457.00, 146.68 467.45, 143.34 482.30 C 140.00 497.16, 130.67 526.38, 127.62 538.44 C 124.58 550.49, 124.80 550.17, 125.07 554.64 C 125.33 559.11, 127.69 562.42, 129.19 565.25 C 130.70 568.08, 132.17 570.04, 134.11 571.62 C 136.04 573.19, 136.76 574.93, 140.79 574.70 C 144.81 574.48, 151.49 570.78, 158.27 570.27 C 165.05 569.75, 175.30 570.43, 181.46 571.62 C 187.62 572.81, 191.91 574.99, 195.21 577.40 C 198.52 579.82, 198.72 581.33, 201.31 586.09 C 203.89 590.84, 208.71 599.81, 210.74 605.95 C 212.77 612.10, 214.86 616.82, 213.49 622.93 C 212.11 629.04, 209.75 637.66, 202.48 642.61 C 195.21 647.56, 180.22 648.72, 169.87 652.64 C 159.52 656.56, 149.92 659.04, 140.39 666.14 C 130.86 673.25, 118.84 686.01, 112.69 695.27 C 106.53 704.53, 104.24 706.39, 103.45 721.70 C 102.67 737.00, 105.29 772.30, 107.97 787.09 C 110.66 801.88, 100.47 809.41, 119.56 810.43 C 138.66 811.46, 205.37 796.13, 222.53 793.27" />
+
+        <!-- Rótulos cardinais -->
+        <text class="rio-cardinal" x="20" y="24">Rio Poxim · Aracaju · SE</text>
+        <text class="rio-cardinal" x="540" y="24" text-anchor="end">↑ interior</text>
+        <text class="rio-cardinal" x="20" y="855">mar ↓</text>
+
+        <!-- Nodes dos restaurantes — coordenadas reais projetadas do OSM/Nominatim, rotacionadas 90° -->
+        <g class="rio-node n-tole">
+          <circle class="pulse" cx="227.44" cy="613.09" r="12"/>
+          <circle class="core" cx="227.44" cy="613.09" r="5"/>
+        </g>
+        <g class="rio-node n-gratto">
+          <circle class="pulse" cx="274.60" cy="669.03" r="12"/>
+          <circle class="core" cx="274.60" cy="669.03" r="5"/>
+        </g>
+        <g class="rio-node n-mangue">
+          <circle class="pulse" cx="109.54" cy="682.54" r="12"/>
+          <circle class="core" cx="109.54" cy="682.54" r="5"/>
+        </g>
+        <g class="rio-node n-zoi">
+          <circle class="pulse" cx="46.67" cy="701.83" r="12"/>
+          <circle class="core" cx="46.67" cy="701.83" r="5"/>
+        </g>
+
+        <!-- Rótulos dos restaurantes posicionados pra não cobrir o rio -->
+        <text class="rio-svg-label l-tole" x="245" y="608" text-anchor="start">
+          <tspan class="house">Tolé</tspan>
+          <tspan class="bairro" x="245" dy="16">Inácio Barbosa</tspan>
+        </text>
+        <text class="rio-svg-label l-gratto" x="293" y="664" text-anchor="start">
+          <tspan class="house">Gratto</tspan>
+          <tspan class="bairro" x="293" dy="16">Sensi</tspan>
+        </text>
+        <text class="rio-svg-label l-mangue" x="128" y="678" text-anchor="start">
+          <tspan class="house">Casa do Mangue</tspan>
+          <tspan class="bairro" x="128" dy="16">Farolândia</tspan>
+        </text>
+        <text class="rio-svg-label l-zoi" x="65" y="698" text-anchor="start">
+          <tspan class="house">Zōi</tspan>
+          <tspan class="bairro" x="65" dy="16">Farolândia</tspan>
+        </text>
+      </svg>
+    </div>
+
+    <p class="rio-assinatura fade-up">
+      O rio une essa gente. Mas não é ele a razão do loop existir —<br>
+      é a história dessa gente que fez ele possível.<br><br>
+      O rio só assinou embaixo. <span class="si">Se...</span>
+    </p>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     O QUE É O EATLOOPER
+============================================================ -->
+<section class="model">
+  <div class="container">
+
+    <div class="model-head fade-up">
+      <h2>O Eatlooper <em>não é desconto</em>.</h2>
+      <div>
+        <p>É clube de assinatura mensal. Curadoria autoral, circuitos por cidade, experiências presenciais em restaurantes escolhidos a dedo.</p>
+        <p>Não é app de delivery. Não é listagem. Não é cupom. É uma forma de sair de casa com <em>direção</em> — e voltar com história.</p>
+      </div>
+    </div>
+
+    <div class="plans fade-up">
+      <div class="plan">
+        <div class="plan-name">Individual</div>
+        <div class="plan-price">R$ 34<span class="cents">,90</span></div>
+        <div class="plan-period">por mês</div>
+        <div class="plan-desc">Para quem mora sozinho e come com intenção.</div>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Casal</div>
+        <div class="plan-price">R$ 59<span class="cents">,90</span></div>
+        <div class="plan-period">por mês</div>
+        <div class="plan-desc">Duas pessoas, uma rota, uma noite cada vez.</div>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Empresarial</div>
+        <div class="plan-price">R$ 149<span class="cents">,90</span></div>
+        <div class="plan-period">por mês</div>
+        <div class="plan-desc">Para mesas de trabalho, reuniões que merecem cozinha.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     CURADOR — FRAN
+============================================================ -->
+<section class="curator">
+  <div class="container">
+    <div class="curator-grid fade-up">
+      <div class="curator-photo">François Ozanne · Chef Curador</div>
+      <div class="curator-body">
+        <div class="eyebrow">
+          <span>Curadoria</span>
+          <span class="sep"></span>
+          <span>Chef Curador</span>
+        </div>
+        <h2>A escolha <em>tem nome</em>.</h2>
+        <blockquote>
+          "O loop não é o rio. É a gente que fez esse rio fazer sentido. A minha função é mostrar essas quatro cozinhas pro mundo do jeito que elas merecem ser mostradas — sem firula, sem adjetivo vazio, sem desconto."
+        </blockquote>
+        <div class="credentials">
+          François Ozanne <span class="sep">·</span> Le Cordon Bleu Lima <span class="sep">·</span> Prêmio Dolma <span class="sep">·</span> Ex-Alma Bistrot <span class="sep">·</span> Aracaju, SE
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA
+============================================================ -->
+<section class="cta">
+  <div class="container-narrow fade-up">
+    <h2>Comece seu <em>loop</em>.</h2>
+    <p>Quatro cozinhas, um rio, uma assinatura mensal. Você entra quando quiser — a próxima casa te espera.</p>
+    <a href="https://eatlooper.com" class="btn">
+      Assinar o Eatlooper <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="container">
+
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>Eatlooper</h3>
+        <p>Clube de assinatura gastronômica. Curadoria autoral. Circuitos por cidade. Sergipe começa aqui.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="eyebrow">
+          <span>Loop 01</span>
+        </div>
+        <ul>
+          <li><a href="../yasmin/index.html">Tolé Cozinha</a></li>
+          <li><a href="../samuel/index.html">Gratto</a></li>
+          <li><a href="../roberta/index.html">Casa do Mangue</a></li>
+          <li><a href="../geon/index.html">Zōi</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="eyebrow">
+          <span>Eatlooper</span>
+        </div>
+        <ul>
+          <li><a href="https://eatlooper.com">Assinar</a></li>
+          <li><a href="#">Outros loops</a></li>
+          <li><a href="#">Fale com o curador</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-signature">
+        o rio só assinou embaixo. <span class="si">Se...</span>
+      </div>
+      <div class="footer-meta">
+        © 2026 Eatlooper · Aracaju SE · Curadoria Ozanne
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  // Scroll animations via IntersectionObserver
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+  // Rio stage: aciona animação quando entra em view
+  const rioStage = document.getElementById('rio-stage');
+  if (rioStage) {
+    const rioIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          rioStage.classList.add('active');
+          rioIO.unobserve(rioStage);
+        }
+      });
+    }, { threshold: 0.3 });
+    rioIO.observe(rioStage);
+  }
+</script>
+
+</body>
+</html>
