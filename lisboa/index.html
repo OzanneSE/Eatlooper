@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eatlooper — Uma ideia que começa em Sergipe e chega a Lisboa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --noite: #0D1B2A;
+    --noite-media: #142336;
+    --branco-sujo: #F5F0E8;
+    --vermelho: #D42B2B;
+    --dourado: #C9A84C;
+    --cinza-texto: #8A9BAE;
+    --cinza-claro: #E8E2D8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--noite);
+    color: var(--branco-sujo);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── FIO ATLÂNTICO ─── */
+  .fio-atlantico {
+    position: fixed;
+    left: 48px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent 0%, var(--dourado) 15%, var(--dourado) 85%, transparent 100%);
+    opacity: 0.35;
+    z-index: 10;
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 80px 80px 100px;
+    position: relative;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 45%;
+    height: 100%;
+    background: radial-gradient(ellipse at top right, rgba(212, 43, 43, 0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .cover-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--vermelho);
+    margin-bottom: 32px;
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--branco-sujo);
+    max-width: 700px;
+    margin-bottom: 40px;
+  }
+
+  .cover h1 em {
+    font-style: italic;
+    color: var(--dourado);
+  }
+
+  .cover-subtitulo {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--cinza-texto);
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 60px;
+  }
+
+  .rota-geografica {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cinza-texto);
+  }
+
+  .rota-geografica .cidade {
+    color: var(--branco-sujo);
+    font-weight: 500;
+  }
+
+  .rota-geografica .linha {
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(to right, var(--cinza-texto), var(--dourado));
+  }
+
+  .rota-geografica .ponto {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--dourado);
+    flex-shrink: 0;
+  }
+
+  /* ─── SEÇÕES ─── */
+  .secao {
+    padding: 100px 80px 100px 100px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+    position: relative;
+  }
+
+  .secao-numero {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    color: var(--vermelho);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .secao h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--branco-sujo);
+    margin-bottom: 40px;
+    max-width: 640px;
+  }
+
+  .secao h2 em {
+    font-style: italic;
+    color: var(--dourado);
+  }
+
+  .secao p {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(245, 240, 232, 0.75);
+    max-width: 580px;
+    margin-bottom: 24px;
+    line-height: 1.85;
+  }
+
+  .secao p strong {
+    color: var(--branco-sujo);
+    font-weight: 500;
+  }
+
+  /* ─── CITAÇÃO ─── */
+  .citacao {
+    border-left: 2px solid var(--dourado);
+    padding: 24px 32px;
+    margin: 48px 0;
+    max-width: 560px;
+    background: rgba(201, 168, 76, 0.04);
+  }
+
+  .citacao p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--branco-sujo) !important;
+    line-height: 1.5;
+    margin-bottom: 0 !important;
+  }
+
+  /* ─── GRID DE DIFERENCIAIS ─── */
+  .grid-diferenciais {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2px;
+    margin-top: 56px;
+    max-width: 900px;
+  }
+
+  .diferencial {
+    background: var(--noite-media);
+    padding: 36px 32px;
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .diferencial:hover {
+    background: rgba(201, 168, 76, 0.06);
+  }
+
+  .diferencial-icone {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--dourado);
+    opacity: 0.5;
+    line-height: 1;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .diferencial h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--branco-sujo);
+    margin-bottom: 12px;
+  }
+
+  .diferencial p {
+    font-size: 13px !important;
+    color: var(--cinza-texto) !important;
+    line-height: 1.7;
+    margin-bottom: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* ─── PERFIL FRAN ─── */
+  .perfil-fran {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 56px;
+    max-width: 900px;
+  }
+
+  .perfil-dados {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .dado-item {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+  }
+
+  .dado-item:first-child {
+    border-top: 1px solid rgba(201, 168, 76, 0.12);
+  }
+
+  .dado-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cinza-texto);
+    margin-bottom: 6px;
+  }
+
+  .dado-valor {
+    font-size: 14px;
+    color: var(--branco-sujo);
+    font-weight: 400;
+  }
+
+  .perfil-narrativa p {
+    max-width: 100% !important;
+  }
+
+  /* ─── CIRCUITOS ─── */
+  .lista-circuitos {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-width: 720px;
+    margin-top: 48px;
+  }
+
+  .circuito-item {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    align-items: center;
+    gap: 32px;
+    padding: 24px 28px;
+    background: var(--noite-media);
+    transition: background 0.3s;
+  }
+
+  .circuito-item:hover {
+    background: rgba(212, 43, 43, 0.05);
+  }
+
+  .circuito-nome {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--branco-sujo);
+  }
+
+  .circuito-desc {
+    font-size: 12px;
+    color: var(--cinza-texto);
+    line-height: 1.5;
+  }
+
+  .circuito-status {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .status-ativo { background: rgba(212, 43, 43, 0.15); color: var(--vermelho); }
+  .status-dev { background: rgba(201, 168, 76, 0.12); color: var(--dourado); }
+  .status-pipeline { background: rgba(138, 155, 174, 0.12); color: var(--cinza-texto); }
+
+  /* ─── PROPOSTA LISBOA ─── */
+  .proposta-lisboa {
+    background: var(--noite-media);
+    padding: 64px;
+    max-width: 800px;
+    margin-top: 56px;
+    border-top: 2px solid var(--vermelho);
+    position: relative;
+  }
+
+  .proposta-lisboa::after {
+    content: 'Lisboa';
+    position: absolute;
+    top: -14px;
+    right: 64px;
+    background: var(--noite-media);
+    padding: 0 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--vermelho);
+  }
+
+  .proposta-lisboa h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    font-weight: 300;
+    color: var(--branco-sujo);
+    margin-bottom: 32px;
+    line-height: 1.2;
+  }
+
+  .proposta-lista {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .proposta-lista li {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .proposta-lista li::before {
+    content: '→';
+    color: var(--dourado);
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .proposta-lista li span {
+    font-size: 14px;
+    color: rgba(245, 240, 232, 0.75);
+    line-height: 1.7;
+  }
+
+  .proposta-lista li span strong {
+    color: var(--branco-sujo);
+    font-weight: 500;
+  }
+
+  /* ─── CLOSING ─── */
+  .closing {
+    padding: 100px 80px 100px 100px;
+    text-align: left;
+    position: relative;
+  }
+
+  .closing h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4.5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    max-width: 600px;
+    margin-bottom: 40px;
+  }
+
+  .closing h2 em {
+    font-style: italic;
+    color: var(--dourado);
+  }
+
+  .closing p {
+    font-size: 15px;
+    color: rgba(245, 240, 232, 0.65);
+    max-width: 480px;
+    margin-bottom: 20px;
+    line-height: 1.85;
+  }
+
+  .assinatura {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(201, 168, 76, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .assinatura-nome {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--branco-sujo);
+  }
+
+  .assinatura-titulo {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cinza-texto);
+  }
+
+  .assinatura-titulo span {
+    color: var(--vermelho);
+  }
+
+  /* ─── RESPONSIVO ─── */
+  @media (max-width: 768px) {
+    .fio-atlantico { display: none; }
+    .cover, .secao, .closing { padding: 60px 28px; }
+    .perfil-fran { grid-template-columns: 1fr; gap: 40px; }
+    .circuito-item { grid-template-columns: 1fr; gap: 8px; }
+    .proposta-lisboa { padding: 40px 28px; }
+    .proposta-lisboa::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="fio-atlantico"></div>
+
+<!-- ─── COVER ─── -->
+<section class="cover">
+  <span class="cover-eyebrow">Eatlooper · Apresentação Confidencial</span>
+  <h1>Uma ideia que começa<br>em <em>Sergipe</em><br>e chega a Lisboa.</h1>
+  <p class="cover-subtitulo">
+    Um aplicativo de curadoria gastronômica — não para onde comer, mas para como decidir.
+    Uma plataforma onde o próximo jantar começa antes de sair de casa.
+  </p>
+  <div class="rota-geografica">
+    <span class="ponto"></span>
+    <span class="cidade">Aracaju</span>
+    <span class="linha"></span>
+    <span>Atlântico</span>
+    <span class="linha"></span>
+    <span class="cidade">Lisboa</span>
+    <span class="ponto"></span>
+  </div>
+</section>
+
+<!-- ─── 01 · O QUE É ─── -->
+<section class="secao">
+  <span class="secao-numero">01 · O conceito</span>
+  <h2>Não é guia.<br>Não é reserva.<br>É <em>decisão.</em></h2>
+
+  <p>
+    Existe uma pergunta que acontece todos os dias, em todas as cidades do mundo: <strong>"Onde a gente vai jantar?"</strong> E a resposta, quase sempre, é adiada, improvisada ou perdida num grupo de WhatsApp.
+  </p>
+  <p>
+    O Eatlooper existe para resolver isso — mas com curadoria de verdade. Não é uma lista de restaurantes. É uma plataforma onde o utilizador <strong>descobre, monta e escolhe a sua refeição antes de sair de casa</strong> — entrada, prato, sobremesa — dentro de um universo de casas cuidadosamente selecionadas.
+  </p>
+
+  <div class="citacao">
+    <p>"Eatlooper é o lugar onde o seu próximo jantar começa."</p>
+  </div>
+
+  <p>
+    No centro do produto existe o conceito de <strong>Circuitos Gastronômicos</strong> — grupos temáticos de restaurantes unidos por um fio narrativo: ingredientes, técnicas, territórios, culturas. Cada circuito é uma viagem culinária dentro da própria cidade.
+  </p>
+  <p>
+    O modelo de acesso é simples: <strong>assinatura mensal</strong>. O utilizador subscreve, acede aos circuitos ativos, monta a sua experiência e vai. O restaurante ganha visibilidade qualificada. A plataforma ganha recorrência. O curador ganha autoridade.
+  </p>
+</section>
+
+<!-- ─── 02 · OS CIRCUITOS ─── -->
+<section class="secao">
+  <span class="secao-numero">02 · Os circuitos</span>
+  <h2>Cada circuito é<br>um <em>argumento</em><br>gastronômico.</h2>
+
+  <p>
+    A lógica do Eatlooper não é "os melhores restaurantes da cidade". É mais exigente do que isso: <strong>cada circuito tem uma tese</strong>. Um fio de identidade que une os restaurantes participantes e cria uma experiência que nenhum deles consegue oferecer sozinho.
+  </p>
+
+  <div class="lista-circuitos">
+    <div class="circuito-item">
+      <span class="circuito-nome">Geração SE</span>
+      <span class="circuito-desc">Chefs sergipanos que escolheram ficar e construir carreira local. Curadoria de identidade territorial.</span>
+      <span class="circuito-status status-ativo">Ativo</span>
+    </div>
+    <div class="circuito-item">
+      <span class="circuito-nome">Chamego Confitado</span>
+      <span class="circuito-desc">Comfort food técnico com leitura feminina e afetiva. O abraço que se transforma em prato.</span>
+      <span class="circuito-status status-dev">Em lançamento</span>
+    </div>
+    <div class="circuito-item">
+      <span class="circuito-nome">Do Barco ao Prato</span>
+      <span class="circuito-desc">40km de costa atlântica sergipana. Caranguejo, siri, polvo — do mar ao menu.</span>
+      <span class="circuito-status status-pipeline">Pipeline</span>
+    </div>
+    <div class="circuito-item">
+      <span class="circuito-nome">Braseiro</span>
+      <span class="circuito-desc">O fogo como técnica. Não é churrasco — é brasa com método e identidade nordestina.</span>
+      <span class="circuito-status status-pipeline">Pipeline</span>
+    </div>
+    <div class="circuito-item">
+      <span class="circuito-nome">Playlist Gastronômica</span>
+      <span class="circuito-desc">Gastronomia encontra música ao vivo. Artistas locais, menus exclusivos, uma noite irrepetível.</span>
+      <span class="circuito-status status-pipeline">Pipeline</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 03 · O QUE TORNA ÚNICO ─── -->
+<section class="secao">
+  <span class="secao-numero">03 · O diferencial</span>
+  <h2>O que <em>nenhum outro</em><br>aplicativo faz.</h2>
+
+  <div class="grid-diferenciais">
+    <div class="diferencial">
+      <span class="diferencial-icone">I</span>
+      <h3>Identidade como produto</h3>
+      <p>Nenhuma curadoria sem fio territorial. Um prato que poderia ser servido em qualquer lugar já falhou antes de ser provado. O terroir é inegociável.</p>
+    </div>
+    <div class="diferencial">
+      <span class="diferencial-icone">II</span>
+      <h3>Curador com nome e rosto</h3>
+      <p>Não é um algoritmo que seleciona. É um chef com 14 anos de cozinha, formação Le Cordon Bleu e reconhecimento formal quem assina cada circuito.</p>
+    </div>
+    <div class="diferencial">
+      <span class="diferencial-icone">III</span>
+      <h3>A refeição começa no app</h3>
+      <p>O utilizador monta a sua refeição completa antes de sair — entrada, prato, sobremesa. A decisão é parte da experiência, não uma fricção anterior a ela.</p>
+    </div>
+    <div class="diferencial">
+      <span class="diferencial-icone">IV</span>
+      <h3>Escassez real</h3>
+      <p>Cada circuito tem duração de 14 a 21 dias. Não é desconto permanente — é janela de experiência. A urgência é genuína, não fabricada.</p>
+    </div>
+    <div class="diferencial">
+      <span class="diferencial-icone">V</span>
+      <h3>O restaurante ganha autoridade</h3>
+      <p>Estar no Eatlooper é ser curado, não ser listado. Para o restaurante, é mais valioso do que qualquer publicidade — é endosso técnico.</p>
+    </div>
+    <div class="diferencial">
+      <span class="diferencial-icone">VI</span>
+      <h3>Modelo de receita limpo</h3>
+      <p>Assinatura do utilizador + parcerias B2B corporativas. Sem comissão sobre mesa, sem interferência no serviço. O restaurante fica com a sua margem intacta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 04 · QUEM É FRAN ─── -->
+<section class="secao">
+  <span class="secao-numero">04 · O curador</span>
+  <h2>François Ozanne —<br><em>Chef Curador.</em></h2>
+
+  <p>
+    A função de curador não é decorativa. No Eatlooper, a autoridade do produto depende inteiramente da credibilidade técnica de quem assina a seleção. Por isso importa saber quem é esta pessoa.
+  </p>
+
+  <div class="perfil-fran">
+    <div class="perfil-dados">
+      <div class="dado-item">
+        <div class="dado-label">Formação</div>
+        <div class="dado-valor">Le Cordon Bleu Lima</div>
+      </div>
+      <div class="dado-item">
+        <div class="dado-label">Reconhecimento</div>
+        <div class="dado-valor">Embaixador da Cozinha Sergipana · Prémio Dolma</div>
+      </div>
+      <div class="dado-item">
+        <div class="dado-label">Experiência</div>
+        <div class="dado-valor">14 anos de cozinha real — de auxiliar em Porto Alegre a chef-proprietário em Aracaju</div>
+      </div>
+      <div class="dado-item">
+        <div class="dado-label">Docência</div>
+        <div class="dado-valor">Instituto Gastronômico das Américas, desde 2019</div>
+      </div>
+      <div class="dado-item">
+        <div class="dado-label">Consultoria</div>
+        <div class="dado-valor">DUE Restaurante, Aracaju — menu autoral exclusivo</div>
+      </div>
+      <div class="dado-item">
+        <div class="dado-label">Origem</div>
+        <div class="dado-valor">Pai francês · Mãe gaúcha · Criado em Sergipe</div>
+      </div>
+    </div>
+
+    <div class="perfil-narrativa">
+      <p>
+        A origem já é, em si, uma posição: pai francês, mãe gaúcha, criado em Sergipe. Essa fusão não foi acidente — foi laboratório. Fran aprendeu cedo que a técnica tem mais força quando serve um território específico, não quando o ignora.
+      </p>
+      <p>
+        No Eatlooper, essa visão torna-se produto. <strong>Fran é a face pública e a garantia técnica</strong> de cada circuito lançado. Cada restaurante selecionado passou pelo seu filtro. Cada menu parceiro foi desenvolvido ou validado pela sua mão.
+      </p>
+      <p>
+        Não é um influencer gastronómico. É um chef que faz curadoria com o mesmo rigor com que desenvolve uma ficha técnica — CMV, sazonalidade, identidade de ingrediente, coerência de execução.
+      </p>
+      <div class="citacao">
+        <p>"Técnica francesa aplicada ao terroir sergipano. Falo técnica sem arrogância. Conecto ingrediente à memória afetiva."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 05 · LISBOA ─── -->
+<section class="secao">
+  <span class="secao-numero">05 · A expansão</span>
+  <h2>Por que <em>Lisboa</em><br>faz sentido.</h2>
+
+  <p>
+    Lisboa não é uma escolha aleatória. É a cidade europeia com maior densidade de chefs portugueses com raízes no Brasil, com uma cena gastronómica que valoriza identidade territorial tanto quanto técnica, e com um público educado para pagar por experiências curadas.
+  </p>
+  <p>
+    Mais do que isso: <strong>Lisboa tem o problema que o Eatlooper resolve</strong>. Uma cidade com dezenas de boas mesas, onde a descoberta ainda depende do boca-a-boca, do TripAdvisor ou do algoritmo — e onde falta uma voz técnica que organize essa oferta com critério real.
+  </p>
+
+  <div class="proposta-lisboa">
+    <h3>O que estamos a propor para Lisboa</h3>
+    <ul class="proposta-lista">
+      <li><span><strong>Piloto de expansão territorial</strong> — Lisboa como primeiro circuito fora do Brasil, validando o modelo em mercado europeu com dinâmicas próprias.</span></li>
+      <li><span><strong>Parceria com curador local</strong> — alguém que conhece Lisboa por dentro, que tem relação com os chefs, que pode ser o equivalente da função que Fran ocupa em Aracaju. Uma voz técnica com nome e rosto.</span></li>
+      <li><span><strong>Primeiro circuito temático Lisboa-Sergipe</strong> — explorar a ligação histórica e gastronómica entre Portugal e o Nordeste do Brasil como tese do primeiro loop. Identidade partilhada como produto.</span></li>
+      <li><span><strong>Modelo de assinatura adaptado ao mercado local</strong> — precificação, canais de distribuição e parcerias B2B revistas para o contexto português e europeu.</span></li>
+      <li><span><strong>Transferência de metodologia</strong> — o Protocolo de Curadoria Ozanne, os critérios de seleção, a estrutura de circuitos — tudo exportável e adaptável a qualquer cidade com identidade gastronómica própria.</span></li>
+    </ul>
+    <p style="font-size: 14px; color: rgba(245,240,232,0.6); max-width: 100%;">
+      Esta conversa é o primeiro passo. Não há proposta definitiva ainda — há uma ideia que faz sentido geográfico, cultural e de negócio, e há a vontade de perceber se faz sentido para as duas partes.
+    </p>
+  </div>
+</section>
+
+<!-- ─── CLOSING ─── -->
+<section class="closing">
+  <h2>O jantar começa<br>antes de <em>chegar.</em></h2>
+  <p>
+    O Eatlooper não vende acesso a restaurantes. Vende a certeza de que a escolha foi feita com critério — por alguém que conhece a cozinha por dentro.
+  </p>
+  <p>
+    Em Aracaju, essa certeza já existe. A pergunta que estamos a fazer é: o que acontece quando levamos esse rigor para uma cidade com a história gastronómica de Lisboa?
+  </p>
+  <p>
+    Adorávamos muito ouvir o que pensas.
+  </p>
+
+  <div class="assinatura">
+    <span class="assinatura-nome">François Ozanne</span>
+    <span class="assinatura-titulo"><span>Chef Curador</span> · Eatlooper · Aracaju, Sergipe, Brasil</span>
+  </div>
+</section>
+
+</body>
+</html>
