@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do Mar à Mesa · Loop Eatlooper · v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --abismo:#071825; --fundo:#0c2436; --mar:#14425c; --raso:#1e6e7e;
+    --espuma:#e9f4f1; --areia:#e8d9b5; --coral:#ff7a59; --ouro:#d9b36a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--abismo);color:var(--espuma);font-family:'Inter',sans-serif;line-height:1.7;overflow-x:hidden}
+  ::selection{background:var(--coral);color:var(--abismo)}
+
+  #mare{position:fixed;left:0;top:0;width:5px;height:100vh;background:rgba(233,244,241,.07);z-index:99}
+  #mare .nivel{position:absolute;bottom:0;left:0;width:100%;height:0%;background:linear-gradient(180deg,var(--coral),var(--raso));transition:height .15s}
+  #mare .rotulo{position:fixed;left:14px;bottom:18px;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--areia);writing-mode:vertical-rl;opacity:.7}
+
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:6rem 1.5rem 10rem;position:relative;background:radial-gradient(ellipse at 50% 120%, var(--mar) 0%, var(--fundo) 45%, var(--abismo) 100%)}
+  .selo{border:1px solid var(--ouro);color:var(--ouro);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;padding:.5rem 1.2rem;border-radius:99px;margin-bottom:2.2rem}
+  .hero h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2.8rem,9vw,6.5rem);line-height:1.02;background:linear-gradient(180deg,var(--espuma) 55%,var(--areia));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .epigrafe{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.05rem,2.4vw,1.45rem);color:var(--areia);max-width:34rem;margin-top:2rem}
+  .hero .casas{margin-top:2.6rem;font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(233,244,241,.65)}
+  .assinatura-tag{margin-top:1.2rem;font-size:.75rem;color:var(--coral);letter-spacing:.12em;text-transform:uppercase}
+  .convite{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:rgba(233,244,241,.75);max-width:32rem;margin-top:2.2rem}
+
+  .ondas{position:absolute;bottom:-2px;left:0;width:100%;pointer-events:none}
+  .ondas svg{display:block;width:100%;height:110px}
+  .o1{animation:ondular 9s ease-in-out infinite alternate}
+  @keyframes ondular{from{transform:translateX(-2.5%)}to{transform:translateX(2.5%)}}
+
+  main{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+  section{padding:5rem 0}
+  .kicker{font-size:.7rem;letter-spacing:.32em;text-transform:uppercase;color:var(--coral);margin-bottom:1rem}
+  h2{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,4.5vw,2.6rem);font-weight:700;margin-bottom:1.4rem}
+  p.grande{font-size:1.12rem;max-width:44rem}
+  em{color:var(--areia)}
+
+  .territorios{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
+  .terr{flex:1;min-width:150px;text-align:center;border:1px solid rgba(233,244,241,.18);border-radius:14px;padding:1.6rem 1rem;background:rgba(20,66,92,.25)}
+  .terr b{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:.14em;display:block;margin-bottom:.4rem}
+  .terr span{font-size:.82rem;color:rgba(233,244,241,.7)}
+
+  /* quem cozinha */
+  .chefs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.3rem;margin-top:2rem}
+  .chef{background:rgba(20,66,92,.3);border:1px solid rgba(233,244,241,.16);border-radius:18px;padding:1.8rem}
+  .chef .nome{font-family:'Playfair Display',serif;font-weight:900;font-size:1.25rem;color:var(--areia)}
+  .chef .funcao{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:var(--coral);margin-bottom:.6rem}
+  .chef p{font-size:.92rem;color:rgba(233,244,241,.85)}
+
+  .assinatura{background:linear-gradient(135deg,rgba(255,122,89,.1),rgba(30,110,126,.18));border:1px solid rgba(255,122,89,.35);border-radius:20px;padding:2.4rem;margin-bottom:1.3rem}
+  .assinatura h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--coral);margin-bottom:.9rem}
+  .passos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.4rem;margin-top:1.6rem}
+  .passo{border-left:2px solid var(--coral);padding-left:1rem}
+  .passo b{display:block;color:var(--areia);margin-bottom:.3rem}
+  .passo span{font-size:.9rem;color:rgba(233,244,241,.8)}
+
+  .casa{border:1px solid rgba(233,244,241,.14);border-radius:22px;overflow:hidden;margin-bottom:3.5rem;background:linear-gradient(180deg,rgba(20,66,92,.35),rgba(12,36,54,.6));opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s}
+  .casa.visivel{opacity:1;transform:none}
+  .casa-topo{padding:2.4rem 2.4rem 1.2rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
+  .fase{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--coral)}
+  .casa h3{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5vw,2.8rem);font-weight:900;line-height:1.05}
+  .casa .sub{font-style:italic;color:var(--areia);font-family:'Playfair Display',serif;font-size:1.05rem}
+  .ficha{text-align:right;font-size:.8rem;color:rgba(233,244,241,.75);line-height:1.9}
+  .ficha .estrela{color:var(--ouro);font-weight:700;font-size:1rem}
+  .casa-corpo{padding:0 2.4rem 2.4rem;display:grid;gap:1.2rem}
+  .card{background:rgba(7,24,37,.55);border:1px solid rgba(233,244,241,.1);border-radius:14px;padding:1.4rem 1.6rem}
+  .card .tit{font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ouro);margin-bottom:.55rem}
+  .looper{border-color:rgba(255,122,89,.45);background:rgba(255,122,89,.08)}
+  .looper .tit{color:var(--coral)}
+  .looper p{font-family:'Playfair Display',serif;font-style:italic;font-size:1.08rem}
+  .ritual{border:1px dashed rgba(30,110,126,.9);background:rgba(30,110,126,.12)}
+  .ritual .tit{color:#7fd0d8}
+  .ritual p{font-family:'Playfair Display',serif;font-style:italic;color:#bfe6e2}
+
+  details.menu{background:rgba(7,24,37,.55);border:1px solid rgba(217,179,106,.35);border-radius:14px;overflow:hidden}
+  details.menu summary{cursor:pointer;list-style:none;padding:1.3rem 1.6rem;display:flex;justify-content:space-between;align-items:center;font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--areia)}
+  details.menu summary::after{content:'+';font-size:1.4rem;color:var(--coral);transition:transform .3s}
+  details.menu[open] summary::after{transform:rotate(45deg)}
+  .menu-item{padding:1rem 1.6rem;border-top:1px dashed rgba(233,244,241,.15)}
+  .menu-item b{font-family:'Playfair Display',serif;font-size:1.02rem;color:var(--espuma)}
+  .menu-item p{font-size:.92rem;color:rgba(233,244,241,.8);font-style:italic;margin-top:.25rem}
+  .badge{display:inline-block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;border-radius:99px;padding:.18rem .65rem;margin-left:.5rem;vertical-align:middle;font-family:'Inter',sans-serif;font-style:normal}
+  .b-ok{background:rgba(80,200,140,.16);color:#7fe0b0;border:1px solid rgba(80,200,140,.4)}
+  .b-hip{background:rgba(255,122,89,.14);color:var(--coral);border:1px solid rgba(255,122,89,.4)}
+
+  .proposta{background:rgba(255,122,89,.09);border:1px solid rgba(255,122,89,.5);border-radius:14px;padding:1.5rem 1.7rem}
+  .proposta .tit{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:.7rem}
+  .proposta b{color:var(--areia)}
+  .proposta .pergunta{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:#ffb59e;margin-top:.9rem}
+
+  .fio{border-left:3px solid var(--ouro);padding:1.2rem 1.6rem;background:rgba(217,179,106,.07);border-radius:0 14px 14px 0;margin-top:1.5rem;font-size:.95rem}
+  .fecho{text-align:center;padding:6rem 1.5rem 4rem}
+  .fecho p{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.2rem,3vw,1.7rem);color:var(--areia);max-width:36rem;margin:0 auto}
+  footer{text-align:center;padding:2.5rem;font-size:.72rem;color:rgba(233,244,241,.4);letter-spacing:.1em}
+  @media(max-width:640px){.casa-topo{flex-direction:column}.ficha{text-align:left}}
+</style>
+</head>
+<body>
+
+<div id="mare"><div class="nivel"></div><span class="rotulo">a maré sobe conforme você desce</span></div>
+
+<header class="hero">
+  <span class="selo">EATLOOPER · LOOP Nº 1 · v2</span>
+  <h1>Do Mar<br>à Mesa</h1>
+  <p class="epigrafe">"A maré não sobe numa noite só. Três casas, três visitas — e o mar inteiro no meio."</p>
+  <div class="casas">GRATTO &nbsp;·&nbsp; MYKONOS &nbsp;·&nbsp; SAMORE</div>
+  <div class="assinatura-tag">parte da assinatura eatlooper</div>
+  <p class="convite">este arquivo é uma conversa, não um contrato — a gente levanta a bola, você ajusta do seu jeito. Nada aqui fecha sem a sua cozinha concordar.</p>
+  <div class="ondas">
+    <svg class="o1" viewBox="0 0 1440 110" preserveAspectRatio="none"><path fill="#0c2436" d="M0,60 C240,110 480,10 720,55 C960,100 1200,20 1440,65 L1440,110 L0,110 Z"/></svg>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="kicker">O que é este loop</div>
+    <h2>O litoral sergipano, da praia ao prato — sem escalas.</h2>
+    <p class="grande">Aracaju termina no mar, mas quase nunca começa por ele. Este circuito inverte a ordem. O fio condutor é o fruto do mar; quem narra é <em>a maré</em> — o movimento que leva o assinante de uma casa a outra, no ritmo dele. Não é um roteiro de uma noite: é uma temporada. Cada visita é uma altura diferente da mesma água.</p>
+    <div class="territorios">
+      <div class="terr"><b>MAR</b><span>o horizonte que define a cidade</span></div>
+      <div class="terr"><b>MANGUE</b><span>a raiz — onde o aratu mora</span></div>
+      <div class="terr"><b>FOGO</b><span>a brasa e a lenha, mediadoras</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Quem recebe</div>
+    <h2>Quem cozinha a maré.</h2>
+    <div class="chefs">
+      <div class="chef">
+        <div class="nome">Samuel Benson</div>
+        <div class="funcao">chef · a brasa do mezanino</div>
+        <p>"Do oceano para a mesa" é promessa da própria casa: polvo na brasa, lula inteira, cupim sergipano em massa crocante — e o bar premiado no mesmo endereço, com a Carta Tropicália descendo antes do menu. A noite de Aracaju começa a subir no Gratto.</p>
+      </div>
+      <div class="chef">
+        <div class="nome">Elaine</div>
+        <div class="funcao">chef · o alto-mar do Mykonos</div>
+        <p>Técnica e prazer sem pedir desculpa. Foi dela a prova de que o circuito funciona: cinco pratos exclusivos criados na primeira rodada, incluindo o arroz de aratu que casou o mangue sergipano com a harumaki japonesa. 4,9★ em 286 avaliações não é sorte.</p>
+      </div>
+      <div class="chef">
+        <div class="nome">Allan Moura</div>
+        <div class="funcao">chef · a lenha do Samore</div>
+        <p>O único forno a lenha do circuito — e o mar já entrou na massa dele: a Gamberi leva camarão e pimenta de cheiro. Quando a maré desce, é na mesa compartilhada do Allan que a noite termina, como fogueira de praia.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="assinatura">
+      <h3>Como funciona — assinatura, não passe</h3>
+      <p>O assinante Eatlooper tem direito às experiências exclusivas das três casas. Visita uma de cada vez, no dia que quiser — o circuito se completa no tempo dele. A ordem abaixo é a sugerida: a que faz a maré subir. E cada experiência tem três tempos, com nome de visita: <b>Cheguei · À Mesa · Fica Mais um Pouco.</b></p>
+      <div class="passos">
+        <div class="passo"><b>1ª visita — Preamar</b><span>Gratto · a noite começa a subir: o copo desce do bar antes do menu</span></div>
+        <div class="passo"><b>2ª visita — Alto-mar</b><span>Mykonos · o ponto mais fundo: mesa posta, prato que pesa</span></div>
+        <div class="passo"><b>3ª visita — Vazante</b><span>Samore · a volta à areia: fogo de lenha, mesa de dividir</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRATTO -->
+  <section class="casa">
+    <div class="casa-topo">
+      <div>
+        <div class="fase">1ª visita · Preamar</div>
+        <h3>Gratto</h3>
+        <div class="sub">o gole antes do mergulho</div>
+      </div>
+      <div class="ficha">
+        <span class="estrela">★ 5,0</span> Google (12)<br>
+        Chef Samuel Benson · mezanino do Sensi<br>
+        Jardins · ter–sáb, 19h–23h30 · @gratto.se
+      </div>
+    </div>
+    <div class="casa-corpo">
+      <div class="card ritual"><div class="tit">Ritual de chegada</div>
+        <p>Sobe-se ao mezanino com a cidade escurecendo lá fora. O copo chega antes do menu — no Gratto, a noite não é anunciada: é servida.</p></div>
+      <div class="card"><div class="tit">Card 1 · Identidade territorial</div>
+        <p>No mezanino, a cidade escurece primeiro. O Gratto cozinha o oceano na brasa — "do oceano para a mesa" é promessa da própria casa. A noite de Aracaju começa a subir aqui, com o mar já no prato.</p></div>
+      <div class="card"><div class="tit">Card 2 · Conexão com o circuito</div>
+        <p>No circuito, o Gratto é a preamar: polvo na brasa, lula inteira, cupim sergipano em massa crocante. A visita que prepara o corpo para o alto-mar do Mykonos e para a areia do Samore.</p></div>
+      <div class="card looper"><div class="tit">Para os loopers</div>
+        <p>"Se você é de chegar cedo pra ver a noite nascer — e acha que um drink bem feito é o primeiro prato do jantar —, sua travessia começa aqui."</p></div>
+      <details class="menu"><summary>O cardápio real que sustenta a proposta</summary>
+        <div class="menu-item"><b>Croquete de Cupim</b><span class="badge b-ok">cardápio real · R$28</span><p>O cupim nordestino em massa crocante com aioli de porcini — Sergipe abrindo a noite de roupagem nova.</p></div>
+        <div class="menu-item"><b>Peixe da Casa</b><span class="badge b-ok">cardápio real · R$100</span><p>Peixe do dia com salada de feijões e amendoim, cebola brûlée e caldo de lambreta — o prato de alma sergipana da casa.</p></div>
+        <div class="menu-item"><b>Arroz Negro de Polvo</b><span class="badge b-ok">cardápio real · R$120</span><p>Polvo na brasa sobre arroz negro, leite de coco e páprica — alternativa de mesa pra quem quer o fundo.</p></div>
+        <div class="menu-item"><b>Pão e Café com Leite</b><span class="badge b-ok">cardápio real · R$35</span><p>A rabanada sergipana virando sobremesa: sorvete de ninho, ganache de café, licor de café.</p></div>
+      </details>
+      <div class="proposta">
+        <div class="tit">Proposta · A Preamar — experiência de 3 tempos · R$149/pessoa (fechado)</div>
+        <p><b>Cheguei</b> — Drink da Maré: um drink da Carta Tropicália, escolhido pelo bar pra abrir a noite, servido com um croquete de cupim.<br>
+        <b>À Mesa</b> — Peixe da Casa, o prato de alma sergipana.<br>
+        <b>Fica Mais um Pouco</b> — Pão e Café com Leite: terminar o jantar com café da manhã. A noite acaba onde o dia começa — a maré voltando, e já estava no seu cardápio.</p>
+        <p class="pergunta">Pra conversar, Samuel e Xandão: qual drink da Carta abre a maré? Topam um "peixe do dia do assinante", anunciado na mesa? O que a gente não enxergou do cardápio que merecia estar aqui?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MYKONOS -->
+  <section class="casa">
+    <div class="casa-topo">
+      <div>
+        <div class="fase">2ª visita · Alto-mar</div>
+        <h3>Mykonos</h3>
+        <div class="sub">o ponto mais fundo do circuito</div>
+      </div>
+      <div class="ficha">
+        <span class="estrela">★ 4,9</span> Google (286)<br>
+        Chef Elaine · pratos R$72–198 · 71 itens<br>
+        Treze de Julho · @mykonos.restaurante
+      </div>
+    </div>
+    <div class="casa-corpo">
+      <div class="card ritual"><div class="tit">Ritual de chegada</div>
+        <p>A mesa que pensou em você antes de você chegar — reviews falam de atendimento "impecável". No alto-mar, ninguém se serve sozinho: a casa conduz.</p></div>
+      <div class="card"><div class="tit">Card 1 · Identidade territorial</div>
+        <p>O Mykonos trabalha onde a técnica e o prazer se encontram sem pedir desculpa. Sofisticação aqui não é distância — é presença. Cada detalhe no lugar certo.</p></div>
+      <div class="card"><div class="tit">Card 2 · Conexão com o circuito</div>
+        <p>No circuito, o Mykonos é o alto-mar: a visita mais funda. O aratu sai do mangue sergipano e chega ao prato mediterrâneo de um jeito que ninguém esperava — a raiz do lugar na mesa mais elegante dele.</p></div>
+      <div class="card looper"><div class="tit">Para os loopers</div>
+        <p>"Se você gosta de prato que revela algo novo na segunda garfada — e de ambiente que pensou em você antes de você chegar —, este é o fundo do seu mergulho."</p></div>
+      <details class="menu"><summary>O cardápio real que sustenta a proposta</summary>
+        <div class="menu-item"><b>Ceviche</b><span class="badge b-ok">cardápio real · R$46 · mais pedido</span><p>Camarão, salmão e robalo no molho cítrico — o mar abrindo a boca pro mergulho.</p></div>
+        <div class="menu-item"><b>Catado de Aratu</b><span class="badge b-ok">cardápio real · R$38 · campeão de elogios</span><p>Cestinha crocante com a farofa da chef — o aratu já mora na entrada da casa.</p></div>
+        <div class="menu-item"><b>Arroz de Aratu com Camarões na Harumaki</b><span class="badge b-ok">exclusivo já criado pela casa</span><p>Arroz de aratu com camarões na harumaki levemente apimentados. O nativo do mangue sergipano encontra a técnica japonesa — sem perder sua alma.</p></div>
+        <div class="menu-item"><b>Petit Gateau de Rapadura</b><span class="badge b-ok">cardápio real · R$32</span><p>Com sorvete de tapioca — a sobremesa mais sergipana das 9 casas já existia aqui, escondida no fim do cardápio grego.</p></div>
+      </details>
+      <div class="proposta">
+        <div class="tit">Proposta · O Alto-Mar — experiência de 3 tempos · R$159/pessoa (fechado)</div>
+        <p><b>Cheguei</b> — Ceviche, o mais pedido da casa — ou o Catado de Aratu pra quem quiser a visita inteira no tema — ou um Aperol Spritz.<br>
+        <b>À Mesa</b> — Arroz de Aratu com Camarões na Harumaki: o exclusivo que a casa já provou saber fazer.<br>
+        <b>Fica Mais um Pouco</b> — Petit Gateau de Rapadura com sorvete de tapioca, e o cafezinho junto. Rapadura e tapioca fechando a noite grega: nenhuma invenção nossa, só reverência.</p>
+        <p class="pergunta">Pra conversar, Elaine e Geraldo: o Arroz de Aratu volta como exclusivo do loop? O Petit Gateau de Rapadura é o fecho certo ou a Elaine prefere outro doce dela? E o jantar de 08/07 pode ser o ensaio geral disso tudo?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMORE -->
+  <section class="casa">
+    <div class="casa-topo">
+      <div>
+        <div class="fase">3ª visita · Vazante</div>
+        <h3>Samore</h3>
+        <div class="sub">a fogueira depois do mar</div>
+      </div>
+      <div class="ficha">
+        <span class="estrela">★ 4,4</span> Google (60)<br>
+        Chef Allan Moura · forno a lenha · R$60–80<br>
+        Farolândia · @samorepastaepizza
+      </div>
+    </div>
+    <div class="casa-corpo">
+      <div class="card ritual"><div class="tit">Ritual de chegada</div>
+        <p>A mesa é de todo mundo e o forno está aceso. Chega-se sem cerimônia — a crostata vai pro centro enquanto a pizza vai pro fogo.</p></div>
+      <div class="card"><div class="tit">Card 1 · Identidade territorial</div>
+        <p>No Samore, o fogo é de lenha e a mesa é de todo mundo. É a casa que devolve o circuito à areia — simples no gesto, precisa na massa, sem cerimônia nenhuma.</p></div>
+      <div class="card"><div class="tit">Card 2 · Conexão com o circuito</div>
+        <p>No circuito, o Samore é a vazante: o que se divide quando a maré desce. E o mar já entrou na massa — a Gamberi leva camarão e pimenta de cheiro ao forno a lenha. O loop fecha inteiro.</p></div>
+      <div class="card looper"><div class="tit">Para os loopers</div>
+        <p>"Se pra você o melhor momento é quando a mesa relaxa e todo mundo pega do mesmo prato — o circuito termina exatamente onde você gosta de ficar."</p></div>
+      <details class="menu"><summary>O cardápio real que sustenta a proposta</summary>
+        <div class="menu-item"><b>Crostata</b><span class="badge b-ok">cardápio real · R$29,90</span><p>Massa crocante com parmesão, azeite, tomate e pesto — o pão da fogueira, de dividir.</p></div>
+        <div class="menu-item"><b>Pizza Gamberi</b><span class="badge b-ok">cardápio real · R$69,50</span><p>Camarão, requeijão, pimenta de cheiro e cebola roxa no forno a lenha — o mar na massa.</p></div>
+        <div class="menu-item"><b>Calzone de Creme de Avelã</b><span class="badge b-ok">cardápio real · R$31,50</span><p>Dobrado no mesmo forno, com sorvete de creme — a lenha fechando a noite.</p></div>
+      </details>
+      <div class="proposta">
+        <div class="tit">Proposta · A Vazante — experiência pra dois · R$129 (fechado)</div>
+        <p><b>Cheguei</b> — Crostata no centro da mesa, enquanto a pizza vai ao fogo.<br>
+        <b>À Mesa</b> — Pizza Gamberi, pra dividir, como pizza deve ser.<br>
+        <b>Fica Mais um Pouco</b> — Calzone de Creme de Avelã com sorvete, esticando a conversa.</p>
+        <p><b>E uma criação pra sonhar junto:</b> a <em>Pizza do Mar de Aratu</em> — o caranguejo do mangue na sua massa de lenha. Não existe em Aracaju; só existe se você abraçar.</p>
+        <p class="pergunta">Pra conversar, Allan: a Gamberi entra como está ou você prefere criar uma exclusiva do loop? O aratu na sua lenha te tenta? E conta pra gente da sua massa — o que ela tem que as outras não têm?</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">O acordo</div>
+    <h2>Como funciona, quanto custa, e quem traz o cliente.</h2>
+    <div class="assinatura">
+      <h3>Quem traz o cliente somos nós</h3>
+      <p>O Eatlooper vende a assinatura, faz o marketing e entrega gente nova na sua porta — em dia e volume combinados com você (inclusive nos dias fracos, se preferir). O circuito faz o assinante querer completar as três casas: quem entra pelo loop conhece a sua, e quem conhece volta por conta própria. Você não paga anúncio, não paga comissão por mesa cheia — a casa entra com a cozinha e o gesto.</p>
+      <div class="passos">
+        <div class="passo"><b>Demanda previsível</b><span>assinantes chegam em fluxo combinado, não em pico surpresa</span></div>
+        <div class="passo"><b>Zero custo de aquisição</b><span>o marketing do circuito é nosso — Reels, passaporte, rede</span></div>
+        <div class="passo"><b>Cliente que volta</b><span>o loop apresenta; a casa conquista; a recorrência é sua</span></div>
+      </div>
+    </div>
+    <div class="assinatura">
+      <h3>"Barato é sair muito satisfeito" — a nossa conta de preço</h3>
+      <p>O preço fechado da experiência não é desconto — é desenho. A gente chega num valor vantajoso pro cliente <b>sem tirar do seu prato</b>, porque corta o que não é carinho e protege o que é:</p>
+      <div class="passos">
+        <div class="passo"><b>O que dá pra otimizar</b><span>porção calibrada em ficha, insumo que já está no seu mix (zero compra nova), dia de menor movimento, composição inteligente dos 3 tempos</span></div>
+        <div class="passo"><b>O que não se corta nunca</b><span>o gesto: o drink que desce do bar antes do menu, o café da manhã no fim da noite, a crostata no centro da mesa. O gesto É o produto</span></div>
+        <div class="passo"><b>O que é upsell de verdade</b><span>o carinho a mais, pago pelo justo: a taça de vinho, o arroz negro no lugar do peixe, a porção extra. Oferecido, nunca empurrado</span></div>
+      </div>
+      <p style="margin-top:1.2rem"><em>A experiência vale mais do que a soma dos itens e insumos.</em> O assinante não compra três pratos — compra uma altura da maré. É por isso que o fechado (R$129 pra dois · R$149 · R$159) sai mais barato que a soma do cardápio e ainda assim fecha a margem: a gente precifica a visita, não a pilha de ingredientes.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">O fio invisível</div>
+    <h2>O mangue costura tudo.</h2>
+    <p class="grande">O aratu — caranguejo do mangue sergipano — aparece no prato mais fundo deste circuito e no ravioli do loop <em>Sinta-se em Casa</em>. Não foi combinado: é o território falando. E a castanha de caju corre por baixo dos três loops como assinatura de Aracaju — no Gratto ela fecha a panna cotta; no Mykonos, vira farofa no robalo que as reviews elogiam.</p>
+    <div class="fio">⚓ <b>Nota de sazonalidade:</b> disponibilidade do aratu confirmada com fornecedor antes de qualquer campanha com data — calendário de defeso/andada do caranguejo.</div>
+  </section>
+</main>
+
+<div class="fecho">
+  <p>"O circuito não é sobre um prato.<br>É sobre o lugar onde esse prato só poderia existir."</p>
+</div>
+
+<footer>EATLOOPER · DO MAR À MESA · STORYTELLING v2 · 04 JUL 2026<br>fran.ozanne@gmail.com</footer>
+
+<script>
+  const nivel=document.querySelector('#mare .nivel');
+  addEventListener('scroll',()=>{
+    const h=document.documentElement;
+    nivel.style.height=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  },{passive:true});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visivel')}),{threshold:.12});
+  document.querySelectorAll('.casa').forEach(c=>io.observe(c));
+</script>
+</body>
+</html>

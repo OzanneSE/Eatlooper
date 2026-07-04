@@ -94,6 +94,9 @@
   .loop-num{font-family:'Cormorant Garamond',serif;font-size:2.3rem;font-weight:700;color:var(--vermelho-soft);line-height:1;}
   .loop-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;}
   .loop-status{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--cinza);align-self:center;margin-left:auto;}
+  .loop-status.live{color:var(--vermelho);}
+  .loop-cta{display:inline-flex;align-items:center;gap:8px;margin:0 30px 26px;font-size:.85rem;font-weight:600;color:var(--dark);text-decoration:none;border-bottom:2px solid var(--vermelho);padding-bottom:2px;}
+  .loop-cta:hover{color:var(--vermelho);}
   .loop-concept{padding:0 30px 18px;color:var(--cinza);font-size:1rem;max-width:70ch;}
   .loop-houses{display:flex;flex-wrap:wrap;gap:10px;padding:0 30px 28px;}
   .pill{font-size:.85rem;font-weight:500;padding:7px 15px;border-radius:999px;border:1px solid var(--divisor);background:var(--bege);}
@@ -182,18 +185,18 @@
 <section id="loops">
   <div class="wrap reveal">
     <div class="eyebrow">Os Loops · estado de julho 2026</div>
-    <h2 class="title">Três circuitos em preparação</h2>
-    <p class="lead" style="margin-bottom:30px">Cada loop reúne casas escolhidas por um fio condutor real de território e ingrediente. As páginas de cada circuito entram no ar conforme fecham.</p>
+    <h2 class="title">Três circuitos no ar</h2>
+    <p class="lead" style="margin-bottom:30px">Cada loop reúne casas escolhidas por um fio condutor real de território e ingrediente.</p>
 
     <div class="legend">
       <span><i class="dot on"></i> Casa confirmada no circuito</span>
     </div>
 
-    <div class="loop open">
+    <div class="loop">
       <div class="loop-head">
         <span class="loop-num">01</span>
         <span class="loop-name">Do Mar à Mesa</span>
-        <span class="loop-status">Em preparação</span>
+        <span class="loop-status live">Ativo</span>
       </div>
       <p class="loop-concept">Frutos do mar, mangue e fogo — o litoral de Aracaju servido em três cozinhas.</p>
       <div class="loop-houses">
@@ -201,13 +204,14 @@
         <span class="pill on">Mykonos</span>
         <span class="pill on">Samore</span>
       </div>
+      <a class="loop-cta" href="loops/do-mar-a-mesa/">Ver loop <span class="arrow">&#8594;</span></a>
     </div>
 
-    <div class="loop open">
+    <div class="loop">
       <div class="loop-head">
         <span class="loop-num">02</span>
         <span class="loop-name">Sinta-se em Casa</span>
-        <span class="loop-status">Em preparação</span>
+        <span class="loop-status live">Ativo</span>
       </div>
       <p class="loop-concept">Lugares que eram casas, com atendimento afetivo — você entra e é recebido, não atendido.</p>
       <div class="loop-houses">
@@ -215,13 +219,14 @@
         <span class="pill on">Mi Piace</span>
         <span class="pill on">Casa Mitarakis</span>
       </div>
+      <a class="loop-cta" href="loops/sinta-se-em-casa/">Ver loop <span class="arrow">&#8594;</span></a>
     </div>
 
-    <div class="loop open">
+    <div class="loop">
       <div class="loop-head">
         <span class="loop-num">03</span>
         <span class="loop-name">Croc &amp; Croc</span>
-        <span class="loop-status">Em preparação</span>
+        <span class="loop-status live">Ativo</span>
       </div>
       <p class="loop-concept">Crocância como assinatura — do hambúrguer ao crocante de castanha, pegada de rua com qualidade de cozinha.</p>
       <div class="loop-houses">
@@ -229,6 +234,7 @@
         <span class="pill on">Espelunca</span>
         <span class="pill on">Blend Burger</span>
       </div>
+      <a class="loop-cta" href="loops/croc-e-croc/">Ver loop <span class="arrow">&#8594;</span></a>
     </div>
   </div>
 </section>

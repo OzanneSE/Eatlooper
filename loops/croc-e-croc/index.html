@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Croc &amp; Croc · Loop Eatlooper · v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --preto:#151210; --carvao:#221d19; --laranja:#ff5c1f; --amarelo:#ffc41f;
+    --creme:#f6efe3; --verde:#8fbf4d; --mangaba:#f2a65a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--preto);color:var(--creme);font-family:'Space Grotesk',sans-serif;line-height:1.65;overflow-x:hidden}
+  ::selection{background:var(--amarelo);color:var(--preto)}
+
+  .marquee{background:var(--laranja);color:var(--preto);overflow:hidden;white-space:nowrap;padding:.45rem 0;font-family:'Archivo Black',sans-serif;font-size:.85rem;letter-spacing:.2em}
+  .marquee span{display:inline-block;animation:rolar 18s linear infinite}
+  @keyframes rolar{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  .hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:5rem 1.5rem;position:relative}
+  .selo{border:2px solid var(--amarelo);color:var(--amarelo);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;padding:.5rem 1.2rem;margin-bottom:2.2rem;font-weight:700}
+  .hero h1{font-family:'Archivo Black',sans-serif;font-size:clamp(3rem,11vw,7.5rem);line-height:.95;text-transform:uppercase;color:var(--creme)}
+  .hero h1 .amp{color:var(--laranja);display:inline-block;transform:rotate(-8deg)}
+  .hero .epigrafe{font-size:clamp(1rem,2.4vw,1.3rem);color:var(--amarelo);max-width:34rem;margin-top:2rem;font-weight:500}
+  .hero .casas{margin-top:2.4rem;font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;opacity:.7}
+  .assinatura-tag{margin-top:1.1rem;font-size:.75rem;color:var(--laranja);letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+  .convite{font-size:.95rem;color:rgba(246,239,227,.75);max-width:32rem;margin-top:2.2rem;font-style:italic}
+
+  .eq{display:flex;gap:5px;align-items:flex-end;height:56px;margin-top:2.6rem}
+  .eq i{width:7px;background:var(--laranja);animation:eqa 1s ease-in-out infinite alternate;border-radius:3px 3px 0 0}
+  .eq i:nth-child(2n){background:var(--amarelo);animation-duration:.7s}
+  .eq i:nth-child(3n){background:var(--verde);animation-duration:1.3s}
+  @keyframes eqa{from{height:18%}to{height:100%}}
+
+  main{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+  section{padding:4.5rem 0}
+  .kicker{font-size:.7rem;letter-spacing:.32em;text-transform:uppercase;color:var(--laranja);margin-bottom:1rem;font-weight:700}
+  h2{font-family:'Archivo Black',sans-serif;font-size:clamp(1.6rem,4.5vw,2.5rem);text-transform:uppercase;line-height:1.1;margin-bottom:1.4rem}
+  p.grande{font-size:1.1rem;max-width:44rem;opacity:.92}
+  em{color:var(--amarelo);font-style:normal;font-weight:700}
+
+  .territorios{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
+  .terr{flex:1;min-width:160px;text-align:center;border:2px solid var(--carvao);background:var(--carvao);padding:1.6rem 1rem;transition:transform .2s,border-color .2s;cursor:default}
+  .terr:hover{transform:translateY(-5px) rotate(-1deg);border-color:var(--laranja)}
+  .terr b{font-family:'Archivo Black',sans-serif;font-size:1.15rem;display:block;margin-bottom:.4rem;color:var(--laranja)}
+  .terr span{font-size:.82rem;opacity:.75}
+
+  .chefs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.3rem;margin-top:2rem}
+  .chef{background:var(--carvao);border:2px solid var(--carvao);padding:1.8rem;transition:border-color .2s}
+  .chef:hover{border-color:var(--amarelo)}
+  .chef .nome{font-family:'Archivo Black',sans-serif;font-size:1.15rem;color:var(--amarelo);text-transform:uppercase}
+  .chef .funcao{font-size:.85rem;color:var(--verde);font-weight:700;margin-bottom:.6rem}
+  .chef p{font-size:.92rem;opacity:.85}
+
+  .assinatura{border:2px solid var(--laranja);padding:2.4rem;position:relative;background:var(--carvao);margin-bottom:1.3rem}
+  .assinatura::before{content:'ASSINATURA';position:absolute;top:-0.8rem;left:1.6rem;background:var(--preto);color:var(--laranja);font-family:'Archivo Black',sans-serif;font-size:.75rem;letter-spacing:.25em;padding:0 .8rem}
+  .assinatura h3{font-family:'Archivo Black',sans-serif;font-size:1.25rem;text-transform:uppercase;color:var(--amarelo);margin-bottom:.9rem}
+  .passos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.4rem;margin-top:1.6rem}
+  .passo{border-left:3px solid var(--amarelo);padding-left:1rem}
+  .passo b{display:block;color:var(--amarelo);margin-bottom:.3rem}
+  .passo span{font-size:.9rem;opacity:.8}
+
+  .casa{border:2px solid var(--carvao);margin-bottom:3.2rem;background:var(--carvao);opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s;position:relative;overflow:hidden}
+  .casa.visivel{opacity:1;transform:none}
+  .casa-topo{padding:2.3rem 2.3rem 1rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
+  .fase{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--verde);font-weight:700}
+  .casa h3{font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,5vw,2.7rem);text-transform:uppercase;line-height:1.02;color:var(--creme)}
+  .casa .sub{color:var(--amarelo);font-weight:500}
+  .ficha{text-align:right;font-size:.8rem;opacity:.75;line-height:1.9}
+  .ficha .estrela{color:var(--amarelo);font-weight:700;font-size:1rem}
+  .casa-corpo{padding:0 2.3rem 2.3rem;display:grid;gap:1.1rem}
+  .card{background:var(--preto);border:1px solid rgba(246,239,227,.12);padding:1.3rem 1.5rem}
+  .card .tit{font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--laranja);margin-bottom:.5rem;font-weight:700}
+  .looper{border-color:var(--amarelo);background:rgba(255,196,31,.06)}
+  .looper p{font-size:1.05rem;font-weight:500;color:var(--amarelo)}
+
+  .wave{display:flex;gap:3px;align-items:flex-end;height:38px;padding:0 2.3rem;margin-top:.6rem}
+  .wave i{flex:1;background:var(--laranja);opacity:.85;border-radius:2px 2px 0 0}
+  .casa[data-som="grave"] .wave i{background:var(--laranja)}
+  .casa[data-som="seco"] .wave i{background:var(--verde)}
+  .casa[data-som="fino"] .wave i{background:var(--amarelo)}
+  .btn-som{margin:1rem 2.3rem 0;display:inline-block;font-family:'Archivo Black',sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;background:transparent;color:var(--creme);border:2px solid var(--laranja);padding:.7rem 1.4rem;cursor:pointer;transition:background .15s,color .15s}
+  .btn-som:hover{background:var(--laranja);color:var(--preto)}
+
+  details.menu{background:var(--preto);border:2px dashed rgba(255,196,31,.5)}
+  details.menu summary{cursor:pointer;list-style:none;padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;font-family:'Archivo Black',sans-serif;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--amarelo)}
+  details.menu summary::after{content:'+';font-size:1.4rem;color:var(--laranja);transition:transform .3s}
+  details.menu[open] summary::after{transform:rotate(45deg)}
+  .menu-item{padding:1rem 1.5rem;border-top:1px dashed rgba(246,239,227,.18)}
+  .menu-item b{font-size:1rem;color:var(--creme)}
+  .menu-item p{font-size:.92rem;opacity:.8;margin-top:.25rem}
+  .badge{display:inline-block;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.18rem .6rem;margin-left:.45rem;vertical-align:middle;font-weight:700}
+  .b-ok{background:rgba(143,191,77,.15);color:var(--verde);border:1px solid var(--verde)}
+  .b-hip{background:rgba(255,92,31,.14);color:var(--laranja);border:1px solid var(--laranja)}
+
+  .proposta{background:rgba(255,92,31,.08);border:2px solid var(--laranja);padding:1.5rem 1.7rem}
+  .proposta .tit{font-family:'Archivo Black',sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--laranja);margin-bottom:.7rem}
+  .proposta b{color:var(--amarelo)}
+  .proposta .pergunta{font-size:1rem;color:var(--mangaba);margin-top:.9rem;font-style:italic}
+
+  .pop{position:fixed;font-family:'Archivo Black',sans-serif;color:var(--amarelo);pointer-events:none;z-index:99;animation:pop .8s ease-out forwards;text-transform:uppercase}
+  @keyframes pop{from{opacity:1;transform:scale(.4) rotate(-8deg)}to{opacity:0;transform:scale(1.7) rotate(6deg) translateY(-40px)}}
+
+  .regra{border:2px solid var(--verde);background:rgba(143,191,77,.07);padding:1.6rem 1.8rem;margin-top:1.5rem}
+  .regra b{color:var(--verde)}
+  .mangaba-box{border:2px solid var(--mangaba);background:rgba(242,166,90,.07);padding:2rem;margin-top:1.5rem}
+  .mangaba-box h3{font-family:'Archivo Black',sans-serif;text-transform:uppercase;color:var(--mangaba);font-size:1.1rem;margin-bottom:.8rem}
+  .fecho{text-align:center;padding:5rem 1.5rem 3.5rem}
+  .fecho p{font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,3.2vw,1.8rem);text-transform:uppercase;color:var(--amarelo);max-width:38rem;margin:0 auto;line-height:1.3}
+  footer{text-align:center;padding:2.5rem;font-size:.72rem;opacity:.45;letter-spacing:.1em}
+  @media(max-width:640px){.casa-topo{flex-direction:column}.ficha{text-align:left}}
+</style>
+</head>
+<body>
+
+<div class="marquee"><span>CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · CROC · </span></div>
+
+<header class="hero">
+  <span class="selo">EATLOOPER · LOOP Nº 3 · v2</span>
+  <h1>Croc <span class="amp">&amp;</span> Croc</h1>
+  <p class="epigrafe">"Feche os olhos e morda. Aracaju mastigando tem três sons diferentes — e este circuito toca os três."</p>
+  <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="casas">ARGO &nbsp;·&nbsp; ESPELUNCA &nbsp;·&nbsp; BLEND BURGER</div>
+  <div class="assinatura-tag">parte da assinatura eatlooper</div>
+  <p class="convite">este arquivo é uma conversa, não um contrato — a gente levanta a bola, você ajusta do seu jeito. Nada aqui fecha sem a sua cozinha concordar.</p>
+</header>
+
+<main>
+  <section>
+    <div class="kicker">O que é este loop</div>
+    <h2>Crocância não é textura. É som.</h2>
+    <p class="grande">O único sabor que se ouve. Este circuito é uma escuta guiada de Aracaju: três casas, três escolas de crunch, três barulhos que não se confundem. E aqui está o raro: a crocância <em>não precisou ser inventada</em> — está confirmada em prato real de cada casa. A cebola do Argo, o tempurá de tapioca da Espelunca, a batata premiada do Blend.</p>
+    <div class="territorios">
+      <div class="terr"><b>FOGO</b><span>o crunch que o fogo esculpe — Argo</span></div>
+      <div class="terr"><b>GRÃO</b><span>o crunch que a planta ensina — Espelunca</span></div>
+      <div class="terr"><b>BATATA</b><span>o crunch que o clássico consagrou — Blend</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Quem recebe</div>
+    <h2>Quem toca o som.</h2>
+    <div class="chefs">
+      <div class="chef">
+        <div class="nome">Wagner</div>
+        <div class="funcao">Argo · a escola do fogo</div>
+        <p>A casa que não serve hambúrguer — serve fogo com forma. Cada prato leva nome de argonauta: Jasão, Teseu, Heitor, Atalanta. Até o dadinho de tapioca com coalho tem nome de herói grego. 4,7 estrelas de quem já ouviu esse crunch de perto.</p>
+      </div>
+      <div class="chef">
+        <div class="nome">Camila Carvalho</div>
+        <div class="funcao">Espelunca · a âncora do circuito</div>
+        <p>A única casa das nove onde até a sobremesa croca. Tem um lanche batizado de "Crocante" no cardápio, couve-flor em tempurá de tapioca, e a maior nota do circuito: 4,9. A chef afina o estalo da planta como instrumento.</p>
+      </div>
+      <div class="chef">
+        <div class="nome">João Gabriel</div>
+        <div class="funcao">Blend Burger · a escola clássica</div>
+        <p>A primeira hamburgueria artesanal de Aracaju, bicampeã do estado — o clássico contra o qual os outros se medem. A batata chips é elogiada nominalmente nas avaliações: "uma das melhores que já comi".</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="assinatura">
+      <h3>Como funciona — assinatura, não passe</h3>
+      <p>O assinante tem direito à experiência exclusiva das três casas — cada uma numa visita própria, quando quiser. Três shows separados, uma turnê: no fim, o ouvido distingue os três crunches de Aracaju. Cada experiência tem três tempos, com nome de visita: <b>Cheguei · À Mesa · Fica Mais um Pouco.</b></p>
+      <div class="passos">
+        <div class="passo"><b>Um show — Fogo</b><span>Argo · o som autoral, com um prato que não está no cardápio</span></div>
+        <div class="passo"><b>Outro show — Grão</b><span>Espelunca · a âncora, com o prato que a cidade pediu de volta</span></div>
+        <div class="passo"><b>Outro show — Batata</b><span>Blend · o clássico, com um resgate e uma colab de vizinhança</span></div>
+      </div>
+    </div>
+    <div class="mangaba-box">
+      <h3>O fio líquido — a mangaba é o refrigerante oficial</h3>
+      <p>Um só suco atravessa as três casas, cada uma servindo na sua língua: no <b>Blend</b>, o suco de mangaba puro e gelado que já está no cardápio. Na <b>Espelunca</b>, o <em>Mangaba Float</em> — suco com bola de sorvete e farofinha crocante por cima. No <b>Argo</b>, a <em>Mangaba da Nau</em> — com espuma de limão e a geleia de abacaxi com pimenta da casa no fundo do copo. A pergunta que o assinante vai levar pra vida: em qual casa a mangaba fica melhor?</p>
+    </div>
+  </section>
+
+  <!-- ARGO -->
+  <section class="casa" data-som="grave" data-onoma="CRRRUNCH">
+    <div class="casa-topo">
+      <div>
+        <div class="fase">escola do fogo · o som autoral</div>
+        <h3>Argo</h3>
+        <div class="sub">fogo com forma</div>
+      </div>
+      <div class="ficha">
+        <span class="estrela">★ 4,7</span> Google (48)<br>
+        Wagner · R$40–60<br>
+        R. Castro Alves, 37 · qui–seg 17h30–23h · @argo.burguer
+      </div>
+    </div>
+    <div class="wave" aria-hidden="true"></div>
+    <button class="btn-som">▶ ouvir esse crunch</button>
+    <div class="casa-corpo" style="padding-top:1.4rem">
+      <div class="card"><div class="tit">Card 1 · Identidade territorial</div>
+        <p>O Argo não serve hambúrguer. Serve fogo com forma. Aqui até a cebola sai do fogo com estrutura — e cada prato leva nome de argonauta: a casa é a nau, o cardápio é a tripulação.</p></div>
+      <div class="card"><div class="tit">Card 2 · Conexão com o circuito</div>
+        <p>No circuito, o Argo é o crunch autoral: o som que o fogo faz quando vira técnica. Entre o clássico do Blend e o verde da Espelunca, o Argo é a escola do meio — a que inventa.</p></div>
+      <div class="card looper"><div class="tit">Para os loopers</div>
+        <p>"Se você morde primeiro com o ouvido — e acha que um hambúrguer pode ser arte —, o Argo toca a sua nota."</p></div>
+      <details class="menu"><summary>O cardápio real que sustenta a proposta</summary>
+        <div class="menu-item"><b>Orfeu</b><span class="badge b-ok">cardápio real · R$14</span><p>Dadinhos de tapioca com queijo coalho e geleia de abacaxi com pimenta — o crunch mais sergipano do circuito inteiro.</p></div>
+        <div class="menu-item"><b>Heitor</b><span class="badge b-ok">cardápio real · R$32</span><p>Blend suíno, dois discos de cebola empanada e o barbecue da casa — a cebola crocante em dose dupla.</p></div>
+        <div class="menu-item"><b>Clemilda</b><span class="badge b-ok">cardápio real · R$15</span><p>Lascas de macaxeira frita com manteiga de alho — a base da nossa ideia de sobremesa.</p></div>
+      </details>
+      <div class="proposta">
+        <div class="tit">Proposta · A Nau — experiência de 3 tempos · R$69/pessoa (fechado)</div>
+        <p><b>Cheguei</b> — Orfeu: o dadinho de tapioca com coalho abrindo o show.<br>
+        <b>À Mesa</b> — <em>O 13º Argonauta</em>: o burger que não está no cardápio. Receita sua, mudando a cada temporada, sem nome impresso em lugar nenhum — só assinante pode pedir, em voz baixa. Ninguém posta o que é; todo mundo quer descobrir.<br>
+        <b>Fica Mais um Pouco</b> — <em>Churros de Macaxeira</em>: a Clemilda em versão doce — macaxeira frita, açúcar e canela, doce de leite pra afundar. Não existe em Aracaju. Com a <em>Mangaba da Nau</em> no copo.</p>
+        <p class="pergunta">Pra conversar: topa a regra do 13º — receita sua, secreta, por temporada? O churros de macaxeira desce pela sua fritadeira? E a mão de cebola, ainda existe ou virou lenda?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESPELUNCA -->
+  <section class="casa" data-som="seco" data-onoma="CRAC!">
+    <div class="casa-topo">
+      <div>
+        <div class="fase">escola do grão · a âncora do circuito</div>
+        <h3>Espelunca</h3>
+        <div class="sub">a casa que tem um lanche chamado "Crocante"</div>
+      </div>
+      <div class="ficha">
+        <span class="estrela">★ 4,9</span> Google (172)<br>
+        Chef Camila Carvalho · 100% vegetal · R$35–70<br>
+        Luzia · @vamodeespelunca
+      </div>
+    </div>
+    <div class="wave" aria-hidden="true"></div>
+    <button class="btn-som">▶ ouvir esse crunch</button>
+    <div class="casa-corpo" style="padding-top:1.4rem">
+      <div class="card"><div class="tit">Card 1 · Identidade territorial</div>
+        <p>A Espelunca não participa do conceito — ela chegou nele primeiro. Tem um lanche batizado de "Crocante" no cardápio, couve-flor em tempurá de tapioca, coxinha de milho que a própria casa anuncia com "tem quem resista a essa crocância???". A chef Camila afina o estalo da planta como instrumento — e a cidade responde: maior nota do circuito.</p></div>
+      <div class="card"><div class="tit">Card 2 · Conexão com o circuito</div>
+        <p>No circuito, a Espelunca é a âncora: a única casa das 9 onde o crunch não para nem na sobremesa — Cheesefake e Chocolatuda têm base crocante, e o creme é de castanha de caju. As outras duas escolas tocam o som; ela mora dentro dele.</p></div>
+      <div class="card looper"><div class="tit">Para os loopers</div>
+        <p>"Se você já sabe que comida vegetal não é renúncia — ou está pronto pra descobrir mordendo —, a Espelunca é o centro do palco, não o intervalo."</p></div>
+      <details class="menu"><summary>O cardápio real que sustenta a proposta</summary>
+        <div class="menu-item"><b>Tapiocurá</b><span class="badge b-ok">cardápio real · R$18</span><p>Couve-flor empanada em tempurá de tapioca com molho tarê — a tapioca sergipana fazendo técnica japonesa.</p></div>
+        <div class="menu-item"><b>Siri-i-pe</b><span class="badge b-hip">resgate · o prato que a cidade pediu de volta</span><p>Tortilla de cuscuz, soja e queijo coalho, geleia de mangaba, requeijão de castanha, lascas de banana-da-terra frita. Saiu do cardápio há 13 semanas — e os comentários lamentaram. O loop devolve, exclusivo de assinante.</p></div>
+        <div class="menu-item"><b>Cheesefake</b><span class="badge b-ok">cardápio real · R$20</span><p>Base crocante, creme de castanha de caju, calda de morango ou manga com maracujá.</p></div>
+      </details>
+      <div class="proposta">
+        <div class="tit">Proposta · O Show da Âncora — experiência de 3 tempos · R$79/pessoa (fechado)</div>
+        <p><b>Cheguei</b> — Tapiocurá, o crunch que apresenta a casa.<br>
+        <b>À Mesa</b> — <em>Siri-i-pe</em>, de volta: só quem assina prova o prato que a cidade perdeu.<br>
+        <b>Fica Mais um Pouco</b> — Cheesefake de castanha — ou o <em>Mangaba Float</em>: suco de mangaba com sorvete e farofinha crocante por cima, pra quem quer beber a sobremesa.</p>
+        <p class="pergunta">Pra conversar: o Siri-i-pe topa voltar? O Float com a sua mangaba te representa? E a entradinha de cortesia do almoço — entra na experiência ou fica como surpresa da casa?</p>
+      </div>
+      <div class="regra"><b>Regra da casa:</b> a Espelunca não é "a opção saudável" nem o acompanhamento educado dos hambúrgueres. É a âncora do circuito — e o crédito criativo tem nome, chef Camila Carvalho. Em qualquer texto, sempre.</div>
+    </div>
+  </section>
+
+  <!-- BLEND -->
+  <section class="casa" data-som="fino" data-onoma="CRIC CRIC">
+    <div class="casa-topo">
+      <div>
+        <div class="fase">escola da batata · o som clássico</div>
+        <h3>Blend Burger</h3>
+        <div class="sub">a régua do circuito</div>
+      </div>
+      <div class="ficha">
+        <span class="estrela">★ 4,3</span> Google (173)<br>
+        João Gabriel · R$20–60<br>
+        Circus Food Park, Jardins · @blendlovers
+      </div>
+    </div>
+    <div class="wave" aria-hidden="true"></div>
+    <button class="btn-som">▶ ouvir esse crunch</button>
+    <div class="casa-corpo" style="padding-top:1.4rem">
+      <div class="card"><div class="tit">Card 1 · Identidade territorial</div>
+        <p>O Blend foi a primeira hamburgueria artesanal de Aracaju e é bicampeã do estado — o clássico contra o qual os outros se medem. A batata chips da casa é elogiada nominalmente em review: "uma das melhores que já comi".</p></div>
+      <div class="card"><div class="tit">Card 2 · Conexão com o circuito</div>
+        <p>No circuito, o Blend é o crunch de referência: o som que todo mundo reconhece de olhos fechados. Sem ele, as outras duas escolas não teriam régua.</p></div>
+      <div class="card looper"><div class="tit">Para os loopers</div>
+        <p>"Se você defende que o clássico bem feito vence a invenção mal feita — o Blend é o seu argumento final."</p></div>
+      <details class="menu"><summary>O cardápio real que sustenta a proposta</summary>
+        <div class="menu-item"><b>Batata Chips</b><span class="badge b-ok">cardápio real · R$15</span><p>"Batata caseira, frita e sequinha. Crocante do início ao fim!" — palavra da própria casa. Com a maionese defumada da Blend.</p></div>
+        <div class="menu-item"><b>O Frango Cajun da Blend</b><span class="badge b-hip">resgate · exclusivo de verdade</span><p>Sanduíche antigo da casa: frango empanado estilo cajun com cole slaw de repolho e cenoura. Não está no cardápio atual — só quem assina prova o que a casa já foi.</p></div>
+        <div class="menu-item"><b>Suco de Mangaba</b><span class="badge b-ok">cardápio real · R$12</span><p>O par oficial do cajun: o doce da fruta contra o picante do empanado.</p></div>
+      </details>
+      <div class="proposta">
+        <div class="tit">Proposta · O Clássico e os Vizinhos — experiência de 3 tempos · R$69/pessoa (fechado)</div>
+        <p><b>Cheguei</b> — Batata Chips com a maionese defumada: a régua do circuito, logo de cara.<br>
+        <b>À Mesa</b> — <em>O Frango Cajun da Blend</em>, de volta do passado, exclusivo de assinante.<br>
+        <b>Fica Mais um Pouco</b> — <em>A Colab do Circus</em>: a sobremesa do vizinho. Cada mês, um operador diferente do food park assina o doce da experiência, servido na sua mesa do Blend. O park inteiro vira a sua despensa de sobremesa — e todo mês tem novidade.</p>
+        <p class="pergunta">Pra conversar: o cajun volta? Qual vizinho do Circus abre a colab? E o suco de mangaba como par oficial — dentro do preço ou como o mimo que o assinante adiciona?</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">O acordo</div>
+    <h2>Como funciona, quanto custa, e quem traz o cliente.</h2>
+    <div class="assinatura">
+      <h3>Quem traz o cliente somos nós</h3>
+      <p>O Eatlooper vende a assinatura, faz o marketing e entrega gente nova na sua porta — em dia e volume combinados com você. O circuito faz o assinante querer completar as três casas: quem entra pelo loop conhece a sua, e quem conhece volta por conta própria. Você não paga anúncio, não paga comissão por mesa cheia — a casa entra com a cozinha e o gesto.</p>
+      <div class="passos">
+        <div class="passo"><b>Demanda previsível</b><span>assinantes chegam em fluxo combinado, não em pico surpresa</span></div>
+        <div class="passo"><b>Zero custo de aquisição</b><span>o marketing do circuito é nosso — o som da mordida é feito pra rede</span></div>
+        <div class="passo"><b>Cliente que volta</b><span>o loop apresenta; a casa conquista; a recorrência é sua</span></div>
+      </div>
+    </div>
+    <div class="assinatura">
+      <h3>"Barato é sair muito satisfeito" — a nossa conta de preço</h3>
+      <p>O preço fechado não é desconto — é desenho. A gente chega num valor vantajoso pro cliente <b>sem tirar do seu prato</b>, porque corta o que não é carinho e protege o que é:</p>
+      <div class="passos">
+        <div class="passo"><b>O que dá pra otimizar</b><span>porção em ficha, insumo que já está no seu mix (o churros nasce da macaxeira que você já frita), dia de menor movimento</span></div>
+        <div class="passo"><b>O que não se corta nunca</b><span>o gesto: o pedido em voz baixa do 13º, a sobremesa do vizinho chegando na mesa, o float montado na frente. O gesto É o produto</span></div>
+        <div class="passo"><b>O que é upsell de verdade</b><span>o carinho a mais, pago pelo justo: o suco de mangaba, a porção extra de chips pra mesa. Oferecido, nunca empurrado</span></div>
+      </div>
+      <p style="margin-top:1.2rem"><em>A experiência vale mais do que a soma dos itens e insumos.</em> O assinante não compra três pratos — compra um show. É por isso que o fechado (R$69 · R$69 · R$79) é o mais acessível dos três circuitos: este é o loop que abre a porta da assinatura, e ainda assim fecha a margem de cada casa.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Por que isso vira campanha</div>
+    <h2>Fácil de filmar. Impossível de não ouvir.</h2>
+    <p class="grande">Áudio de mordida é formato nativo de Reel. Três casas, três sons, um convite: <em>"vem ouvir Aracaju mastigando"</em>. Somam-se o burger secreto que ninguém pode postar, o prato que a cidade pediu de volta, a sobremesa do vizinho que muda todo mês e a mangaba servida de três jeitos — este circuito produz pauta sozinho.</p>
+  </section>
+</main>
+
+<div class="fecho">
+  <p>"O circuito não é sobre um prato.<br>É sobre o som que esse prato só faz aqui."</p>
+</div>
+
+<footer>EATLOOPER · CROC &amp; CROC · STORYTELLING v2 · 04 JUL 2026<br>fran.ozanne@gmail.com</footer>
+
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visivel')}),{threshold:.1});
+  document.querySelectorAll('.casa').forEach(c=>io.observe(c));
+
+  document.querySelectorAll('.casa').forEach(casa=>{
+    const w=casa.querySelector('.wave');
+    const perfil=casa.dataset.som;
+    for(let i=0;i<48;i++){
+      const b=document.createElement('i');
+      let h;
+      if(perfil==='grave') h=30+Math.abs(Math.sin(i*.4))*60+Math.random()*10;
+      else if(perfil==='seco') h=(i%6===0?90:14)+Math.random()*12;
+      else h=20+Math.random()*70;
+      b.style.height=Math.min(h,100)+'%';
+      w.appendChild(b);
+    }
+  });
+
+  let ctx;
+  function crunch(perfil){
+    try{
+      ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
+      const dur=perfil==='seco'?0.08:0.22;
+      const buf=ctx.createBuffer(1,ctx.sampleRate*dur,ctx.sampleRate);
+      const d=buf.getChannelData(0);
+      for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,perfil==='grave'?1.2:2.5);
+      const src=ctx.createBufferSource();src.buffer=buf;
+      const f=ctx.createBiquadFilter();
+      f.type=perfil==='grave'?'lowpass':'highpass';
+      f.frequency.value=perfil==='grave'?900:(perfil==='fino'?3200:1800);
+      const g=ctx.createGain();g.gain.value=.5;
+      src.connect(f);f.connect(g);g.connect(ctx.destination);src.start();
+    }catch(e){}
+  }
+  document.querySelectorAll('.btn-som').forEach(btn=>{
+    btn.addEventListener('click',ev=>{
+      const casa=btn.closest('.casa');
+      crunch(casa.dataset.som);
+      const p=document.createElement('div');
+      p.className='pop';p.textContent=casa.dataset.onoma;
+      p.style.left=(ev.clientX-30)+'px';p.style.top=(ev.clientY-40)+'px';
+      p.style.fontSize=(1.2+Math.random()*.8)+'rem';
+      document.body.appendChild(p);setTimeout(()=>p.remove(),850);
+    });
+  });
+</script>
+</body>
+</html>

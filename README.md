@@ -4,15 +4,15 @@ Clube de assinatura gastronômica curado. Aracaju, SE.
 
 ## Homepage
 
-`index.html` na raiz é a hub de loops, no padrão visual oficial do Eatlooper (vermelho `#D42B2B` / bege `#FDF6EE` / dark `#1A1A1A`, Cormorant Garamond + Outfit) — o mesmo sistema usado nos materiais institucionais (apresentações, relatórios). Apresenta o conceito de loop e lista os circuitos em preparação.
+`index.html` na raiz é a hub de loops, no padrão visual oficial do Eatlooper (vermelho `#D42B2B` / bege `#FDF6EE` / dark `#1A1A1A`, Cormorant Garamond + Outfit) — o mesmo sistema usado nos materiais institucionais (apresentações, relatórios).
 
 ## Loops
 
-- **Do Mar à Mesa** — em preparação. Gratto · Mykonos · Samore.
-- **Sinta-se em Casa** — em preparação. Casa do Mangue · Mi Piace · Casa Mitarakis.
-- **Croc & Croc** — em preparação. Argo · Espelunca · Blend Burger.
+- **Do Mar à Mesa** — ativo. Gratto · Mykonos · Samore. [`/loops/do-mar-a-mesa/`](loops/do-mar-a-mesa/)
+- **Sinta-se em Casa** — ativo. Casa do Mangue · Mi Piace · Casa Mitarakis. [`/loops/sinta-se-em-casa/`](loops/sinta-se-em-casa/)
+- **Croc & Croc** — ativo. Argo · Espelunca · Blend Burger. [`/loops/croc-e-croc/`](loops/croc-e-croc/)
 
-Conforme cada loop for finalizado, ele ganha uma página em `/loops/<slug>/` e entra na hub (`index.html`).
+Cada loop tem identidade visual própria (paleta e tipografia dedicadas — "storytelling v2"), diferente da hub. Contato do curador (fran.ozanne@gmail.com) no rodapé de cada página de loop.
 
 Loop Geração SE (primeira versão, Aracaju/Rio Poxim) foi encerrado e removido da homepage. O material antigo continua em `/loops/geracao-se/` mas não é mais linkado a partir da raiz.
 
@@ -29,12 +29,15 @@ Site institucional oficial (assinatura, app): `https://www.eatlooper.com`
 
 ```
 /
-├── index.html                    hub — conceito + loops em preparação
-├── lisboa/                       apresentação Eatlooper Lisboa (material à parte)
+├── index.html                      hub — conceito + 3 loops ativos
+├── lisboa/                         apresentação Eatlooper Lisboa (material à parte)
 └── loops/
-    └── geracao-se/                encerrado, não linkado na home
+    ├── do-mar-a-mesa/index.html    ativo
+    ├── sinta-se-em-casa/index.html ativo
+    ├── croc-e-croc/index.html      ativo
+    └── geracao-se/                 encerrado, não linkado na home
         ├── index.html
-        ├── samuel/, roberta/, geon/, yasmin/   convites (arquivo histórico)
+        └── samuel/, roberta/, geon/, yasmin/   convites (arquivo histórico)
 ```
 
 ---

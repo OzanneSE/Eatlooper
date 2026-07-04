@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sinta-se em Casa · Loop Eatlooper · v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Caveat:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --papel:#faf3e6; --papel2:#f3e7d2; --tinta:#4a3120; --terracota:#c4552e;
+    --mostarda:#d9a441; --oliva:#7a7a45; --castanha:#a5683a; --mangue:#3f6b5c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--papel);color:var(--tinta);font-family:'Inter',sans-serif;line-height:1.75;overflow-x:hidden;
+    background-image:radial-gradient(rgba(74,49,32,.045) 1px, transparent 1px);background-size:22px 22px}
+  ::selection{background:var(--mostarda);color:var(--tinta)}
+
+  .toalha{height:14px;background:repeating-linear-gradient(90deg,var(--terracota) 0 22px,var(--papel) 22px 44px)}
+
+  .hero{text-align:center;padding:5.5rem 1.5rem 4rem;position:relative}
+  .selo{display:inline-block;border:2px dashed var(--castanha);color:var(--castanha);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;padding:.5rem 1.3rem;border-radius:99px;margin-bottom:2rem;background:var(--papel)}
+  .hero h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.6rem,8.5vw,5.6rem);line-height:1.02;color:var(--terracota)}
+  .hero h1 small{display:block;font-size:.35em;font-weight:600;color:var(--tinta);letter-spacing:.28em;text-transform:uppercase;margin-bottom:.6rem}
+  .epigrafe{font-family:'Caveat',cursive;font-size:clamp(1.4rem,3.4vw,1.9rem);color:var(--castanha);max-width:38rem;margin:1.8rem auto 0;transform:rotate(-1.2deg)}
+  .casas{margin-top:2rem;font-size:.8rem;letter-spacing:.26em;text-transform:uppercase;color:var(--oliva)}
+  .assinatura-tag{margin-top:1rem;font-size:.75rem;color:var(--terracota);letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+
+  main{max-width:60rem;margin:0 auto;padding:0 1.5rem}
+  section{padding:4rem 0}
+  .kicker{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--terracota);margin-bottom:.9rem;font-weight:600}
+  h2{font-family:'Fraunces',serif;font-size:clamp(1.7rem,4.5vw,2.5rem);font-weight:900;margin-bottom:1.3rem}
+  p.grande{font-size:1.1rem;max-width:46rem}
+  em{color:var(--terracota);font-style:italic}
+
+  /* as três mulheres */
+  .mulheres{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.3rem;margin-top:2rem}
+  .mulher{background:#fffdf7;border:1.5px solid rgba(74,49,32,.22);border-radius:18px;padding:1.8rem;box-shadow:5px 5px 0 rgba(74,49,32,.08)}
+  .mulher .nome{font-family:'Fraunces',serif;font-weight:900;font-size:1.25rem;color:var(--terracota)}
+  .mulher .funcao{font-family:'Caveat',cursive;font-size:1.2rem;color:var(--oliva);margin-bottom:.6rem}
+  .mulher p{font-size:.92rem}
+
+  .territorios{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
+  .terr{flex:1;min-width:150px;text-align:center;border:1.5px solid var(--castanha);border-radius:16px;padding:1.5rem 1rem;background:var(--papel2);box-shadow:4px 4px 0 rgba(165,104,58,.25)}
+  .terr b{font-family:'Fraunces',serif;font-size:1.2rem;display:block;margin-bottom:.35rem;color:var(--terracota)}
+  .terr span{font-size:.82rem;opacity:.8}
+
+  .assinatura{background:var(--papel2);border:1.5px solid var(--terracota);border-radius:20px;padding:2.4rem;box-shadow:6px 6px 0 rgba(196,85,46,.18)}
+  .assinatura h3{font-family:'Fraunces',serif;font-size:1.4rem;color:var(--terracota);margin-bottom:.9rem}
+  .passos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.4rem;margin-top:1.6rem}
+  .passo{border-left:3px solid var(--mostarda);padding-left:1rem}
+  .passo b{display:block;color:var(--castanha);margin-bottom:.3rem}
+  .passo span{font-size:.9rem;opacity:.85}
+
+  /* casas */
+  .casa{border:1.5px solid rgba(74,49,32,.25);border-radius:22px;margin-bottom:3.2rem;background:#fffdf7;box-shadow:8px 8px 0 rgba(74,49,32,.08);overflow:hidden;opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s;position:relative}
+  .casa.visivel{opacity:1;transform:none}
+  .casa-topo{padding:2.3rem 2.3rem 1rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
+  .fase{font-family:'Caveat',cursive;font-size:1.25rem;color:var(--oliva)}
+  .casa h3{font-family:'Fraunces',serif;font-size:clamp(1.8rem,5vw,2.6rem);font-weight:900;color:var(--terracota);line-height:1.05}
+  .casa .sub{font-family:'Caveat',cursive;font-size:1.3rem;color:var(--castanha)}
+  .ficha{text-align:right;font-size:.8rem;opacity:.8;line-height:1.9}
+  .ficha .estrela{color:var(--mostarda);font-weight:700;font-size:1rem}
+  .casa-corpo{padding:0 2.3rem 2.3rem;display:grid;gap:1.1rem}
+  .card{background:var(--papel);border:1px solid rgba(74,49,32,.18);border-radius:14px;padding:1.3rem 1.5rem}
+  .card .tit{font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--castanha);margin-bottom:.5rem;font-weight:600}
+  .looper{background:rgba(217,164,65,.14);border-color:var(--mostarda)}
+  .looper p{font-family:'Fraunces',serif;font-style:italic;font-size:1.05rem}
+  .ritual{background:rgba(63,107,92,.09);border:1.5px dashed var(--mangue)}
+  .ritual .tit{color:var(--mangue)}
+  .ritual p{font-family:'Caveat',cursive;font-size:1.25rem;color:var(--mangue)}
+
+  details.menu{background:var(--papel);border:1.5px dashed var(--castanha);border-radius:14px;overflow:hidden}
+  details.menu summary{cursor:pointer;list-style:none;padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;font-family:'Fraunces',serif;font-weight:600;color:var(--terracota)}
+  details.menu summary::after{content:'+';font-size:1.4rem;transition:transform .3s}
+  details.menu[open] summary::after{transform:rotate(45deg)}
+  .menu-item{padding:1rem 1.5rem;border-top:1px dashed rgba(74,49,32,.25)}
+  .menu-item b{font-family:'Fraunces',serif;font-size:1rem}
+  .menu-item p{font-size:.92rem;opacity:.85;font-style:italic;margin-top:.25rem}
+  .badge{display:inline-block;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;border-radius:99px;padding:.18rem .6rem;margin-left:.45rem;vertical-align:middle;font-style:normal;font-weight:600}
+  .b-ok{background:rgba(122,122,69,.15);color:var(--oliva);border:1px solid var(--oliva)}
+  .b-hip{background:rgba(196,85,46,.12);color:var(--terracota);border:1px solid var(--terracota)}
+
+  .carimbo-area{text-align:center;padding:1.4rem 2.3rem 2.2rem}
+  .btn-carimbo{font-family:'Inter',sans-serif;font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;background:var(--terracota);color:var(--papel);border:none;border-radius:99px;padding:.85rem 1.7rem;cursor:pointer;transition:transform .15s}
+  .btn-carimbo:hover{transform:scale(1.05)}
+  .btn-carimbo:disabled{opacity:.45;cursor:default}
+  .stamp{position:absolute;top:1.2rem;right:1.4rem;width:118px;height:118px;border:3px solid var(--terracota);border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Caveat',cursive;font-size:1.02rem;line-height:1.15;color:var(--terracota);transform:rotate(-14deg) scale(0);opacity:0;pointer-events:none;padding:.6rem;background:rgba(250,243,230,.75);z-index:5}
+  .stamp.on{animation:carimbar .5s cubic-bezier(.2,1.6,.4,1) forwards}
+  @keyframes carimbar{from{transform:rotate(20deg) scale(2.2);opacity:0}to{transform:rotate(-14deg) scale(1);opacity:.92}}
+  #placar{position:fixed;bottom:18px;right:18px;background:var(--tinta);color:var(--papel);font-family:'Caveat',cursive;font-size:1.15rem;padding:.55rem 1.2rem;border-radius:99px;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:50}
+
+  .fio{border-left:4px solid var(--mostarda);padding:1.2rem 1.5rem;background:rgba(217,164,65,.1);border-radius:0 14px 14px 0;margin-top:1.5rem;font-size:.95rem}
+  .fio.verde{border-color:var(--mangue);background:rgba(63,107,92,.08)}
+  .fecho{text-align:center;padding:5rem 1.5rem 3.5rem}
+  .fecho p{font-family:'Caveat',cursive;font-size:clamp(1.6rem,4vw,2.2rem);color:var(--castanha);max-width:36rem;margin:0 auto;transform:rotate(-1deg)}
+  footer{text-align:center;padding:2.5rem;font-size:.72rem;opacity:.55;letter-spacing:.1em}
+  @media(max-width:640px){.casa-topo{flex-direction:column}.ficha{text-align:left}.stamp{width:92px;height:92px;font-size:.85rem}}
+</style>
+</head>
+<body>
+<div class="toalha"></div>
+
+<header class="hero">
+  <span class="selo">EATLOOPER · LOOP Nº 2 · v2</span>
+  <h1><small>circuito</small>Sinta-se<br>em Casa</h1>
+  <p class="epigrafe">"Três mulheres abriram as portas das próprias casas pra te alimentar. Em todas, alguém já estava te esperando — e ninguém vai te apressar."</p>
+  <div class="casas">CASA MITARAKIS &nbsp;·&nbsp; CASA DO MANGUE &nbsp;·&nbsp; MI PIACE</div>
+  <div class="assinatura-tag">parte da assinatura eatlooper</div>
+  <p class="epigrafe" style="font-size:1.15rem;margin-top:2.2rem;transform:rotate(.6deg)">este arquivo é uma conversa, não um contrato — a gente levanta a bola, você ajusta do seu jeito. Nada aqui fecha sem a sua cozinha concordar.</p>
+</header>
+
+<main>
+  <section>
+    <div class="kicker">O que é este loop</div>
+    <h2>Três casas de verdade — com quintal, portão e alguém que cozinha com amor.</h2>
+    <p class="grande">Não é metáfora. As três são <em>casas</em>: quintal arborizado, bandeirinha no teto, mural no muro, sino no portão. E as três têm uma mulher à frente — chef, empresária, anfitriã. O fio que costura tudo é o <em>tempo lento</em>: a massa que fermenta o tempo que precisa, a costela que cozinha devagar até desmanchar, a casa que pede pra você desacelerar. Sentir-se em casa é isso: quando ninguém te apressa.</p>
+    <div class="territorios">
+      <div class="terr"><b>REFÚGIO</b><span>a casa da música e do desacelerar</span></div>
+      <div class="terr"><b>MESA GRANDE</b><span>a casa onde o mangue almoça</span></div>
+      <div class="terr"><b>QUINTAL</b><span>a casa do sino no portão</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Quem recebe</div>
+    <h2>As três mulheres.</h2>
+    <div class="mulheres">
+      <div class="mulher">
+        <div class="nome">Adriana Mitarakis</div>
+        <div class="funcao">chef · a tia dos dois modos</div>
+        <p>De dia, caldinho de sururu, caruru e moqueca — o almoço sergipano de raiz, com leite de coco caseiro e dendê. De noite, tartar, risoto e crosta de castanha. A mesma casa, dois jeitos de receber — sempre com música e sem pressa. #cozinharcomamor é hashtag dela, e é literal.</p>
+      </div>
+      <div class="mulher">
+        <div class="nome">Beta Nascimento</div>
+        <div class="funcao">chef · a que traduz o mangue</div>
+        <p>No muro da casa está escrito em italiano: <em>"Mangue che te fa bene"</em>. A Beta pega aratu, caranguejo e sururu e serve em ravioli, risoto e pasta — a Itália aprendendo a falar manguês. "Vem com fome e com o coração aberto" é convite oficial da casa. E pode levar o cachorro.</p>
+      </div>
+      <div class="mulher">
+        <div class="nome">Shenia</div>
+        <div class="funcao">anfitriã · a do sino no portão</div>
+        <p>Morou na Itália, voltou com a massa na memória e abriu a própria casa: pra entrar na Mi Piace, <em>puxa-se o sino do portão</em>. 12 anos, 45 sabores, fermentação longa, quintal com pé de fruta. Quem descreve são os clientes: "a proprietária, uma pessoa de alma linda".</p>
+      </div>
+    </div>
+    <div class="fio verde">🌿 <b>Compromisso Eatlooper:</b> três empreendedoras nomeadas e creditadas — a narrativa as levanta como chefs e donas de negócio, nunca como detalhe temático do circuito.</div>
+  </section>
+
+  <section>
+    <div class="assinatura">
+      <h3>Como funciona — assinatura, não passe</h3>
+      <p>O assinante visita cada casa numa ocasião própria — um almoço aqui, um jantar ali — com direito ao menu exclusivo em cada uma. Como toda visita de família: uma casa por vez, no tempo dela. A cada visita, um carimbo no passaporte: <b>"já fui pra casa de..."</b></p>
+      <div class="passos">
+        <div class="passo"><b>Uma visita — o Refúgio</b><span>Casa Mitarakis · música ao vivo, espetinho e o modo-jantar da Adriana</span></div>
+        <div class="passo"><b>Outra visita — a Mesa Grande</b><span>Casa do Mangue · o mangue servido em massa fresca, no quintal da Beta</span></div>
+        <div class="passo"><b>Outra ainda — o Quintal</b><span>Mi Piace · puxe o sino, a pizza da Shenia já está no forno</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MITARAKIS -->
+  <section class="casa" data-nome="Adriana">
+    <div class="stamp">já fui pra casa da<br><b>tia Adriana</b> ✻</div>
+    <div class="casa-topo">
+      <div>
+        <div class="fase">o refúgio — a casa dos dois modos</div>
+        <h3>Casa Mitarakis</h3>
+        <div class="sub">desacelera, a música já vai começar</div>
+      </div>
+      <div class="ficha">
+        <span class="estrela">★ 4,8</span> Google (33)<br>
+        Chef Adriana Botto P. Mittaraquis<br>
+        Atalaia · almoço + jantar · música ao vivo · @casamitarakis
+      </div>
+    </div>
+    <div class="casa-corpo">
+      <div class="card ritual"><div class="tit">Ritual de chegada</div>
+        <p>Chega, senta, desacelera. Se tiver música ao vivo, melhor ainda — a casa se descreve como "o lugar mais aconchegante da cidade", e as reviews concordam.</p></div>
+      <div class="card"><div class="tit">Card 1 · Identidade territorial</div>
+        <p>A Casa Mitarakis é a tia que tem dois jeitos de receber: no almoço, o tacho — caldinho de sururu, caruru, moqueca no leite de coco caseiro. À noite, a mesa posta — risoto, crosta de castanha, vinho. Nas duas, a mesma regra da casa: ninguém sai com pressa.</p></div>
+      <div class="card"><div class="tit">Card 2 · Conexão com o circuito</div>
+        <p>No circuito, a Mitarakis guarda o segredo que costura as três casas — a castanha de caju, que vira crosta na pescada, farofa no Filé do Sol e coroa no gelato. E o sururu do caldinho é primo do aratu da Beta: o mesmo mangue, duas cozinhas.</p></div>
+      <div class="card looper"><div class="tit">Para os loopers</div>
+        <p>"Se você é do tipo que repara na música, na toalha e no copo certo — e acha que receber bem é um talento —, escolha seu modo: o almoço de tacho ou a noite de vinho."</p></div>
+      <details class="menu"><summary>Menu exclusivo do loop · cardápio real (jantar)</summary>
+        <div class="menu-item"><b>Espetinho Mitarakis</b><span class="badge b-ok">cardápio real · R$29</span><p>Lâminas de carne e bacon no tempero da casa, com tzatziki e pão artesanal — come-se conversando, antes de sentar pra comer sério.</p></div>
+        <div class="menu-item"><b>Pescada com Purê de Banana da Terra</b><span class="badge b-ok">cardápio real · R$71</span><p>Crosta de castanha de caju, purê de banana da terra e um toque de gengibre — Sergipe vestindo o prato sem discurso.</p></div>
+        <div class="menu-item"><b>Gelato com Farofa de Castanha de Caju</b><span class="badge b-ok">cardápio real · R$18</span><p>Produção caseira, frio embaixo, crocante em cima. A castanha abre o prato e fecha a sobremesa: começo, meio e fim na mesma língua.</p></div>
+        <div class="menu-item"><p style="font-style:normal;font-size:.8rem;opacity:.7">Modo-almoço (alternativa de loop diurno): Caldinho de Sururu (R$20) → Moqueca de Pescada Amarela (R$132, de compartilhar) ou Moqueca de Banana da Terra vegetariana (R$110) → Pudim (R$14). Alternativa de prato no jantar: Filé do Sol com mousseline de inhame (R$69). Couvert artístico quando houver música.</p></div>
+      </details>
+      <div class="card" style="border:1.5px solid var(--terracota);background:rgba(196,85,46,.06)">
+        <div class="tit" style="color:var(--terracota)">Proposta · A Mesa da Adriana — experiência de 3 tempos · R$119/pessoa (fechado)</div>
+        <p><b>Cheguei</b> — Cafezinho Salgado: o caldinho de sururu servido em xícara de café, com um pastelzinho de queijo coalho do lado. Nenhum prato novo — um gesto novo.<br>
+        <b>À Mesa</b> — Pescada com crosta de castanha e purê de banana da terra.<br>
+        <b>Fica Mais um Pouco</b> — Gelato do Quintal: a calda quente de fruta despejada na mesa, sobre o gelato frio. Música da casa inclusa no preço.</p>
+        <p style="font-family:'Caveat',cursive;font-size:1.2rem;color:var(--oliva);margin-top:.7rem">Pra conversar, Adriana: a xícara faz sentido pra você? Prefere o loop no modo almoço, no jantar, ou deixar o assinante escolher? O que a gente não enxergou do seu cardápio que merecia estar aqui?</p>
+      </div>
+      <div class="carimbo-area"><button class="btn-carimbo">Carimbar visita</button></div>
+    </div>
+  </section>
+
+  <!-- CASA DO MANGUE -->
+  <section class="casa" data-nome="Beta">
+    <div class="stamp">já fui pra casa da<br><b>tia Beta</b> ✻</div>
+    <div class="casa-topo">
+      <div>
+        <div class="fase">a mesa grande — mangue che te fa bene</div>
+        <h3>Casa do Mangue</h3>
+        <div class="sub">a Itália aprendeu manguês</div>
+      </div>
+      <div class="ficha">
+        <span class="estrela">★ 4,5</span> Google<br>
+        Chef Beta Nascimento · R$80–98 · pet friendly<br>
+        Farolândia · @acasadomanguese
+      </div>
+    </div>
+    <div class="casa-corpo">
+      <div class="card ritual"><div class="tit">Ritual de chegada</div>
+        <p>"Vem com fome e com o coração aberto. A casa te espera!" — o convite é oficial, está no Instagram. Quintal com bandeirinhas, mural no muro, e o cachorro pode ir junto.</p></div>
+      <div class="card"><div class="tit">Card 1 · Identidade territorial</div>
+        <p>Na Casa do Mangue, o muro avisa em italiano: "Mangue che te fa bene" — o mangue que te faz bem. A Beta pega o que o lodaçal dá — aratu, caranguejo, sururu — e serve em ravioli, pasta e risoto. Tudo no tempo certo: o do sabor, o da natureza e o do encontro.</p></div>
+      <div class="card"><div class="tit">Card 2 · Conexão com o circuito</div>
+        <p>No circuito, a Casa do Mangue é a mesa grande — e a raiz territorial de tudo: o aratu que aqui vira ravioli com castanha de caju é o mesmo que atravessa a cidade até o arroz do litoral. Até o tiramisù dela leva pralinê de castanha: o fio do circuito termina no doce.</p></div>
+      <div class="card looper"><div class="tit">Para os loopers</div>
+        <p>"Se a sua lembrança boa de comida é uma mesa comprida com panela no centro — essa casa foi construída em cima dela. Só que a panela virou ravioli."</p></div>
+      <details class="menu"><summary>Menu exclusivo do loop · cardápio real</summary>
+        <div class="menu-item"><b>Conchinha de Aratu</b><span class="badge b-ok">cardápio real · R$65</span><p>Aratu com grana padano e tapioca crocante — o petisco que anuncia o prato que vem, com a tapioca fazendo o estalo sergipano.</p></div>
+        <div class="menu-item"><b>Ravioli de Aratu</b><span class="badge b-ok">cardápio real · R$79</span><p>Massa fresca recheada de aratu, sugo, pesto de coentro e castanha de caju — o prato-âncora do circuito: o mangue falando italiano fluente.</p></div>
+        <div class="menu-item"><b>Tiramisù da Casa</b><span class="badge b-ok">cardápio real · R$34</span><p>Biscoito champanhe, café, creme especial — e pralinê de castanha de caju. O clássico italiano com sotaque de Aracaju.</p></div>
+        <div class="menu-item"><p style="font-style:normal;font-size:.8rem;opacity:.7">Alternativas reais: Canoa do Mangue (molho de caranguejo + camarão flambado na cachaça · R$98), Camarão Mangue Beat (leite de coco + pesto de coentro · R$95), Ceviche do Mangue (R$65).</p></div>
+      </details>
+      <div class="card" style="border:1.5px solid var(--terracota);background:rgba(196,85,46,.06)">
+        <div class="tit" style="color:var(--terracota)">Proposta · Mangue che te fa bene — experiência de 3 tempos · R$149/pessoa (fechado)</div>
+        <p><b>Cheguei</b> — Gin do Mangue: o gin da casa com o verde que ela já domina (coentro, limão) — ou meia Conchinha de Aratu pra quem não bebe.<br>
+        <b>À Mesa</b> — Ravioli de Aratu, o âncora.<br>
+        <b>Fica Mais um Pouco</b> — Tiramisù com pralinê de castanha, com o cafezinho coado servido junto, na mesa.</p>
+        <p><b>E uma criação pra sonhar junto:</b> o <em>Brodo do Mangue</em> — cappelletti de aratu no caldo de caranguejo, na cumbuca. A canja italiana falando manguês. Só existe se você abraçar.</p>
+        <p style="font-family:'Caveat',cursive;font-size:1.2rem;color:var(--oliva);margin-top:.7rem">Pra conversar, Beta: o gin verde te anima ou o Cheguei aqui é comida mesmo? O Brodo tem cara de inverno da casa? Que gesto seu a gente ainda não conhece?</p>
+      </div>
+      <div class="carimbo-area"><button class="btn-carimbo">Carimbar visita</button></div>
+    </div>
+  </section>
+
+  <!-- MI PIACE -->
+  <section class="casa" data-nome="Shenia">
+    <div class="stamp">já fui pro quintal da<br><b>tia Shenia</b> ✻</div>
+    <div class="casa-topo">
+      <div>
+        <div class="fase">o quintal — puxe o sino do portão</div>
+        <h3>Mi Piace</h3>
+        <div class="sub">12 anos de casa, fermento vivo</div>
+      </div>
+      <div class="ficha">
+        <span class="estrela">★ 4,8</span> Google (421)<br>
+        Shenia, anfitriã · 45 sabores · a mais consolidada das 9<br>
+        Coroa do Meio · @mipiacepizzeria_
+      </div>
+    </div>
+    <div class="casa-corpo">
+      <div class="card ritual"><div class="tit">Ritual de chegada</div>
+        <p>Pra entrar, puxa-se o sino do portão — como na casa de alguém. Do outro lado: quintal arborizado, pé de fruta, mesa posta. Nenhum restaurante planejaria isso melhor do que uma casa de verdade.</p></div>
+      <div class="card"><div class="tit">Card 1 · Identidade territorial</div>
+        <p>O Mi Piace tem o que só o tempo dá: 12 anos de casa e uma massa que descansa mais do que muita gente. A Shenia morou na Itália e trouxe de lá a fermentação longa e a farinha certa — a pizza sai leve, "saborosa e sem pesar", como dizem os clientes que viraram família.</p></div>
+      <div class="card"><div class="tit">Card 2 · Conexão com o circuito</div>
+        <p>No circuito, o Mi Piace é o quintal onde a visita termina e ninguém quer ir embora. E o aceno regional nasceu da própria casa, sem ninguém pedir: a pizza Nordestina, de charque — a regra do circuito é essa, nada forçado.</p></div>
+      <div class="card looper"><div class="tit">Para os loopers</div>
+        <p>"Se você acha que intimidade é o luxo mais raro de um restaurante — aqui ela vem com sino no portão e 12 anos de uso."</p></div>
+      <details class="menu"><summary>Menu exclusivo do loop · cardápio real</summary>
+        <div class="menu-item"><b>Pão de Fermentação Longa da Casa</b><span class="badge b-hip">hipótese · validar com Shenia</span><p>A massa da casa assada como pão, azeite e tomate confit — "come um pedaço enquanto a pizza não sai". Única hipótese que restou no circuito inteiro.</p></div>
+        <div class="menu-item"><b>Pizza Nordestina</b><span class="badge b-ok">cardápio real · R$76 (P)</span><p>Charque, cebola e a massa que descansou o tempo que precisava — o sertão no forno da Itália, criação espontânea da casa.</p></div>
+        <div class="menu-item"><b>Pizza Romeu e Julieta</b><span class="badge b-ok">cardápio real · R$56 (P)</span><p>Ricota e goiabada na massa leve — a pizza doce de vó que a v1 imaginou já existia. Fecha a visita como toda boa visita fecha: com doce e sem hora.</p></div>
+        <div class="menu-item"><p style="font-style:normal;font-size:.8rem;opacity:.7">Alternativas reais: Mediterrânea (R$56), Delicata (gorgonzola, nozes e mel · R$56), Banana Chocolate (R$56). 45 sabores no total, preço uniforme R$56–91 salvo Atum/Nordestina/Parma.</p></div>
+      </details>
+      <div class="card" style="border:1.5px solid var(--terracota);background:rgba(196,85,46,.06)">
+        <div class="tit" style="color:var(--terracota)">Proposta · O Quintal dos Mais de 12 Anos — experiência pra dois · R$139 (fechado)</div>
+        <p><b>Cheguei</b> — Pão do Sino: a sua massa de fermentação longa assada como pão, com azeite e tomate confit, servida quente "assim que o sino toca" — ou uma taça de vinho.<br>
+        <b>À Mesa</b> — Pizza Nordestina (M), pra dividir, como pizza deve ser.<br>
+        <b>Fica Mais um Pouco</b> — Romeu e Julieta em fatias, esticando a conversa.</p>
+        <p><b>E uma criação pra sonhar junto:</b> a <em>Pizza Mais de 12 Anos</em> — a pizza-aniversário permanente da casa: sua Itália e o nosso sertão no mesmo disco, exclusiva de assinante, mudando um detalhe a cada ano que a casa completa.</p>
+        <p style="font-family:'Caveat',cursive;font-size:1.2rem;color:var(--oliva);margin-top:.7rem">Pra conversar, Shenia: o pão da sua massa existe ou a gente acabou de inventar seu novo couvert? Quantos anos a casa tem de verdade — e o que entraria na pizza que conta essa história?</p>
+      </div>
+      <div class="carimbo-area"><button class="btn-carimbo">Carimbar visita</button></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">O acordo</div>
+    <h2>Como funciona, quanto custa, e quem traz o cliente.</h2>
+    <div class="assinatura" style="margin-bottom:1.3rem">
+      <h3>Quem traz o cliente somos nós</h3>
+      <p>O Eatlooper vende a assinatura, faz o marketing e entrega gente nova na sua porta — em dia e volume combinados com você (inclusive nos dias fracos, se preferir). O passaporte de carimbos faz o assinante querer completar as três casas: quem entra pelo circuito conhece a sua, e quem conhece volta por conta própria. Você não paga anúncio, não paga comissão por mesa cheia — a casa entra com a cozinha e o gesto.</p>
+      <div class="passos">
+        <div class="passo"><b>Demanda previsível</b><span>assinantes chegam em fluxo combinado, não em pico surpresa</span></div>
+        <div class="passo"><b>Zero custo de aquisição</b><span>o marketing do circuito é nosso — Reels, passaporte, rede</span></div>
+        <div class="passo"><b>Cliente que volta</b><span>o loop apresenta; a casa conquista; a recorrência é sua</span></div>
+      </div>
+    </div>
+    <div class="assinatura">
+      <h3>"Barato é sair muito satisfeito" — a nossa conta de preço</h3>
+      <p>O preço fechado da experiência não é desconto — é desenho. A gente chega num valor vantajoso pro cliente <b>sem tirar do seu prato</b>, porque corta o que não é carinho e protege o que é:</p>
+      <div class="passos">
+        <div class="passo"><b>O que dá pra otimizar</b><span>porção calibrada em ficha, insumo que já está no seu mix (zero compra nova), dia de menor movimento, composição inteligente dos 3 tempos</span></div>
+        <div class="passo"><b>O que não se corta nunca</b><span>o gesto: a calda despejada na mesa, o café coado junto, o pão quente do sino. O gesto É o produto — cortar gesto pra salvar margem quebra o circuito inteiro</span></div>
+        <div class="passo"><b>O que é upsell de verdade</b><span>o carinho a mais, pago pelo justo: a taça de vinho, a dose do gin, a porção extra pra mesa. Oferecido, nunca empurrado</span></div>
+      </div>
+      <p style="margin-top:1.2rem"><em>A experiência vale mais do que a soma dos itens e insumos.</em> O assinante não compra três pratos — compra uma visita à sua casa. É por isso que o fechado (R$119 · R$149 · R$139 pra dois) sai mais barato que a soma do cardápio e ainda assim fecha a sua margem: a gente precifica a visita, não a pilha de ingredientes.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">O fio invisível</div>
+    <h2>A castanha que ninguém combinou — e o tempo que todas respeitam.</h2>
+    <p class="grande">A castanha de caju agora é literal nas três casas do circuito? Quase: crosta e farofa na Mitarakis, ravioli e tiramisù na Casa do Mangue — e na Mi Piace ela não entra, e <em>não deve entrar</em>: o terroir de lá é o tempo (fermento de 12 anos) e o charque da Nordestina. O outro fio é o tempo lento: costela cozida devagar, massa que descansa, casa que pede pra desacelerar. É o circuito onde o relógio come por último.</p>
+    <div class="fio">✻ <b>Nota Eatlooper:</b> castanha confirmada em 6 das 9 casas do projeto (Mitarakis, Casa do Mangue, Espelunca, Gratto, Mykonos, Samore). O fio da identidade Eatlooper Aracaju está cada vez mais real.</div>
+  </section>
+</main>
+
+<div class="fecho">
+  <p>"O circuito não é sobre um prato. É sobre a casa que uma mulher abriu pra te alimentar — no tempo dela, que vira o seu."</p>
+</div>
+
+<footer>EATLOOPER · SINTA-SE EM CASA · STORYTELLING v2 · 04 JUL 2026<br>fran.ozanne@gmail.com</footer>
+<div id="placar">passaporte: 0/3 casas</div>
+
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visivel')}),{threshold:.1});
+  document.querySelectorAll('.casa').forEach(c=>io.observe(c));
+
+  let visitas=0;
+  const placar=document.getElementById('placar');
+  document.querySelectorAll('.btn-carimbo').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const casa=btn.closest('.casa');
+      casa.querySelector('.stamp').classList.add('on');
+      btn.disabled=true;btn.textContent='Visita carimbada ✻';
+      visitas++;placar.textContent=`passaporte: ${visitas}/3 casas`;
+      if(visitas===3)placar.textContent='passaporte completo! ✻✻✻ loop fechado';
+    });
+  });
+</script>
+</body>
+</html>
