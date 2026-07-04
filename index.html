@@ -1,16 +1,413 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <title>Eatlooper</title>
-  <meta http-equiv="refresh" content="0; url=loops/geracao-se/">
-  <link rel="canonical" href="loops/geracao-se/">
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#FDF6EE; color:#2A2622; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
-    a { color:#3E5A47; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eatlooper · Loops</title>
+<meta name="description" content="Eatlooper: clube de assinatura gastronômica com curadoria autoral. Circuitos por cidade, menus criados do zero, sem fidelidade.">
+<link rel="canonical" href="https://ozannese.github.io/Eatlooper/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --beige:  #FDF6EE;
+    --beige-2:#F4EADA;
+    --ink:    #2A2622;
+    --muted:  #6B6159;
+    --line:   #E4D8C5;
+    --gold:   #B89364;
+    --dark:   #1A1A1A;
+    --green:  #3E5A47;
+    --green-dk:#2D4334;
+    --yellow: #C9A96A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    color: var(--ink);
+    background: var(--beige);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--green); color: var(--beige); }
+
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+  .container-narrow { max-width: 720px; margin: 0 auto; padding: 0 40px; }
+
+  .eyebrow {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .eyebrow .sep { display: inline-block; width: 20px; height: 1px; background: var(--green); opacity: 0.5; }
+  .eyebrow .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--yellow); }
+
+  h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ink); letter-spacing: -0.01em; }
+  p { font-weight: 300; }
+  em { font-style: italic; }
+
+  /* HERO */
+  .hero { position: relative; padding: 100px 0 100px; min-height: 78vh; display: flex; align-items: center; overflow: hidden; }
+  .hero-inner { position: relative; z-index: 2; width: 100%; }
+  .hero .eyebrow { margin-bottom: 48px; }
+
+  .hero h1.brand { margin-bottom: 28px; line-height: 0.86; }
+  .hero h1.brand .top {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    font-size: clamp(28px, 4.6vw, 56px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .hero h1.brand .bottom {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(90px, 16vw, 220px);
+    letter-spacing: -0.04em;
+    color: var(--green);
+    line-height: 0.85;
+    margin-left: -0.03em;
+  }
+  .hero h1.brand .bottom .dots { color: var(--yellow); font-style: italic; font-size: 0.55em; }
+
+  .hero .hero-kicker { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(20px, 2.4vw, 28px); color: var(--muted); max-width: 640px; margin-bottom: 20px; }
+  .hero .hero-kicker em { color: var(--green); font-weight: 500; }
+  .hero .subt { font-size: 16px; color: var(--muted); max-width: 480px; margin-bottom: 40px; }
+
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; }
+  .hero-meta span {
+    font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink); display: flex; align-items: center; gap: 8px;
+  }
+  .hero-meta span::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+  /* STATEMENT */
+  .statement { padding: 100px 0; background: var(--beige-2); }
+  .statement blockquote {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400;
+    font-size: clamp(26px, 3.4vw, 40px); line-height: 1.4; text-align: center; color: var(--ink); position: relative;
+  }
+  .statement blockquote em { color: var(--green); font-weight: 500; }
+
+  /* LOOPS */
+  .loops { padding: 120px 0; }
+  .loops-head { margin-bottom: 64px; text-align: left; }
+  .loops-head .eyebrow { margin-bottom: 24px; }
+  .loops-head h2 { font-size: clamp(34px, 4.4vw, 54px); margin-bottom: 18px; }
+  .loops-head h2 em { color: var(--green); font-style: italic; font-weight: 500; }
+  .loops-head p { font-size: 16px; color: var(--muted); max-width: 560px; }
+
+  .loops-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: var(--line); border: 1px solid var(--line); }
+
+  .loop-card { background: var(--beige); padding: 44px 40px; display: flex; flex-direction: column; min-height: 280px; transition: background .3s ease; }
+  .loop-card:hover { background: var(--beige-2); }
+  .loop-card .num { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 20px; }
+  .loop-card h3 { font-size: 34px; margin-bottom: 10px; }
+  .loop-card h3 em { color: var(--green); font-style: italic; font-weight: 500; }
+  .loop-card .cidade { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+  .loop-card .casas { font-size: 14px; color: var(--muted); margin-bottom: auto; padding-bottom: 24px; line-height: 1.6; }
+  .loop-card .casas .house-name { color: var(--ink); }
+
+  .badge { display: inline-flex; align-items: center; gap: 8px; font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 18px; width: fit-content; }
+  .badge.ativo { color: var(--green); }
+  .badge.ativo::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+  .badge.em-breve { color: var(--muted); }
+  .badge.em-breve::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+  .loop-card a.loop-link {
+    font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--ink); padding-bottom: 4px; width: fit-content;
+  }
+  .loop-card a.loop-link:hover { color: var(--green); border-color: var(--green); }
+  .loop-card .loop-link.disabled { color: var(--muted); border-color: var(--line); cursor: default; pointer-events: none; }
+
+  /* MODEL / DIFERENÇA */
+  .model { padding: 100px 0; background: var(--ink); color: var(--beige); }
+  .model-head { max-width: 640px; margin-bottom: 56px; }
+  .model-head h2 { font-size: clamp(30px, 3.6vw, 46px); color: var(--beige); margin-bottom: 20px; }
+  .model-head h2 em { color: var(--yellow); font-style: italic; font-weight: 500; }
+  .model-head p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; color: rgba(253,246,238,0.7); line-height: 1.6; }
+  .model-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .model-item .eyebrow { color: rgba(253,246,238,0.5); margin-bottom: 14px; }
+  .model-item .eyebrow .sep { background: var(--yellow); opacity: .6; }
+  .model-item p { font-size: 15px; color: rgba(253,246,238,0.8); line-height: 1.6; }
+
+  /* CURATOR */
+  .curator { padding: 120px 0; }
+  .curator .eyebrow { margin-bottom: 28px; }
+  .curator h2 { font-size: clamp(30px, 3.6vw, 46px); margin-bottom: 26px; max-width: 640px; }
+  .curator h2 em { color: var(--green); font-style: italic; font-weight: 500; }
+  .curator blockquote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px; color: var(--muted); max-width: 620px; line-height: 1.6; margin-bottom: 24px; }
+  .curator .credentials { display: flex; align-items: center; gap: 16px; font-family: 'Outfit', sans-serif; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .curator .credentials .sep { width: 20px; height: 1px; background: var(--green); opacity: .5; }
+
+  /* CTA */
+  .cta { padding: 140px 0; text-align: center; background: var(--beige-2); }
+  .cta h2 { font-size: clamp(34px, 5vw, 62px); margin-bottom: 20px; }
+  .cta h2 em { color: var(--green); font-style: italic; font-weight: 500; }
+  .cta p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px; color: var(--muted); max-width: 520px; margin: 0 auto 44px; line-height: 1.55; }
+  .cta .cta-note { display: block; margin-top: 22px; font-family: 'Outfit', sans-serif; font-size: 12px; color: var(--muted); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 18px; padding: 22px 44px; background: var(--green); color: var(--beige);
+    font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+    text-decoration: none; border-radius: 48px; transition: all .3s ease; box-shadow: 0 4px 16px rgba(62,90,71,0.15);
+  }
+  .btn:hover { background: var(--green-dk); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(62,90,71,0.25); }
+  .btn .arrow { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; font-weight: 500; }
+
+  /* FOOTER */
+  footer { padding: 80px 0 60px; background: var(--ink); color: var(--beige); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 60px; padding-bottom: 60px; border-bottom: 1px solid rgba(253,246,238,0.1); }
+  .footer-brand h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 32px; color: var(--beige); font-weight: 500; margin-bottom: 12px; }
+  .footer-brand p { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: rgba(253,246,238,0.6); line-height: 1.55; font-style: italic; max-width: 360px; }
+  .footer-col .eyebrow { color: rgba(253,246,238,0.5); margin-bottom: 20px; }
+  .footer-col .eyebrow .sep { background: var(--yellow); }
+  .footer-col .eyebrow .dot { background: var(--yellow); }
+  .footer-col ul { list-style: none; }
+  .footer-col li { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 300; color: rgba(253,246,238,0.75); margin-bottom: 10px; }
+  .footer-col a { color: inherit; text-decoration: none; transition: color .2s; }
+  .footer-col a:hover { color: var(--yellow); }
+  .footer-col .muted-item { color: rgba(253,246,238,0.35); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
+  .footer-signature { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: rgba(253,246,238,0.5); }
+  .footer-signature .si { color: var(--yellow); font-weight: 500; font-size: 19px; }
+  .footer-meta { font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(253,246,238,0.4); }
+
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 860px) {
+    .loops-grid { grid-template-columns: 1fr; }
+    .model-list { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+</style>
 </head>
 <body>
-  <p>Indo para o <a href="loops/geracao-se/">Loop Geração SE</a>…</p>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="eyebrow">
+      <span>Eatlooper</span>
+      <span class="sep"></span>
+      <span>Clube de assinatura gastronômica</span>
+      <span class="sep"></span>
+      <span>Curadoria Ozanne</span>
+    </div>
+
+    <h1 class="brand">
+      <span class="top">Eatlooper</span>
+      <span class="bottom">Loops<span class="dots">…</span></span>
+    </h1>
+
+    <p class="hero-kicker">
+      Não é feed de dicas. Não é lista de influencer.<br>
+      São <em>circuitos gastronômicos</em> com menu criado do zero, casa por casa, pra quem assina.
+    </p>
+
+    <p class="subt">Cada loop nasce de um território, atravessa quem cozinha nele e termina em quem senta à mesa.</p>
+
+    <div class="hero-meta">
+      <span>3 circuitos em prospecção</span>
+      <span>9 casas parceiras</span>
+      <span>Curadoria Le Cordon Bleu</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATEMENT -->
+<section class="statement">
+  <div class="container-narrow">
+    <blockquote>
+      Todo loop começa num ingrediente que <em>pertence ao lugar</em>, atravessa os territórios por onde ele circula, e chega às casas escolhidas por onde habitam.
+    </blockquote>
+  </div>
+</section>
+
+<!-- LOOPS -->
+<section class="loops" id="loops">
+  <div class="container">
+    <div class="loops-head">
+      <div class="eyebrow">
+        <span>Circuitos</span>
+        <span class="sep"></span>
+        <span>Aracaju · Sergipe</span>
+      </div>
+      <h2>Os <em>loops</em> em andamento.</h2>
+      <p>Cada circuito reúne casas escolhidas por um fio condutor real — não uma lista, um território. Novos loops entram no ar conforme fecham.</p>
+    </div>
+
+    <div class="loops-grid">
+
+      <div class="loop-card">
+        <div class="num">LOOP 01</div>
+        <span class="badge ativo">Ativo</span>
+        <h3>Geração <em>SE</em></h3>
+        <div class="cidade">Aracaju · Rio Poxim</div>
+        <div class="casas">
+          <span class="house-name">Tolé</span> · <span class="house-name">Gratto</span> · <span class="house-name">Casa do Mangue</span> · <span class="house-name">Zōi</span>
+        </div>
+        <a class="loop-link" href="loops/geracao-se/">Ver loop <span class="arrow">→</span></a>
+      </div>
+
+      <div class="loop-card">
+        <div class="num">LOOP 02</div>
+        <span class="badge em-breve">Em preparação</span>
+        <h3>Do Mar <em>à Mesa</em></h3>
+        <div class="cidade">Aracaju</div>
+        <div class="casas">
+          <span class="house-name">Gratto</span> · <span class="house-name">Mykonos</span> · <span class="house-name">Samore</span>
+        </div>
+        <span class="loop-link disabled">Em breve</span>
+      </div>
+
+      <div class="loop-card">
+        <div class="num">LOOP 03</div>
+        <span class="badge em-breve">Em preparação</span>
+        <h3>Sinta-se <em>em Casa</em></h3>
+        <div class="cidade">Aracaju</div>
+        <div class="casas">
+          <span class="house-name">Casa do Mangue</span> · <span class="house-name">Mi Piace</span> · <span class="house-name">Casa Mitarakis</span>
+        </div>
+        <span class="loop-link disabled">Em breve</span>
+      </div>
+
+      <div class="loop-card">
+        <div class="num">LOOP 04</div>
+        <span class="badge em-breve">Em preparação</span>
+        <h3>Croc <em>&amp; Croc</em></h3>
+        <div class="cidade">Aracaju</div>
+        <div class="casas">
+          <span class="house-name">Argo</span> · <span class="house-name">Espelunca</span> · <span class="house-name">Blend Burger</span>
+        </div>
+        <span class="loop-link disabled">Em breve</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MODELO -->
+<section class="model">
+  <div class="container">
+    <div class="model-head">
+      <h2>O Eatlooper <em>não é desconto</em>.</h2>
+      <p>Não usou no mês? O próximo é por nossa conta. Usou uma vez? Paga só 50% na próxima. Sem fidelidade, sem letra miúda.</p>
+    </div>
+    <div class="model-list">
+      <div class="model-item">
+        <div class="eyebrow"><span class="sep"></span><span>O que você come</span></div>
+        <p>Menu de entrada, prato principal e sobremesa criado do zero pra cada circuito — fora do cardápio tradicional da casa.</p>
+      </div>
+      <div class="model-item">
+        <div class="eyebrow"><span class="sep"></span><span>Curadoria</span></div>
+        <p>Cada casa entra por um fio condutor real de território e ingrediente, não por lista paga ou algoritmo.</p>
+      </div>
+      <div class="model-item">
+        <div class="eyebrow"><span class="sep"></span><span>Contrato</span></div>
+        <p>Cancela quando quiser, em segundos. Se não for, não paga o mês seguinte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURADOR -->
+<section class="curator">
+  <div class="container-narrow">
+    <div class="eyebrow">
+      <span>Curadoria</span>
+      <span class="sep"></span>
+      <span>François Ozanne</span>
+    </div>
+    <h2>A escolha <em>tem nome</em>.</h2>
+    <blockquote>Chef formado na maior escola de gastronomia do mundo, o Le Cordon Bleu — 14 anos de área. Lidera a curadoria dos loops e escolhe, casa a casa, quem entra em cada circuito.</blockquote>
+    <div class="credentials">
+      <span>Le Cordon Bleu</span>
+      <span class="sep"></span>
+      <span>Chef Curador · Eatlooper</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container-narrow">
+    <h2>Assine o <em>Eatlooper</em>.</h2>
+    <p>R$ 39,90 por mês. Sem fidelidade. Cancela quando quiser. Se não for, não paga.</p>
+    <a href="https://www.eatlooper.com" class="btn">Quero participar <span class="arrow">→</span></a>
+    <span class="cta-note">Ou fale com o curador: wow@eatlooper.com</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>Eatlooper</h3>
+        <p>Clube de assinatura gastronômica. Curadoria autoral. Circuitos por cidade. Sergipe começa aqui.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="eyebrow"><span>Loops</span></div>
+        <ul>
+          <li><a href="loops/geracao-se/">Geração SE</a></li>
+          <li><span class="muted-item">Do Mar à Mesa — em breve</span></li>
+          <li><span class="muted-item">Sinta-se em Casa — em breve</span></li>
+          <li><span class="muted-item">Croc &amp; Croc — em breve</span></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="eyebrow"><span>Eatlooper</span></div>
+        <ul>
+          <li><a href="https://www.eatlooper.com">Assinar</a></li>
+          <li><a href="https://www.instagram.com/eatlooper/">Instagram</a></li>
+          <li><a href="mailto:wow@eatlooper.com">Fale com o curador</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-signature">todo loop começa num território. <span class="si">Este é o Eatlooper.</span></div>
+      <div class="footer-meta">© 2026 Eatlooper · Curadoria Ozanne</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>
+
 </body>
 </html>
