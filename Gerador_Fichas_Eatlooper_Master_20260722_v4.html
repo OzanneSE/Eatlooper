@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Fichas Eatlooper · Ferramenta Única · v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#D42B2B; --red-deep:#b51d27; --amber:#d99a2b; --amber-soft:#f6e6c8;
+  --beige:#FDF6EE; --beige-2:#f6ece0; --ink:#1A1A1A; --ink-2:#3f3a34;
+  --line:#e6dccf; --white:#fffdfa; --ok:#2e7d4f; --warn:#b07a12; --bad:#a33327;
+  --link:#6a4bb3; --link-soft:#efe9fb;
+  --shadow:0 8px 26px rgba(45,31,28,.09);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+body{background:var(--beige); color:var(--ink); font-family:'Outfit',sans-serif; line-height:1.5; padding-bottom:80px}
+.wrap{max-width:1080px; margin:0 auto; padding:0 18px}
+header{text-align:center; padding:36px 12px 8px}
+.ki{color:var(--red); letter-spacing:.22em; font-size:.68rem; font-weight:600; text-transform:uppercase}
+h1{font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(1.9rem,5vw,3rem); margin:8px 0 2px}
+h1 em{color:var(--red); font-style:italic; font-weight:500}
+.sub{font-family:'Cormorant Garamond',serif; font-style:italic; color:var(--ink-2); font-size:1.02rem}
+.aviso{background:var(--amber-soft); border:1px solid #e6d29b; border-radius:10px; padding:11px 15px; font-size:.82rem; margin:18px auto 0; max-width:920px}
+
+/* nav levels */
+.navtop{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:26px 0 10px}
+.navtop button{font-family:'Outfit',sans-serif; font-size:.92rem; font-weight:600; padding:10px 22px;
+  border-radius:24px; cursor:pointer; border:1.5px solid var(--ink); background:transparent; color:var(--ink)}
+.navtop button.on{background:var(--ink); color:var(--beige)}
+.navtop button.resumo{border-color:var(--red); color:var(--red)}
+.navtop button.resumo.on{background:var(--red); border-color:var(--red); color:var(--white)}
+.navtop button.novo{border-color:var(--ok); color:var(--ok); font-weight:700}
+.navtop button.delcirc{border:none; background:none; color:var(--bad); font-size:.78rem; text-decoration:underline; padding:6px 4px}
+
+.navcasa{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:4px 0 24px; padding-bottom:14px; border-bottom:1px dashed var(--line)}
+.navcasa button{font-family:'Outfit',sans-serif; font-size:.84rem; padding:8px 16px; border-radius:18px; cursor:pointer;
+  border:1.5px solid var(--ink-2); background:var(--white); color:var(--ink-2)}
+.navcasa button.on{background:var(--red); border-color:var(--red); color:var(--white)}
+.navcasa button.novo{border-color:var(--ok); color:var(--ok); font-weight:700}
+
+.circuito{display:none} .circuito.on{display:block}
+.casa{display:none} .casa.on{display:block}
+
+/* casa header */
+.chead{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:6px}
+.menuNome{font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); font-weight:700}
+.chead h2{font-family:'Cormorant Garamond',serif; font-size:1.9rem; color:var(--red-deep)}
+[contenteditable]{outline:none; border-bottom:1px dashed transparent}
+[contenteditable]:hover,[contenteditable]:focus{border-bottom-color:var(--amber); background:#fff8e6}
+.quem{font-size:.85rem; color:var(--ink-2); font-style:italic; max-width:640px}
+.delcasa{background:none; border:none; color:var(--bad); font-size:.76rem; text-decoration:underline; cursor:pointer}
+
+/* menu panel */
+.painel{margin:16px 0 22px; border-radius:14px; padding:16px 20px; background:linear-gradient(120deg,var(--ink),#332a24);
+  color:var(--white); box-shadow:var(--shadow); display:flex; gap:20px; flex-wrap:wrap; align-items:center; justify-content:space-between}
+.painel .bloco{min-width:118px}
+.painel .rotulo{font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; opacity:.72; font-weight:600}
+.painel .valor{font-family:'Cormorant Garamond',serif; font-size:1.55rem; margin-top:2px; font-variant-numeric:tabular-nums}
+.painel .valor.destaque{color:var(--amber)}
+.painel input{width:92px; font-size:1.05rem; padding:6px 8px; border-radius:8px; border:none; text-align:center; font-family:'Outfit',sans-serif}
+.economia{margin-bottom:20px; background:var(--white); border:1px solid var(--line); border-left:4px solid var(--red);
+  border-radius:10px; padding:11px 16px; font-size:.87rem}
+.economia b{color:var(--red-deep)}
+
+/* prato cards */
+.pratoCard{background:var(--white); border:1px solid var(--line); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); margin-bottom:16px}
+.pratoTop{display:flex; gap:12px; flex-wrap:wrap; align-items:flex-start; margin-bottom:8px}
+.pratoTop .campo{flex:1; min-width:220px}
+.pnome{font-weight:600; font-size:1.02rem}
+.pdesc{font-size:.82rem; color:var(--ink-2); font-style:italic; margin-top:2px}
+.pmeta{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+select.tempo{font-family:'Outfit',sans-serif; font-size:.78rem; padding:6px 8px; border:1px solid var(--line); border-radius:7px; background:var(--beige)}
+.reflabel{font-size:.68rem; color:var(--ink-2); letter-spacing:.06em; text-transform:uppercase}
+input.refprice{width:80px; padding:5px 6px; border:1px solid var(--line); border-radius:7px; background:var(--beige); font-family:'Outfit',sans-serif; font-size:.83rem; text-align:right}
+.pcusto{font-size:.85rem; font-weight:700}
+.pcmv{font-size:.78rem; padding:3px 9px; border-radius:10px; font-weight:600}
+.c-ok{color:var(--ok); background:#e4f3e9} .c-warn{color:var(--warn); background:#fbeecb} .c-bad{color:var(--bad); background:#f8dfda}
+.excluirPrato{background:none; border:none; color:var(--bad); font-size:.76rem; text-decoration:underline; cursor:pointer}
+
+.comphead{display:flex; align-items:center; gap:8px; margin:14px 0 6px}
+.comphead input.ctitle{flex:1; font-family:'Outfit',sans-serif; font-size:.86rem; color:var(--red-deep); font-weight:600;
+  border:none; border-bottom:1px dashed transparent; background:transparent}
+.comphead input.ctitle:hover,.comphead input.ctitle:focus{border-bottom-color:var(--amber); outline:none}
+.mini{font-family:'Outfit',sans-serif; font-size:.72rem; padding:4px 11px; border-radius:12px; cursor:pointer;
+  border:1px solid var(--ink-2); background:transparent; color:var(--ink-2)}
+.mini.verde{border-color:var(--ok); color:var(--ok)}
+.mini.verm{border-color:var(--bad); color:var(--bad)}
+.mini:hover{background:var(--beige-2)}
+
+table.itens{width:100%; border-collapse:collapse; font-size:.82rem; margin-top:2px}
+table.itens th{text-align:left; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2);
+  padding:4px 6px; border-bottom:1px solid var(--line)}
+table.itens th.num{text-align:right}
+table.itens td{padding:4px 6px; border-bottom:1px solid var(--beige-2)}
+table.itens td.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+input.nm{width:100%; min-width:150px; padding:4px 6px; border:1px solid transparent; border-radius:6px; background:transparent; font-family:'Outfit',sans-serif; font-size:.82rem}
+input.nm:hover,input.nm:focus{border-color:var(--line); background:#fff; outline:none}
+input[type=number].qtd,input[type=number].preco{width:66px; padding:4px 5px; border:1px solid var(--line); border-radius:6px; background:var(--beige); font-family:'Outfit',sans-serif; font-size:.8rem; text-align:right}
+select.un{padding:4px; border:1px solid var(--line); border-radius:6px; background:var(--beige); font-family:'Outfit',sans-serif; font-size:.78rem}
+td.xdel{width:22px; text-align:center; color:var(--bad); cursor:pointer; font-weight:bold}
+td.xdel:hover{background:#f7dcd2}
+tr.subtot td{background:var(--beige-2); font-weight:700; font-size:.78rem}
+.addPrato{display:block; margin:10px auto 0}
+
+/* ideias bank */
+.ideias{margin-top:30px}
+.ideias h3{font-family:'Cormorant Garamond',serif; font-size:1.4rem; margin-bottom:4px; color:var(--red-deep)}
+.ideias .nota{font-size:.78rem; color:var(--ink-2); font-style:italic}
+.igrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px; margin-top:10px}
+.icard{background:linear-gradient(180deg,#fffdf6,#fdf3dd); border:1px dashed var(--amber); border-radius:12px; padding:12px 14px}
+.icard .in{font-weight:600; font-size:.88rem}
+.icard .id{font-size:.76rem; color:var(--ink-2); font-style:italic; margin:3px 0 8px}
+.icard .im{display:flex; justify-content:space-between; align-items:center; font-size:.72rem; color:var(--ink-2); gap:6px}
+.icard button{font-size:.72rem; padding:5px 11px; border-radius:12px; border:1px solid var(--ok); color:var(--ok); background:transparent; cursor:pointer; font-weight:600; white-space:nowrap}
+.icard button:hover{background:#e7f2ea}
+
+/* resumo geral */
+.resumoView{display:none}
+.resumoView.on{display:block}
+.resumoView h2{font-family:'Cormorant Garamond',serif; font-size:1.9rem; color:var(--red-deep); margin-bottom:4px; text-align:center}
+.resumoView .nota{text-align:center; font-size:.85rem; color:var(--ink-2); margin-bottom:20px}
+table.resumo{width:100%; border-collapse:collapse; background:var(--white); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); font-size:.86rem; margin-bottom:26px}
+table.resumo th{background:var(--ink); color:var(--beige); text-align:left; padding:9px 12px; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; font-weight:500}
+table.resumo th.num{text-align:right}
+table.resumo td{padding:8px 12px; border-bottom:1px solid var(--beige-2)}
+table.resumo td.num{text-align:right; font-variant-numeric:tabular-nums}
+table.resumo tr:last-child td{border-bottom:none}
+
+/* modal */
+.overlay{display:none; position:fixed; inset:0; background:rgba(30,25,20,.55); z-index:60; align-items:center; justify-content:center}
+.overlay.on{display:flex}
+.modal{background:var(--beige); border-radius:14px; padding:24px 26px; width:min(420px,92vw); border-top:6px solid var(--red)}
+.modal h3{font-family:'Cormorant Garamond',serif; color:var(--red-deep); margin-bottom:12px; font-size:1.3rem}
+.modal label{display:block; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2); margin:11px 0 4px}
+.modal input,.modal textarea{width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-family:'Outfit',sans-serif; font-size:.9rem; background:#fff}
+.modal .acts{display:flex; gap:10px; justify-content:flex-end; margin-top:18px}
+
+.exportbar{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:36px 0 8px}
+.exportbar button{font-family:'Outfit',sans-serif; font-size:.92rem; font-weight:500; padding:11px 24px; border-radius:24px; cursor:pointer; border:none}
+.btn-json{background:var(--ink); color:var(--beige)}
+.btn-xlsx{background:var(--ok); color:#fff}
+.btn-pdf{background:var(--red); color:#fff}
+.btn-reset{background:transparent; border:1.5px solid var(--bad) !important; color:var(--bad)}
+.exportbar button:hover{filter:brightness(1.08)}
+.assina{margin-top:22px; text-align:center; font-size:.74rem; color:var(--ink-2); font-style:italic}
+
+.navtop button.insumos{border-color:var(--link); color:var(--link)}
+.navtop button.insumos.on{background:var(--link); border-color:var(--link); color:#fff}
+.btn-doc{background:var(--link); color:#fff}
+.precowrap{display:flex; gap:6px; align-items:center; justify-content:flex-end}
+.linkbtn{border:1px solid var(--line); background:var(--beige); color:var(--ink-2); border-radius:6px; cursor:pointer; font-size:.72rem; padding:2px 6px; line-height:1.1}
+.linkbtn:hover{background:var(--beige-2)}
+.linkbtn.on{background:var(--link-soft); border-color:var(--link); color:var(--link)}
+.precoval{font-variant-numeric:tabular-nums; color:var(--link); font-weight:600; white-space:nowrap}
+.modal select{width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-family:'Outfit',sans-serif; font-size:.9rem; background:#fff}
+.modal .info{font-size:.84rem; color:var(--ink-2); background:var(--white); border:1px solid var(--line); border-radius:8px; padding:9px 12px; margin-bottom:6px}
+.modal .acts{flex-wrap:wrap}
+.insumosView{display:none}
+.insumosView.on{display:block}
+.insumosView h2{font-family:'Cormorant Garamond',serif; font-size:1.9rem; color:var(--red-deep); margin-bottom:4px; text-align:center}
+.insumosView .nota{text-align:center; font-size:.85rem; color:var(--ink-2); margin-bottom:16px}
+.insumosView .barra{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:18px}
+table.ins{width:100%; border-collapse:collapse; background:var(--white); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); font-size:.9rem; margin-bottom:16px}
+table.ins th{background:var(--link); color:#fff; text-align:left; padding:9px 12px; font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; font-weight:500}
+table.ins th.num{text-align:right}
+table.ins td{padding:7px 12px; border-bottom:1px solid var(--beige-2); vertical-align:middle}
+table.ins td.num{text-align:right; font-variant-numeric:tabular-nums}
+table.ins input.insnm{width:100%; padding:5px 7px; border:1px solid transparent; border-radius:6px; background:transparent; font-family:'Outfit',sans-serif; font-size:.9rem}
+table.ins input.insnm:hover,table.ins input.insnm:focus{border-color:var(--line); background:#fff; outline:none}
+table.ins input.insp{width:90px; padding:4px 5px; border:1px solid var(--line); border-radius:6px; background:var(--beige); text-align:right; font-family:'Outfit',sans-serif; font-size:.83rem}
+table.ins select.insu{padding:5px; border:1px solid var(--line); border-radius:6px; background:var(--beige); font-size:.82rem}
+table.ins td.usocol{color:var(--ink-2); font-size:.82rem}
+table.ins tr.vazio td{text-align:center; color:var(--ink-2); font-style:italic; padding:18px}
+
+@media print{
+  .navtop,.navcasa,.exportbar,.excluirPrato,.delcasa,.mini,td.xdel,th.thdel,.ideias,.aviso,.assina,.addPrato,.resumoView,.insumosView,.linkbtn{display:none !important}
+  .precoval{color:#1a1a1a}
+  .circuito{display:block !important}
+  .casa{display:block !important; page-break-after:always}
+  input,select{border:none !important; background:transparent !important; padding:0}
+  .painel,table.itens th{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="ki">eatlooper · ferramenta única · 21 jul 2026</div>
+  <h1>Gerador de <em>Fichas</em> Eatlooper</h1>
+  <div class="sub">Um só lugar para todos os circuitos, todas as casas, prato a prato, ingrediente a ingrediente</div>
+  <div class="aviso">⚠ <b>Tudo é editável, item por item:</b> nome e descrição do prato (clique no texto), tempo do menu, cada ingrediente da ficha técnica (nome, quantidade, unidade, preço/kg·L·un). O custo e o CMV recalculam sozinhos. Use <b>＋ ingrediente</b> e <b>＋ componente</b> dentro de cada prato, <b>＋ novo prato</b> por casa, e <b>＋ nova casa</b> / <b>＋ novo circuito</b> para crescer o portfólio inteiro sem sair daqui. Só os tempos <i>Cheguei · À mesa · Fica mais um pouco</i> entram no preço fechado do menu — <i>Prato da casa</i> e <i>Extra/Drink</i> ficam de fora do cálculo do menu (mecânica 2+2 / upsell), mas têm CMV próprio contra o preço de venda de referência. Fichas em hipótese: validar com cada chef antes de qualquer material público. Tudo fica salvo neste navegador.</div>
+</header>
+
+<div class="wrap">
+  <div class="navtop" id="navtop"></div>
+  <div class="navcasa" id="navcasa"></div>
+  <div id="circuitos"></div>
+
+  <div class="resumoView" id="resumoView">
+    <h2>Resumo geral do portfólio</h2>
+    <div class="nota">Todos os circuitos, todas as casas, um número por menu — para ver o tabuleiro inteiro de uma vez.</div>
+    <table class="resumo">
+      <thead><tr><th>Circuito</th><th>Casa</th><th>Menu</th><th class="num">Preço fechado</th><th class="num">Custo (3 tempos)</th><th class="num">CMV do menu</th><th class="num">Soma à la carte</th><th class="num">Economia</th></tr></thead>
+      <tbody id="resumoBody"></tbody>
+    </table>
+    <div class="nota" style="margin-top:-10px">💡 CMV-alvo de referência do portfólio: 25–32%. Economia é o argumento de custo-benefício levado à mesa: quanto o menu fechado é mais barato que a soma à la carte de referência.</div>
+  </div>
+
+  <div class="insumosView" id="insumosView">
+    <h2>Insumos · cadastro central de preços</h2>
+    <div class="nota">Edite o preço aqui e ele atualiza todas as fichas ligadas. Preço por <b>kg</b>, <b>L</b> ou <b>un</b> conforme a unidade base.</div>
+    <div class="barra">
+      <button class="mini" style="border-color:var(--link);color:var(--link)" onclick="addInsumo()">＋ novo insumo</button>
+      <button class="mini" onclick="importInsumos()">⤵ importar insumos das fichas</button>
+    </div>
+    <table class="ins">
+      <thead><tr><th>Insumo</th><th>Unidade base</th><th class="num">Preço R$</th><th class="num">Fichas usando</th><th class="thdel"></th></tr></thead>
+      <tbody id="insBody"></tbody>
+    </table>
+    <div class="nota">"Importar insumos das fichas" varre todos os ingredientes e cria o catálogo casando pelo nome.</div>
+  </div>
+
+  <div class="exportbar">
+    <button class="btn-json" onclick="salvarJSON()">💾 Salvar dados (.json)</button>
+    <button class="btn-json" onclick="carregarJSON()">📂 Carregar dados (.json)</button>
+    <button class="btn-xlsx" onclick="exportXLSX()">⬇ Exportar XLSX (portfólio inteiro)</button>
+    <button class="btn-doc" onclick="exportDOC()">📄 Exportar DOC (dia a dia)</button>
+    <button class="btn-pdf" onclick="window.print()">🖨 Exportar PDF / Imprimir binder completo</button>
+    <button class="btn-reset" onclick="resetAll()">↺ Restaurar dados originais</button>
+  </div>
+  <div class="aviso" style="max-width:920px">💾 <b>Permanência:</b> toda edição fica salva neste navegador automaticamente. Para permanência de verdade, clique em <b>Salvar dados (.json)</b> — esse arquivo é a fonte da verdade. Hospedando no GitHub Pages, suba o HTML e o <b>eatlooper_fichas_dados.json</b> na mesma pasta: a ferramenta carrega o JSON commitado sozinha, em qualquer máquina, sem começar do zero. Fluxo: editou na mesa → Salvar .json → commit no repositório.</div>
+  <div class="assina">eatlooper · fichas de gestão · François Ozanne, Chef Curador · conselho ozanne · hipóteses a validar caso a caso com cada chef</div>
+</div>
+
+<!-- modal novo circuito -->
+<div class="overlay" id="ovCirc">
+  <div class="modal">
+    <h3>Novo circuito</h3>
+    <label>Nome do circuito</label><input type="text" id="ncNome" placeholder="ex.: Chamego Confitado">
+    <div class="acts">
+      <button class="mini" onclick="document.getElementById('ovCirc').classList.remove('on')">Cancelar</button>
+      <button class="mini verde" onclick="criarCircuito()">Criar</button>
+    </div>
+  </div>
+</div>
+
+<!-- modal nova casa -->
+<div class="overlay" id="ovCasa">
+  <div class="modal">
+    <h3>Nova casa</h3>
+    <label>Nome da casa</label><input type="text" id="nhNome" placeholder="ex.: Casa do Mangue">
+    <label>Dono / chef / credencial</label><input type="text" id="nhQuem" placeholder="ex.: Beta Nascimento · aconchego afetivo">
+    <label>Nome do menu do circuito</label><input type="text" id="nhMenu" placeholder="ex.: Sinta-se em Casa">
+    <label>Preço fechado inicial (R$)</label><input type="text" id="nhPreco" value="119.90">
+    <div class="acts">
+      <button class="mini" onclick="document.getElementById('ovCasa').classList.remove('on')">Cancelar</button>
+      <button class="mini verde" onclick="criarCasa()">Criar</button>
+    </div>
+  </div>
+</div>
+
+<!-- modal vincular insumo -->
+<div class="overlay" id="ovLink">
+  <div class="modal">
+    <h3>Vincular ao catálogo de insumos</h3>
+    <div class="info" id="linkInfo"></div>
+    <label>Vincular a um insumo já cadastrado</label>
+    <select id="linkSelect"></select>
+    <div class="acts">
+      <button class="mini" onclick="document.getElementById('ovLink').classList.remove('on')">Fechar</button>
+      <button class="mini verm" id="btnUnlink" onclick="unlinkItem()">Desvincular</button>
+      <button class="mini" style="border-color:var(--link);color:var(--link)" onclick="registerItem()">Cadastrar este</button>
+      <button class="mini verde" onclick="applyLink()">Vincular</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const fmt = v => 'R$ ' + (+v||0).toFixed(2).replace('.', ',');
+const TEMPOS = ['Cheguei','À mesa','Fica mais um pouco','Prato da casa','Extra / Drink'];
+const UNS = ['g','ml','un'];
+const NO_MENU = t => TEMPOS.indexOf(t) < 3;
+let INSUMOS=[];
+const UNS_BASE=['kg','L','un'];
+const norm = s => (s==null?'':String(s)).trim().toLowerCase();
+function insumoById(id){ return id?INSUMOS.find(x=>x.id===id):null; }
+function insumoByNome(nome){ const n=norm(nome); return n?INSUMOS.find(x=>norm(x.nome)===n):null; }
+function itemInsumo(it){ return insumoById(it[4]) || insumoByNome(it[0]) || null; }
+function effPrice(it){ const ins=itemInsumo(it); return ins?(+ins.preco||0):(+it[3]||0); }
+const itemCost = it => it[2]==='un' ? it[1]*effPrice(it) : it[1]/1000*effPrice(it);
+const pratoCost = p => p.comps.reduce((s,c)=>s+c.itens.reduce((s2,it)=>s2+itemCost(it),0),0);
+const cmvClass = pc => pc<=30?'c-ok':(pc<=32?'c-warn':'c-bad');
+
+const BASE = [
+ { id:'apg', nome:'Amor à Primeira Garfada', casas:[
+   { id:'divino', nome:'Di Vino Vinhos & Gourmet', menuNome:'O Tempo do Vinho',
+     quem:'Sergio · Treze de Julho · 4,8★ · #2 de 534 no Tripadvisor · adega de referência',
+     precoMenu:149.90,
+     pratos:[
+      {tempo:'Cheguei', nome:'Bruschetta de Linguiça na Brasa', desc:'o fogo se apresenta no pão da casa', ref:38,
+       comps:[{t:'Bruschetta', itens:[
+         ['Linguiça artesanal local',70,'g',35], ['Pão da casa (fatias)',90,'g',8],
+         ['Tomate confit',35,'g',16], ['Azeite de oliva',8,'ml',46], ['Alho',3,'g',30], ['Ervas frescas',3,'g',25],
+       ]}]},
+      {tempo:'À mesa', nome:'Ossobuco de 6 Horas com Risoto Cremoso', desc:'a cocção longa como assinatura — o risoto que a casa domina, longe do camarão que a cidade repete', ref:112,
+       comps:[
+        {t:'Ossobuco em cocção lenta', itens:[
+          ['Ossobuco bovino',280,'g',52], ['Vinho tinto (redução)',40,'ml',28], ['Cebola',30,'g',6],
+          ['Cenoura',25,'g',6], ['Tomate / pomodoro',30,'g',10], ['Alho',4,'g',30], ['Fundo de carne (aparas)',60,'ml',12],
+        ]},
+        {t:'Risoto cremoso', itens:[
+          ['Arroz arbóreo',70,'g',12], ['Manteiga',15,'g',40], ['Queijo parmesão',15,'g',68],
+          ['Caldo de legumes',180,'ml',2.5], ['Vinho branco',20,'ml',25],
+        ]},
+       ]},
+      {tempo:'Fica mais um pouco', nome:'Sobremesa da Casa + Dose de Vinho de Sobremesa', desc:'a harmonização fechando a noite — upsell natural da casa', ref:52,
+       comps:[
+        {t:'Sobremesa (fondant)', itens:[
+          ['Chocolate 70%',35,'g',48], ['Manteiga',15,'g',40], ['Ovo',30,'g',16], ['Açúcar',20,'g',5], ['Farinha de trigo',10,'g',6],
+        ]},
+        {t:'Dose de harmonização', itens:[ ['Vinho de sobremesa (dose 60ml)',1,'un',14] ]},
+       ]},
+     ],
+     ideias:[
+      {tempo:'À mesa', nome:'Risoto de Aratu, Manteiga de Garrafa e Limão-Cravo', desc:'o anti-risoto-de-camarão: o ingrediente que quase ninguém usa, na técnica que a casa domina', custo:24, ref:96},
+      {tempo:'Cheguei', nome:'Tartare de Peixe do Dia com Umbu', desc:'acidez sergipana abrindo o apetite — harmoniza com espumante brut', custo:10, ref:58},
+      {tempo:'Cheguei', nome:'Carpaccio de Polvo, Licuri Tostado e Azeite de Ervas', desc:'crocância de licuri sobre o mar — harmoniza com branco mineral', custo:14, ref:64},
+      {tempo:'Fica mais um pouco', nome:'Petit Gâteau de Licuri com Sorvete de Tapioca', desc:'o clássico da casa reescrito em terroir', custo:9, ref:36},
+      {tempo:'Extra / Drink', nome:'Taça Harmonizada por Tempo (upsell)', desc:'o sommelier narra cada taça — três tempos, três vinhos, suplemento por pessoa', custo:6, ref:30},
+     ]
+   },
+   { id:'zoi', nome:'Zōi Restaurante', menuNome:'Melaço & Brasa',
+     quem:'Márcio (dono) · chef Geon Cruz · Farolândia · 4,6★',
+     precoMenu:129.90,
+     pratos:[
+      {tempo:'Cheguei', nome:'Dadinho de Tapioca, Coalho e Melaço', desc:'o terroir documentado da casa na primeira garfada', ref:42,
+       comps:[{t:'Dadinho', itens:[
+         ['Tapioca granulada',60,'g',14], ['Queijo coalho',70,'g',48], ['Leite líquido',60,'ml',7],
+         ['Melaço de engenho',15,'ml',13], ['Óleo para fritura',25,'ml',9],
+       ]}]},
+      {tempo:'À mesa', nome:'Costela ao Melaço em Fogo Lento, Purê de Macaxeira', desc:'o melaço de engenho como fio condutor — horas de fogo no coração do menu', ref:98,
+       comps:[
+        {t:'Costela ao melaço', itens:[
+          ['Costela bovina',300,'g',42], ['Melaço de engenho',30,'ml',13], ['Cebola',30,'g',6], ['Alho',5,'g',30], ['Fundo de carne',60,'ml',12],
+        ]},
+        {t:'Purê de macaxeira', itens:[ ['Macaxeira (aipim)',150,'g',6], ['Manteiga',15,'g',40], ['Leite líquido',40,'ml',7] ]},
+       ]},
+      {tempo:'Fica mais um pouco', nome:'Bolo de Macaxeira Quente, Calda de Melaço à Mesa', desc:'finalização na frente do cliente — teatro territorial de custo zero', ref:28,
+       comps:[
+        {t:'Bolo de macaxeira', itens:[
+          ['Macaxeira ralada',100,'g',6], ['Coco fresco ralado',30,'g',26], ['Ovo',40,'g',16], ['Açúcar',25,'g',5], ['Leite de coco',30,'ml',18],
+        ]},
+        {t:'Calda', itens:[ ['Melaço de engenho',25,'ml',13] ]},
+       ]},
+      {tempo:'Prato da casa', nome:'Camarão Zōi', desc:'a estrela atual da casa (mecânica 2+2) — arroz cremoso e camarões salteados', ref:99,
+       comps:[{t:'Camarão Zōi', itens:[
+         ['Camarão grande',150,'g',68], ['Arroz cremoso (base risoto)',70,'g',12], ['Manteiga',15,'g',40], ['Alho',5,'g',30], ['Creme de leite',20,'g',16],
+       ]}]},
+     ],
+     ideias:[
+      {tempo:'Cheguei', nome:'Croqueta de Siri, Emulsão de Melaço Picante', desc:'o siri como credencial da casa — porta de entrada de circuito de mar futuro', custo:12, ref:54},
+      {tempo:'À mesa', nome:'Barriga de Porco Laqueada no Melaço, Banana-da-Terra', desc:'alternativa de fogo lento se a costela não couber no equipamento', custo:22, ref:89},
+      {tempo:'Extra / Drink', nome:'Drink Hermes (upsell)', desc:'cachaça e compota de caju — o bar que já pensa território', custo:8, ref:36},
+      {tempo:'Fica mais um pouco', nome:'Tropicali de Ouricuri e Caju', desc:'a sobremesa da casa reescrita com o ingrediente que ninguém tem', custo:8, ref:34},
+     ]
+   },
+ ]},
+ { id:'mar', nome:'Do Mar à Mesa', casas:[
+   { id:'gratto', nome:'Gratto', menuNome:'Maré Alta',
+     quem:'Chef Samuel Benson · chef de referência da praça · prato-âncora confirmado pelo Fran em 21/07: Mar Negro',
+     precoMenu:149.90,
+     pratos:[
+      {tempo:'Cheguei', nome:'Lula na Brasa', desc:'servida com mini batatas e ají amarillo — dado real (Fran, 21/07)', ref:62,
+       comps:[{t:'Lula na brasa', itens:[
+         ['Lula (anéis/inteira)',150,'g',58], ['Mini batatas',100,'g',8], ['Ají amarillo (pasta)',15,'g',45],
+         ['Azeite de oliva',10,'ml',46], ['Limão',15,'g',6], ['Sal e temperos',3,'g',15],
+       ]}]},
+      {tempo:'À mesa', nome:'Mar Negro', desc:'arroz negro puxado com chorizo espanhol, polvo, camarão e bisque — finalizado com aioli de alho assado. Prato-âncora real (Fran, 21/07)', ref:135,
+       comps:[
+        {t:'Arroz negro', itens:[
+          ['Arroz arbóreo',70,'g',12], ['Tinta de lula',3,'g',250], ['Fundo de frutos do mar',150,'ml',10],
+          ['Cebola',20,'g',6], ['Alho',4,'g',30], ['Vinho branco',20,'ml',25],
+        ]},
+        {t:'Chorizo e frutos do mar', itens:[
+          ['Chorizo espanhol',40,'g',68], ['Polvo',80,'g',92], ['Camarão médio',70,'g',65], ['Bisque (fundo concentrado)',40,'ml',22],
+        ]},
+        {t:'Aioli de alho assado', itens:[
+          ['Alho assado',10,'g',30], ['Azeite de oliva',15,'ml',46], ['Gema de ovo',15,'g',20], ['Limão',5,'g',6],
+        ]},
+       ]},
+      {tempo:'Fica mais um pouco', nome:'Cocada de Forno com Sorvete de Queijo', desc:'o litoral em sobremesa quente — contraste doce-salgado que segura a mesa (hipótese, a validar)', ref:32,
+       comps:[
+        {t:'Cocada de forno', itens:[ ['Coco fresco ralado',60,'g',26], ['Leite condensado',40,'g',18], ['Ovo',25,'g',16] ]},
+        {t:'Sorvete de queijo (pronto)', itens:[ ['Sorvete de queijo pronto',60,'ml',62] ]},
+       ]},
+     ],
+     ideias:[
+      {tempo:'Cheguei', nome:'Ostras com Granita de Limão-Cravo', desc:'frescor absoluto de abertura — cadeia local a validar com fornecedor', custo:14, ref:58},
+      {tempo:'Cheguei', nome:'Tartar de Atum, Melaço e Gergelim', desc:'ponte com o repertório contemporâneo do Samuel', custo:14, ref:56},
+      {tempo:'Fica mais um pouco', nome:'Banana-da-Terra Brûlée com Sorvete de Tapioca', desc:'sobremesa de fogo — casa com a linguagem da brasa', custo:6, ref:28},
+      {tempo:'Extra / Drink', nome:'Dose de Ají Amarillo no Ceviche do Bar (upsell)', desc:'puxa o fio picante da Lula na Brasa para o bar — harmonização com pisco sour', custo:5, ref:24},
+     ]
+   },
+   { id:'mykonos', nome:'Mykonos', menuNome:'Egeu Sergipano',
+     quem:'Geraldo Gomes Martins Neto (dono) · chef a confirmar · casa grega da praça — Geração SE · menu ajustado por Fran em 21/07',
+     precoMenu:129.90,
+     pratos:[
+      {tempo:'Cheguei', nome:'Saganaki de Coalho, Mel de Engenho e Orégano', desc:'a técnica grega no queijo sergipano — a fusão que define o menu na primeira garfada', ref:38,
+       comps:[{t:'Saganaki', itens:[
+         ['Queijo coalho',110,'g',48], ['Farinha de trigo',10,'g',6], ['Azeite de oliva',10,'ml',46], ['Mel de engenho',15,'ml',30], ['Orégano',1,'g',60],
+       ]}]},
+      {tempo:'À mesa', nome:'Camarões Anilados', desc:'molho de tomates, azeitona preta, licor de anis, queijo coalho e ervas frescas, arroz de limão-cravo e pimentões — dado real (Fran, 21/07)', ref:92,
+       comps:[
+        {t:'Camarões ao molho anilado', itens:[
+          ['Camarão médio',150,'g',65], ['Molho de tomate',70,'g',9], ['Azeitona preta',25,'g',32], ['Licor de anis (ouzo/sambuca)',20,'ml',45],
+          ['Queijo coalho',50,'g',48], ['Ervas frescas',3,'g',25], ['Pimentões',35,'g',8],
+        ]},
+        {t:'Arroz de limão-cravo', itens:[
+          ['Arroz',90,'g',8], ['Limão-cravo (raspas e suco)',15,'g',10], ['Fundo / caldo',110,'ml',3], ['Azeite de oliva',10,'ml',46],
+        ]},
+       ]},
+      {tempo:'Fica mais um pouco', nome:'Baklava de Licuri e Melaço', desc:'a nogueira grega substituída pelo coquinho sergipano — território puro (promovido do banco de ideias em 21/07)', ref:30,
+       comps:[{t:'Baklava', itens:[
+         ['Massa filo',50,'g',22], ['Licuri descascado e picado',45,'g',95], ['Melaço de engenho',25,'ml',13], ['Manteiga',18,'g',40], ['Açúcar',12,'g',5],
+       ]}]},
+     ],
+     ideias:[
+      {tempo:'Cheguei', nome:'Trio de Pastas Gregas com Pão Pita da Casa', desc:'tzatziki, melitzanosalata e taramá — partilha imediata, feito em batelada', custo:8, ref:46},
+      {tempo:'Extra / Drink', nome:'Spritz de Mangaba (upsell)', desc:'o aperitivo do casal na chegada — dose que abre a noite', custo:7, ref:32},
+      {tempo:'Fica mais um pouco', nome:'Iogurte Grego, Calda de Umbu e Licuri Tostado', desc:'sobremesa anterior da casa — fresco e ácido, alternativa à Baklava se preferirem algo mais leve', custo:11, ref:28},
+     ]
+   },
+   { id:'samore', nome:'Samore', menuNome:'Riviera Sergipana',
+     quem:'Pizzaria de forno a lenha — prato real já entregue pela casa (foto 20/07): pizza napolitana de camarão. Restante do cardápio ainda fora do banco.',
+     precoMenu:119.90,
+     pratos:[
+      {tempo:'Cheguei', nome:'Crostini de Sardela Artesanal e Tomate Confit', desc:'a Itália costeira em batelada — abertura de custo baixo e valor percebido alto', ref:36,
+       comps:[{t:'Crostini', itens:[
+         ['Pão da casa (fatias)',80,'g',8], ['Sardela artesanal',40,'g',45], ['Tomate confit',30,'g',16], ['Azeite de oliva',6,'ml',46],
+       ]}]},
+      {tempo:'À mesa', nome:'Spaghetti de Sururu (alle vongole sergipano)', desc:'o vongole reescrito com o molusco do mangue — nenhuma casa da cidade tem', ref:88,
+       comps:[{t:'Spaghetti alle sururu', itens:[
+         ['Massa spaghetti',110,'g',9], ['Sururu (molusco)',120,'g',42], ['Alho',5,'g',30], ['Azeite de oliva',12,'ml',46], ['Vinho branco',20,'ml',25], ['Salsa',3,'g',25],
+       ]}]},
+      {tempo:'Prato da casa', nome:'Pizza Napolitana de Camarão Apimentada', desc:'já entregue pela casa: base de molho apimentada, muçarela, camarão grelhado, cebola roxa fina, cebolinha e gergelim preto e branco — borda de forno a lenha bem marcada. Prato real, não hipótese.', ref:78,
+       comps:[{t:'Pizza de camarão', itens:[
+         ['Massa napolitana (pronta)',220,'g',8], ['Molho de tomate apimentado',70,'g',9], ['Muçarela',110,'g',32],
+         ['Camarão médio',90,'g',65], ['Cebola roxa fatiada',15,'g',8], ['Cebolinha',3,'g',25], ['Gergelim preto e branco',3,'g',42],
+       ]}]},
+      {tempo:'Fica mais um pouco', nome:'Panna Cotta de Coco com Calda de Mangaba', desc:'a sobremesa italiana no pomar sergipano — leve para fechar mesa de casal', ref:30,
+       comps:[
+        {t:'Panna cotta', itens:[ ['Leite de coco',80,'ml',18], ['Creme de leite',40,'g',16], ['Açúcar',20,'g',5], ['Gelatina incolor',2,'g',80] ]},
+        {t:'Calda de mangaba', itens:[ ['Mangaba (polpa)',40,'g',18], ['Açúcar',10,'g',5] ]},
+       ]},
+     ],
+     ideias:[
+      {tempo:'Cheguei', nome:'Burrata com Aratu ao Limão', desc:'cremosidade italiana + o catado de diferenciação da praça', custo:16, ref:68},
+      {tempo:'À mesa', nome:'Pizza de Camarão como prato central do menu', desc:'promover a pizza já validada de "prato da casa" para exclusivo — trocar cebola roxa por aratu desfiado', custo:20, ref:82},
+      {tempo:'Cheguei', nome:'Pizza Napolitana de Aratu e Coalho (mini, para dividir)', desc:'variação territorial da técnica já dominada pela casa', custo:14, ref:58},
+      {tempo:'Fica mais um pouco', nome:'Tiramisù com Café Sergipano', desc:'o clássico com origem declarada do café — storytelling pronto', custo:7, ref:32},
+      {tempo:'Extra / Drink', nome:'Dose de Moscatel com a Sobremesa (upsell)', desc:'fechamento doce harmonizado — suplemento por pessoa', custo:6, ref:26},
+     ]
+   },
+ ]},
+ { id:'croc', nome:'Croc & Croc', casas:[
+   { id:'blend', nome:'Blend Burger', menuNome:'Croc & Croc — Blend',
+     quem:'Gravação confirmada qua 22/07 · rápido · crocância · ticket baixo — menu real (Fran, 21/07)',
+     precoMenu:79.90,
+     pratos:[
+      {tempo:'Cheguei', nome:'Queijo Coalho com Bacon Crocante e Melaço de Caju Apimentado', desc:'dado real (Fran, 21/07)', ref:26,
+       comps:[{t:'Coalho e bacon', itens:[
+         ['Queijo coalho',90,'g',48], ['Bacon (fatias)',25,'g',42], ['Melaço de caju apimentado',15,'ml',22], ['Pimenta dedo-de-moça',2,'g',20],
+       ]}]},
+      {tempo:'À mesa', nome:'Smash Duplo no Brioche Caramelizado', desc:'crocante de parmesão e maionese trufada — dado real (Fran, 21/07)', ref:46,
+       comps:[{t:'Smash duplo', itens:[
+         ['Carne bovina (smash duplo)',160,'g',45], ['Pão brioche caramelizado',1,'un',4], ['Queijo cheddar/prato',35,'g',34],
+         ['Crocante de parmesão',12,'g',68], ['Maionese trufada',15,'g',38],
+       ]}]},
+      {tempo:'Fica mais um pouco', nome:'Mini Duo de Chocolate — Brigadeiro e Mousse', desc:'crocante de bacon caramelizado e amendoim — dado real (Fran, 21/07)', ref:22,
+       comps:[
+        {t:'Brigadeiro', itens:[ ['Leite condensado',35,'g',18], ['Chocolate 70%',18,'g',48], ['Manteiga',8,'g',40] ]},
+        {t:'Mousse', itens:[ ['Chocolate 70%',28,'g',48], ['Creme de leite',25,'g',16], ['Ovo',18,'g',16] ]},
+        {t:'Crocante de bacon e amendoim', itens:[ ['Bacon',12,'g',42], ['Amendoim',12,'g',18], ['Açúcar',8,'g',5] ]},
+       ]},
+     ],
+     ideias:[
+      {tempo:'Extra / Drink', nome:'Milkshake de Melaço de Caju (upsell)', desc:'puxa o fio doce-picante da entrada para o bar', custo:7, ref:26},
+      {tempo:'Cheguei', nome:'Batata Rústica com Crocante de Parmesão', desc:'alternativa mais barata de entrada se o coalho não fechar CMV', custo:5, ref:22},
+     ]
+   },
+   { id:'espelunca', nome:'Espelunca', menuNome:'Croc & Croc — Espelunca',
+     quem:'Rápido · crocância · ticket baixo — menu 100% adaptável vegetariano/vegano — dado real (Fran, 21/07)',
+     precoMenu:59.90,
+     pratos:[
+      {tempo:'Cheguei', nome:'Tempurá de Quiabo ou Maxixe com Tarê de Mangaba', desc:'dado real (Fran, 21/07)', ref:22,
+       comps:[{t:'Tempurá', itens:[
+         ['Quiabo ou maxixe',100,'g',8], ['Farinha para tempurá',30,'g',6], ['Óleo para fritura',30,'ml',9], ['Tarê de mangaba',20,'ml',22],
+       ]}]},
+      {tempo:'À mesa', nome:'Feijão Verde Cremoso com Queijo Coalho (ou vegano)', desc:'farofa crocante de banana da terra e soja — dado real (Fran, 21/07). Alternativa hambúrguer no banco de ideias.', ref:34,
+       comps:[{t:'Feijão verde cremoso', itens:[
+         ['Feijão verde fresco',150,'g',12], ['Queijo coalho (ou vegano)',60,'g',48], ['Creme de leite (ou vegetal)',30,'g',16],
+         ['Banana da terra',60,'g',9], ['Soja texturizada',30,'g',14], ['Farinha de mandioca',20,'g',5],
+       ]}]},
+      {tempo:'Fica mais um pouco', nome:'Farofa Crocante de Castanha de Caju com Creme Aerado de Umbu e Coco Queimado', desc:'dado real (Fran, 21/07)', ref:20,
+       comps:[{t:'Farofa e creme', itens:[
+         ['Castanha de caju',30,'g',60], ['Farinha de mandioca torrada',20,'g',5], ['Açúcar e manteiga (farofa doce)',15,'g',20],
+         ['Umbu (polpa)',40,'g',16], ['Creme de leite',30,'g',16], ['Coco fresco (queimado)',20,'g',26],
+       ]}]},
+     ],
+     ideias:[
+      {tempo:'À mesa', nome:'Hambúrguer de Disco de Feijão Verde Empanado', desc:'maionese de coentro, banana da terra frita, iscas de soja sequinhas e queijo (coalho ou vegano) — opção alternativa ao principal, mesma proposta vegetariana/vegana (dado real, Fran 21/07)', custo:9, ref:36},
+      {tempo:'Extra / Drink', nome:'Suco de Umbu com Hortelã (upsell)', desc:'puxa o fio ácido da sobremesa para a chegada', custo:4, ref:16},
+     ]
+   },
+   { id:'argo', nome:'Argo', menuNome:'Croc & Croc — Argo',
+     quem:'Wagner Morais (dono) · Argo Hamburgueria Artesanal · especialista em carnes, fornecedor local validado — indisponível por período indeterminado; menu do circuito ainda não definido',
+     precoMenu:59.90,
+     pratos:[
+      {tempo:'Prato da casa', nome:'⚠ Menu do Argo — a definir', desc:'Wagner segue indisponível por período indeterminado — retomar quando ele voltar, ou avançar com a equipe se o prazo do circuito apertar', ref:0,
+       comps:[{t:'A definir', itens:[ ['A confirmar com a equipe',1,'un',0] ]}]},
+     ],
+     ideias:[]
+   },
+ ]},
+ { id:'casa', nome:'Sinta-se em Casa', casas:[
+   { id:'mipiace', nome:'Mi Piace Pizzeria', menuNome:'Menu do Calzone Individual',
+     quem:'Shenia (dona) · Coroa do Meio · 12 anos de casa · menu desenhado pela própria casa — a sacada do calzone individual resolveu sozinha o maior problema do menu',
+     precoMenu:74.90,
+     pratos:[
+      {tempo:'Cheguei', nome:'Caponata Siciliana com Pão da Casa', desc:'entrada coringa vegana — fria, feita em batelada, zero stress no serviço (recomendação do Conselho)', ref:24,
+       comps:[{t:'Caponata', itens:[
+         ['Berinjela',80,'g',7], ['Tomate',40,'g',10], ['Azeitona',15,'g',32], ['Azeite de oliva',10,'ml',46], ['Pão da casa',60,'g',8], ['Alho',3,'g',30],
+       ]}]},
+      {tempo:'À mesa', nome:'Calzone Individual — 3 Recheios', desc:'vegetariano · vegano · com carne — a sacada da Shenia: fecha a conta da porção e mantém a elegância, cliente escolhe o recheio', ref:42,
+       comps:[{t:'Calzone (receita média entre os 3 recheios)', itens:[
+         ['Massa de pizza',200,'g',8], ['Molho de tomate',60,'g',9], ['Muçarela (ou vegana)',90,'g',32], ['Recheio (carne/legumes, média)',70,'g',35], ['Azeite de oliva',8,'ml',46],
+       ]}]},
+      {tempo:'Fica mais um pouco', nome:'Petit Gâteau, Tiramisù ou Sorbet', desc:'3ª opção vegana — flag do Conselho: nenhuma sobremesa tinha rota vegana, o sorbet fecha essa lacuna (porcionamento em revisão com a Shenia)', ref:26,
+       comps:[{t:'Sobremesa (receita média entre as 3 opções)', itens:[
+         ['Chocolate 70%',25,'g',48], ['Manteiga',10,'g',40], ['Ovo',20,'g',16], ['Café / licor (tiramisù)',10,'ml',25], ['Sorbet de frutas pronto',40,'ml',40],
+       ]}]},
+     ],
+     ideias:[
+      {tempo:'Extra / Drink', nome:'Espumante da Casa por Taça (upsell)', desc:'fecha o clima de aconchego afetivo do circuito', custo:9, ref:28},
+     ]
+   },
+   { id:'mitarakis', nome:'Casa Mitarakis', menuNome:'Sinta-se em Casa — Mitarakis',
+     quem:'Projeto de resgate — equipe em reestruturação. Diagnóstico em andamento com a Adriana (Leila): o que quebrou na equipe primeiro, cardápio depois.',
+     precoMenu:99.90,
+     pratos:[
+      {tempo:'Prato da casa', nome:'⚠ Menu da Casa Mitarakis — a definir', desc:'aguardando diagnóstico de equipe antes de qualquer proposta de cardápio', ref:0,
+       comps:[{t:'A definir', itens:[ ['A confirmar após diagnóstico', 1,'un',0] ]}]},
+     ],
+     ideias:[]
+   },
+   { id:'terceira', nome:'3ª Casa — a confirmar', menuNome:'Vaga em recomposição',
+     quem:'Vaga aberta pela saída da Casa do Mangue desta rodada. Candidatas em ordem de ataque: Terroá Bistrot (Silvana) · Casinha Mrs. Cake (Raiane) · Seu Sergipe Bistrô (verificar se a equipe estabilizou desde abril).',
+     precoMenu:99.90,
+     pratos:[
+      {tempo:'Prato da casa', nome:'⚠ Casa e menu — a confirmar', desc:'Carol conduz o scan e contato das 3 candidatas', ref:0,
+       comps:[{t:'A definir', itens:[ ['A confirmar com a candidata escolhida',1,'un',0] ]}]},
+     ],
+     ideias:[]
+   },
+ ]},
+];
+
+const LS='eat_fichas_master_v1';
+const JSON_ARQUIVO='eatlooper_fichas_dados.json'; // fonte de permanência no GitHub Pages
+let saved={}; try{saved=JSON.parse(localStorage.getItem(LS)||'{}');}catch(e){}
+let DATA = [];
+INSUMOS = (saved.insumos && Array.isArray(saved.insumos)) ? saved.insumos : [];
+const store=()=>{ saved.circuitos=DATA; saved.insumos=INSUMOS; try{localStorage.setItem(LS,JSON.stringify(saved));}catch(e){} };
+const escAttr=v=>String(v==null?'':v).replace(/"/g,'&quot;');
+const escHtml=v=>String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+// mescla circuitos/casas novos de uma fonte (BASE do arquivo ou JSON do repositório)
+// com o que já está salvo — nunca apaga edição feita na mesa, só soma o que não existe.
+function mergeFrom(src){
+  let mudou=false;
+  src.forEach(bc=>{
+    let dc = DATA.find(c=>c.id===bc.id);
+    if(!dc){ DATA.push(JSON.parse(JSON.stringify(bc))); mudou=true; return; }
+    bc.casas.forEach(bh=>{
+      if(!dc.casas.find(h=>h.id===bh.id)){ dc.casas.push(JSON.parse(JSON.stringify(bh))); mudou=true; }
+    });
+  });
+  return mudou;
+}
+
+// ===== MODELO DE PERMANÊNCIA =====
+// 1) Toda edição salva no navegador (localStorage) na hora.
+// 2) "Salvar dados (.json)" baixa o estado inteiro — esse arquivo é a fonte da verdade.
+// 3) Hospedado no GitHub Pages com eatlooper_fichas_dados.json ao lado do HTML,
+//    a ferramenta carrega o JSON commitado sozinha em qualquer máquina/navegador.
+// Prioridade: edições locais > JSON do repositório > dados embutidos no HTML.
+async function init(){
+  let seed=null;
+  if(location.protocol==='http:'||location.protocol==='https:'){
+    try{
+      const r=await fetch(JSON_ARQUIVO,{cache:'no-store'});
+      if(r.ok){ const j=await r.json(); if(j&&Array.isArray(j.circuitos)&&j.circuitos.length){ seed=j.circuitos; if(Array.isArray(j.insumos)) seed.__insumos=j.insumos; } }
+    }catch(e){}
+  }
+  DATA = (saved.circuitos && Array.isArray(saved.circuitos) && saved.circuitos.length)
+       ? saved.circuitos
+       : JSON.parse(JSON.stringify(seed||BASE));
+  if(!(saved.insumos && Array.isArray(saved.insumos) && saved.insumos.length))
+    INSUMOS = (seed && seed.__insumos) ? JSON.parse(JSON.stringify(seed.__insumos)) : INSUMOS;
+  let mudou = mergeFrom(BASE);
+  if(seed) mudou = mergeFrom(seed)||mudou;
+  if(mudou) store();
+  DATA.forEach(c=>{
+    const salvo = saved.ativaCasa && saved.ativaCasa[c.id];
+    ativaCasa[c.id] = (salvo && c.casas.find(h=>h.id===salvo)) ? salvo : (c.casas[0]?c.casas[0].id:null);
+  });
+  if(ativoTopo!=='RESUMO' && ativoTopo!=='INSUMOS' && !DATA.find(c=>c.id===ativoTopo)) ativoTopo = DATA[0]?DATA[0].id:'RESUMO';
+  if(!saved.ativoTopo) ativoTopo = DATA[0]?DATA[0].id:'RESUMO';
+  renderAll();
+}
+
+function salvarJSON(){
+  const blob=new Blob([JSON.stringify({versao:2, exportado:new Date().toISOString(), circuitos:DATA, insumos:INSUMOS},null,1)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=JSON_ARQUIVO;
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+function carregarJSON(){
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='.json,application/json';
+  inp.onchange=()=>{
+    const f=inp.files[0]; if(!f) return;
+    const rd=new FileReader();
+    rd.onload=()=>{
+      try{
+        const j=JSON.parse(rd.result);
+        const circ = Array.isArray(j)? j : j.circuitos;
+        if(!Array.isArray(circ)||!circ.length) throw 0;
+        if(!confirm('Substituir os dados atuais pelos do arquivo "'+f.name+'"? (as edições locais não salvas nele serão perdidas)')) return;
+        DATA=circ; INSUMOS=(j&&Array.isArray(j.insumos))?j.insumos:[];
+        ativaCasa={}; DATA.forEach(c=>ativaCasa[c.id]=c.casas[0]?c.casas[0].id:null);
+        ativoTopo=DATA[0]?DATA[0].id:'RESUMO';
+        store(); renderAll();
+      }catch(e){ alert('Arquivo inválido — use um .json salvo por esta ferramenta.'); }
+    };
+    rd.readAsText(f);
+  };
+  inp.click();
+}
+
+const navtopEl=document.getElementById('navtop'), navcasaEl=document.getElementById('navcasa'),
+      circEl=document.getElementById('circuitos'), resumoEl=document.getElementById('resumoView'),
+      insumosEl=document.getElementById('insumosView');
+let ativoTopo = saved.ativoTopo || (DATA[0]?DATA[0].id:'RESUMO');
+let ativaCasa = {}; DATA.forEach(c=>{ ativaCasa[c.id] = saved.ativaCasa && saved.ativaCasa[c.id] || (c.casas[0]?c.casas[0].id:null); });
+
+function menuCalc(h){
+  let custo=0, alc=0, nMenu=0;
+  h.pratos.forEach(p=>{ if(NO_MENU(p.tempo)){ custo+=pratoCost(p); alc+=(+p.ref||0); nMenu++; } });
+  const preco=+h.precoMenu||0, cmv= preco>0?custo/preco*100:0;
+  return {custo, alc, preco, cmv, margem:preco-custo, nMenu};
+}
+
+function ecoMsg(m){
+  if(m.nMenu===0) return '📋 Menu ainda a definir — nenhum prato nos 3 tempos. Placeholders (Prato da casa / Extra) não entram no cálculo.';
+  if(m.alc>m.preco && m.preco>0) return `💡 O menu fechado sai a <b>${fmt(m.preco)}</b> — <b>${((1-m.preco/m.alc)*100).toFixed(0)}% abaixo</b> da soma à la carte de referência (${fmt(m.alc)}).`;
+  return `⚠ A soma à la carte de referência (${fmt(m.alc)}) não está acima do preço do menu (${fmt(m.preco)}) — ajustar preço ou composição.`;
+}
+
+function renderTop(){
+  navtopEl.innerHTML='';
+  DATA.forEach(c=>{
+    const b=document.createElement('button'); b.textContent=c.nome; b.dataset.c=c.id;
+    if(c.id===ativoTopo) b.classList.add('on');
+    b.onclick=()=>{ ativoTopo=c.id; saved.ativoTopo=ativoTopo; store(); renderAll(); };
+    navtopEl.appendChild(b);
+  });
+  const bR=document.createElement('button'); bR.textContent='✦ Resumo Geral'; bR.className='resumo'+(ativoTopo==='RESUMO'?' on':'');
+  bR.onclick=()=>{ ativoTopo='RESUMO'; saved.ativoTopo=ativoTopo; store(); renderAll(); };
+  navtopEl.appendChild(bR);
+  const bI=document.createElement('button'); bI.textContent='🧅 Insumos'; bI.className='insumos'+(ativoTopo==='INSUMOS'?' on':'');
+  bI.onclick=()=>{ ativoTopo='INSUMOS'; saved.ativoTopo=ativoTopo; store(); renderAll(); };
+  navtopEl.appendChild(bI);
+  const bN=document.createElement('button'); bN.textContent='＋ Novo circuito'; bN.className='novo';
+  bN.onclick=()=>document.getElementById('ovCirc').classList.add('on');
+  navtopEl.appendChild(bN);
+}
+
+function renderCasaNav(circ){
+  navcasaEl.innerHTML='';
+  if(!circ){ return; }
+  circ.casas.forEach(h=>{
+    const b=document.createElement('button'); b.textContent=h.nome; b.dataset.h=h.id;
+    if(h.id===ativaCasa[circ.id]) b.classList.add('on');
+    b.onclick=()=>{ ativaCasa[circ.id]=h.id; saved.ativaCasa=ativaCasa; store(); renderAll(); };
+    navcasaEl.appendChild(b);
+  });
+  const bN=document.createElement('button'); bN.textContent='＋ Nova casa'; bN.className='novo';
+  bN.onclick=()=>{ document.getElementById('ovCasa').dataset.circ=circ.id; document.getElementById('ovCasa').classList.add('on'); };
+  navcasaEl.appendChild(bN);
+  const bD=document.createElement('button'); bD.textContent='✕ excluir circuito "'+circ.nome+'"'; bD.style.borderColor='transparent'; bD.style.color='#a33'; bD.style.background='none'; bD.style.textDecoration='underline'; bD.style.fontSize='.74rem';
+  bD.onclick=()=>{ if(!confirm('Excluir o circuito inteiro "'+circ.nome+'" com todas as casas?')) return;
+    DATA.splice(DATA.indexOf(circ),1); ativoTopo = DATA[0]?DATA[0].id:'RESUMO'; store(); renderAll(); };
+  navcasaEl.appendChild(bD);
+}
+
+function precoCellHTML(it,hi,pi,ci,ii){
+  const ins=itemInsumo(it);
+  const dat=`data-hi="${hi}" data-pi="${pi}" data-ci="${ci}" data-ii="${ii}"`;
+  if(ins){
+    return `<td class="num"><div class="precowrap">
+      <button class="linkbtn on" title="Preço do catálogo: ${escAttr(ins.nome)} (${fmt(ins.preco)}). Clique para gerenciar." data-act="linkItem" ${dat}>🔗</button>
+      <span class="precoval">${fmt(ins.preco)}</span></div></td>`;
+  }
+  return `<td class="num"><div class="precowrap">
+    <button class="linkbtn" title="Preço próprio. Clique para vincular ao catálogo." data-act="linkItem" ${dat}>🔗</button>
+    <input type="number" class="preco" step="any" min="0" value="${it[3]}" ${dat} data-f="p"></div></td>`;
+}
+function pratoCardHTML(h, hi, p, pi){
+  const custo=pratoCost(p), cmvProprio = p.ref>0 ? custo/p.ref*100 : null;
+  let comphtml='';
+  p.comps.forEach((c,ci)=>{
+    comphtml+=`<div class="comphead">
+      <input class="ctitle" value="${String(c.t).replace(/"/g,'&quot;')}" data-hi="${hi}" data-pi="${pi}" data-ci="${ci}" data-f="ct">
+      <button class="mini verde" data-act="addItem" data-hi="${hi}" data-pi="${pi}" data-ci="${ci}">＋ ingrediente</button>
+      <button class="mini verm" data-act="delComp" data-hi="${hi}" data-pi="${pi}" data-ci="${ci}">✕ componente</button>
+    </div>
+    <table class="itens"><thead><tr><th>Ingrediente</th><th class="num">Qtd</th><th>Un</th><th class="num">Preço /kg·L·un</th><th class="num">Custo</th><th class="thdel"></th></tr></thead><tbody>`;
+    c.itens.forEach((it,ii)=>{
+      comphtml+=`<tr>
+        <td><input class="nm" value="${String(it[0]).replace(/"/g,'&quot;')}" data-hi="${hi}" data-pi="${pi}" data-ci="${ci}" data-ii="${ii}" data-f="nm"></td>
+        <td class="num"><input type="number" class="qtd" step="any" min="0" value="${it[1]}" data-hi="${hi}" data-pi="${pi}" data-ci="${ci}" data-ii="${ii}" data-f="q"></td>
+        <td><select class="un" data-hi="${hi}" data-pi="${pi}" data-ci="${ci}" data-ii="${ii}" data-f="u">${UNS.map(u=>`<option ${u===it[2]?'selected':''}>${u}</option>`).join('')}</select></td>
+        ${precoCellHTML(it,hi,pi,ci,ii)}
+        <td class="num">${fmt(itemCost(it))}</td>
+        <td class="xdel" data-act="delItem" data-hi="${hi}" data-pi="${pi}" data-ci="${ci}" data-ii="${ii}">✕</td></tr>`;
+    });
+    const sub=c.itens.reduce((s,it)=>s+itemCost(it),0);
+    comphtml+=`<tr class="subtot"><td colspan="4">Subtotal componente</td><td class="num">${fmt(sub)}</td><td></td></tr></tbody></table>`;
+  });
+  return `<div class="pratoCard" data-hi="${hi}" data-pi="${pi}">
+    <div class="pratoTop">
+      <div class="campo">
+        <div class="pnome" contenteditable="true" data-hi="${hi}" data-pi="${pi}" data-f="nome">${p.nome}</div>
+        <div class="pdesc" contenteditable="true" data-hi="${hi}" data-pi="${pi}" data-f="desc">${p.desc||'—'}</div>
+        <div class="pmeta" style="margin-top:8px">
+          <select class="tempo" data-hi="${hi}" data-pi="${pi}" data-f="tempo">${TEMPOS.map(t=>`<option ${t===p.tempo?'selected':''}>${t}</option>`).join('')}</select>
+          <span class="reflabel">Preço venda / ref.</span>
+          <input type="number" class="refprice" step="any" min="0" value="${p.ref||0}" data-hi="${hi}" data-pi="${pi}" data-f="ref">
+          <span class="pcusto">custo ${fmt(custo)}</span>
+          ${cmvProprio!==null ? `<span class="pcmv ${cmvClass(cmvProprio)}">CMV ${cmvProprio.toFixed(1)}%</span>` : `<span class="pcmv" style="color:#8a7f68;background:transparent">sem preço de ref.</span>`}
+          ${!NO_MENU(p.tempo) ? '<span style="font-size:.7rem;color:#8a7f68">· fora do cálculo do menu fechado</span>' : ''}
+        </div>
+      </div>
+      <button class="excluirPrato" data-act="delPrato" data-hi="${hi}" data-pi="${pi}">✕ excluir prato</button>
+    </div>
+    ${comphtml}
+    <button class="mini verde" data-act="addComp" data-hi="${hi}" data-pi="${pi}">＋ componente</button>
+  </div>`;
+}
+
+function renderCasaContent(circ, h, hi){
+  const m = menuCalc(h);
+  let pratosHtml=''; h.pratos.forEach((p,pi)=> pratosHtml += pratoCardHTML(h,hi,p,pi) );
+  let ideiasHtml=''; (h.ideias||[]).forEach((d,di)=>{
+    ideiasHtml+=`<div class="icard">
+      <div class="in">${d.nome}</div><div class="id">${d.desc}</div>
+      <div class="im"><span>${d.tempo} · custo ~${fmt(d.custo)} · ref ~${fmt(d.ref)}</span>
+      <button data-act="addIdeia" data-hi="${hi}" data-di="${di}">＋ pôr no menu</button></div>
+    </div>`;
+  });
+  return `
+    <div class="chead">
+      <div>
+        <div class="menuNome">menu · <span contenteditable="true" data-hi="${hi}" data-f="menuNome">${h.menuNome}</span></div>
+        <h2 contenteditable="true" data-hi="${hi}" data-f="nomeCasa">${h.nome}</h2>
+        <div class="quem" contenteditable="true" data-hi="${hi}" data-f="quem">${h.quem}</div>
+      </div>
+      <button class="delcasa" data-act="delCasa" data-hi="${hi}">✕ excluir casa</button>
+    </div>
+    ${pratosHtml}
+    <button class="mini verde addPrato" data-act="addPrato" data-hi="${hi}">＋ novo prato (ficha em branco)</button>
+    <div class="painel">
+      <div class="bloco"><div class="rotulo">Custo (3 tempos)</div><div class="valor" id="ct_${circ.id}_${hi}">${fmt(m.custo)}</div></div>
+      <div class="bloco"><div class="rotulo">Preço fechado do menu</div><input type="number" step="any" min="1" value="${h.precoMenu}" data-hi="${hi}" data-f="precoMenu"></div>
+      <div class="bloco"><div class="rotulo">CMV do menu <span style="opacity:.7">(alvo 25–32%)</span></div><div class="valor destaque" id="cmv_${circ.id}_${hi}" style="color:${m.cmv<=30?'#b9f0cc':(m.cmv<=32?'#f6d48a':'#f3b0a5')}">${m.cmv.toFixed(1)}%</div></div>
+      <div class="bloco"><div class="rotulo">Soma à la carte</div><div class="valor" id="alc_${circ.id}_${hi}">${fmt(m.alc)}</div></div>
+      <div class="bloco"><div class="rotulo">Margem bruta</div><div class="valor" id="mg_${circ.id}_${hi}">${fmt(m.margem)}</div></div>
+    </div>
+    <div class="economia" id="eco_${circ.id}_${hi}">${ ecoMsg(m) }</div>
+    <div class="ideias">
+      <h3>Banco de ideias do conselho</h3>
+      <div class="nota">Sugestões criativas para construir na mesa — clique para mandar ao menu como prato inicial e detalhe os ingredientes.</div>
+      <div class="igrid">${ideiasHtml}</div>
+    </div>`;
+}
+
+function renderResumo(){
+  const rows=[];
+  DATA.forEach(c=>c.casas.forEach(h=>{
+    const m=menuCalc(h);
+    const eco = m.alc>m.preco && m.preco>0 ? ((1-m.preco/m.alc)*100).toFixed(0)+'%' : '—';
+    rows.push(`<tr><td>${c.nome}</td><td><b>${h.nome}</b></td><td>${h.menuNome}</td>
+      <td class="num">${fmt(m.preco)}</td><td class="num">${fmt(m.custo)}</td>
+      <td class="num" style="font-weight:700;color:${m.cmv<=30?'#2e7d4f':(m.cmv<=32?'#b07a12':'#a33327')}">${m.cmv.toFixed(1)}%</td>
+      <td class="num">${fmt(m.alc)}</td><td class="num">${eco}</td></tr>`);
+  }));
+  document.getElementById('resumoBody').innerHTML=rows.join('');
+}
+
+function usoInsumos(){
+  const uso={};
+  DATA.forEach(c=>c.casas.forEach(h=>h.pratos.forEach(p=>p.comps.forEach(cc=>cc.itens.forEach(it=>{
+    const ins=itemInsumo(it); if(ins) uso[ins.id]=(uso[ins.id]||0)+1;
+  })))));
+  return uso;
+}
+function renderInsumos(){
+  const uso=usoInsumos(); const body=document.getElementById('insBody');
+  if(!INSUMOS.length){ body.innerHTML='<tr class="vazio"><td colspan="5">Nenhum insumo cadastrado. Use \u201c＋ novo insumo\u201d ou \u201c⤵ importar insumos das fichas\u201d.</td></tr>'; return; }
+  let rows='';
+  INSUMOS.forEach((x,ix)=>{
+    const un=x.un||'kg';
+    rows+=`<tr>
+      <td><input class="insnm" value="${escAttr(x.nome)}" data-ins="${ix}" data-f="insNome"></td>
+      <td><select class="insu" data-ins="${ix}" data-f="insUn">${UNS_BASE.map(u=>`<option ${u===un?'selected':''}>${u}</option>`).join('')}</select></td>
+      <td class="num"><input type="number" class="insp" step="any" min="0" value="${x.preco}" data-ins="${ix}" data-f="insPreco"></td>
+      <td class="num usocol">${uso[x.id]||0}</td>
+      <td class="xdel" data-act="delInsumo" data-ins="${ix}">✕</td></tr>`;
+  });
+  body.innerHTML=rows;
+}
+function addInsumo(){ INSUMOS.push({id:'ins'+Date.now()+Math.floor(Math.random()*999),nome:'Novo insumo',preco:0,un:'kg'}); store(); renderInsumos(); }
+function importInsumos(){
+  let add=0;
+  DATA.forEach(c=>c.casas.forEach(h=>h.pratos.forEach(p=>p.comps.forEach(cc=>cc.itens.forEach(it=>{
+    const nome=(it[0]||'').trim(); if(!nome) return;
+    if(insumoByNome(nome)||insumoById(it[4])) return;
+    const un=it[2]==='un'?'un':(it[2]==='ml'?'L':'kg');
+    INSUMOS.push({id:'ins'+Date.now()+Math.floor(Math.random()*99999),nome,preco:+it[3]||0,un}); add++;
+  })))));
+  store(); renderInsumos();
+  alert(add?(add+' insumo(s) importado(s). Edite o preço aqui e vale pra todas as fichas.'):'Nenhum insumo novo — todos os ingredientes já estão no catálogo.');
+}
+function getItemFromDS(ds){ const circ=DATA.find(c=>c.id===ativoTopo); const h=circ.casas[+ds.hi]; return h.pratos[+ds.pi].comps[+ds.ci].itens[+ds.ii]; }
+function openLink(btn){
+  const o=document.getElementById('ovLink');
+  o.dataset.hi=btn.dataset.hi; o.dataset.pi=btn.dataset.pi; o.dataset.ci=btn.dataset.ci; o.dataset.ii=btn.dataset.ii;
+  const it=getItemFromDS(o.dataset); const ins=itemInsumo(it); const porId=insumoById(it[4]);
+  const info=document.getElementById('linkInfo');
+  info.innerHTML = ins
+    ? 'Ingrediente <b>'+escHtml(it[0]||'—')+'</b> vinculado a <b>'+escHtml(ins.nome)+'</b> ('+fmt(ins.preco)+')'+(porId?' — vínculo manual.':' — casado pelo nome.')
+    : 'Ingrediente <b>'+escHtml(it[0]||'—')+'</b> usa preço próprio ('+fmt(it[3])+'). Vincule ao catálogo para centralizar.';
+  const sel=document.getElementById('linkSelect');
+  sel.innerHTML='<option value="">— escolher insumo —</option>'+INSUMOS.map(x=>`<option value="${x.id}" ${porId&&porId.id===x.id?'selected':''}>${escHtml(x.nome)} · ${fmt(x.preco)}</option>`).join('');
+  document.getElementById('btnUnlink').style.display = porId?'':'none';
+  o.classList.add('on');
+}
+function applyLink(){
+  const ds=document.getElementById('ovLink').dataset; const it=getItemFromDS(ds);
+  const id=document.getElementById('linkSelect').value;
+  if(!id){ alert('Escolha um insumo, ou cadastre este ingrediente.'); return; }
+  it[4]=id; store(); document.getElementById('ovLink').classList.remove('on'); renderAll();
+}
+function unlinkItem(){
+  const ds=document.getElementById('ovLink').dataset; const it=getItemFromDS(ds);
+  it[4]=undefined; store(); document.getElementById('ovLink').classList.remove('on'); renderAll();
+}
+function registerItem(){
+  const ds=document.getElementById('ovLink').dataset; const it=getItemFromDS(ds);
+  const ja=insumoByNome(it[0]);
+  if(ja){ it[4]=ja.id; } else {
+    const un=it[2]==='un'?'un':(it[2]==='ml'?'L':'kg');
+    const novo={id:'ins'+Date.now()+Math.floor(Math.random()*999),nome:(it[0]||'Insumo').trim(),preco:+it[3]||0,un};
+    INSUMOS.push(novo); it[4]=novo.id;
+  }
+  store(); document.getElementById('ovLink').classList.remove('on'); renderAll();
+}
+function renderAll(){
+  renderTop();
+  circEl.innerHTML='';
+  const emInsumos = ativoTopo==='INSUMOS';
+  resumoEl.classList.toggle('on', ativoTopo==='RESUMO');
+  insumosEl.classList.toggle('on', emInsumos);
+  navcasaEl.style.display = (ativoTopo==='RESUMO'||emInsumos) ? 'none' : 'flex';
+
+  DATA.forEach(c=>{
+    const sec=document.createElement('section'); sec.className='circuito'+(c.id===ativoTopo?' on':''); sec.id='c_'+c.id;
+    if(c.id===ativoTopo){
+      renderCasaNav(c);
+      c.casas.forEach((h,hi)=>{
+        const hsec=document.createElement('div'); hsec.className='casa'+(h.id===ativaCasa[c.id]?' on':''); hsec.id='h_'+c.id+'_'+h.id;
+        hsec.innerHTML = renderCasaContent(c,h,hi);
+        sec.appendChild(hsec);
+      });
+    } else {
+      // still render (hidden) so print binder can show every casa in every circuito
+      c.casas.forEach((h,hi)=>{
+        const hsec=document.createElement('div'); hsec.className='casa'; hsec.id='h_'+c.id+'_'+h.id;
+        hsec.innerHTML = renderCasaContent(c,h,hi);
+        sec.appendChild(hsec);
+      });
+    }
+    circEl.appendChild(sec);
+  });
+
+  if(ativoTopo==='RESUMO') renderResumo();
+  if(emInsumos) renderInsumos();
+  if(!ativoTopo || ativoTopo==='RESUMO' || emInsumos){ navcasaEl.innerHTML=''; }
+}
+
+// live edits (no full re-render, preserves focus)
+document.addEventListener('input', e=>{
+  const t=e.target, f=t.dataset.f; if(!f) return;
+  if(t.dataset.ins!==undefined){
+    const x=INSUMOS[+t.dataset.ins]; if(!x) return;
+    if(f==='insNome') x.nome=t.value;
+    else if(f==='insPreco') x.preco=parseFloat(t.value)||0;
+    store();
+    if(f==='insPreco'){ const u=usoInsumos(); const cell=t.closest('tr').querySelector('.usocol'); if(cell) cell.textContent=u[x.id]||0; }
+    return;
+  }
+  if(t.dataset.hi!==undefined && t.dataset.pi===undefined && t.dataset.ci===undefined){
+    // casa-level or top-level field
+    const circ = DATA.find(c=>c.id===ativoTopo);
+    const h = circ ? circ.casas[+t.dataset.hi] : null; if(!h) return;
+    if(f==='precoMenu'){ h.precoMenu=parseFloat(t.value)||0; }
+    else if(f==='menuNome'){ h.menuNome=t.textContent.trim()||h.menuNome; }
+    else if(f==='nomeCasa'){ h.nome=t.textContent.trim()||h.nome; }
+    else if(f==='quem'){ h.quem=t.textContent.trim(); }
+    store(); refreshCasaCalc(circ,h,+t.dataset.hi); return;
+  }
+  const circ = DATA.find(c=>c.id===ativoTopo); if(!circ) return;
+  const h = circ.casas[+t.dataset.hi]; if(!h) return;
+  if(t.dataset.pi!==undefined && t.dataset.ci===undefined){
+    const p = h.pratos[+t.dataset.pi]; if(!p) return;
+    if(f==='nome') p.nome=t.textContent.trim()||p.nome;
+    if(f==='desc') p.desc=t.textContent.trim();
+    if(f==='ref') p.ref=parseFloat(t.value)||0;
+    store(); refreshCasaCalc(circ,h,+t.dataset.hi); return;
+  }
+  if(t.dataset.ci!==undefined){
+    const p=h.pratos[+t.dataset.pi], c=p.comps[+t.dataset.ci];
+    if(f==='ct'){ c.t=t.value; store(); return; }
+    const it=c.itens[+t.dataset.ii];
+    if(f==='nm'){
+      const antes=itemInsumo(it); it[0]=t.value; const depois=itemInsumo(it);
+      if(!!antes!==!!depois || (antes&&depois&&antes.id!==depois.id)){ store(); renderAll(); return; }
+    }
+    if(f==='q') it[1]=parseFloat(t.value)||0;
+    if(f==='u') it[2]=t.value;
+    if(f==='p') it[3]=parseFloat(t.value)||0;
+    store(); refreshCasaCalc(circ,h,+t.dataset.hi);
+  }
+});
+
+function refreshCasaCalc(circ,h,hi){
+  // light recompute without full re-render: update prato cost/cmv labels + casa panel
+  const cardSel = `.casa.on .pratoCard[data-hi="${hi}"]`;
+  document.querySelectorAll(cardSel).forEach(card=>{
+    const pi=+card.dataset.pi, p=h.pratos[pi]; if(!p) return;
+    const custo=pratoCost(p), cmvProprio = p.ref>0 ? custo/p.ref*100 : null;
+    const custoEl=card.querySelector('.pcusto'); if(custoEl) custoEl.textContent='custo '+fmt(custo);
+    const cmvEl=card.querySelector('.pcmv');
+    if(cmvEl){
+      if(cmvProprio!==null){ cmvEl.textContent='CMV '+cmvProprio.toFixed(1)+'%'; cmvEl.className='pcmv '+cmvClass(cmvProprio); }
+      else { cmvEl.textContent='sem preço de ref.'; cmvEl.className='pcmv'; cmvEl.style.color='#8a7f68'; cmvEl.style.background='transparent'; }
+    }
+    // item cost cells
+    p.comps.forEach((c,ci)=>{
+      const table = card.querySelectorAll('table.itens')[ci]; if(!table) return;
+      c.itens.forEach((it,ii)=>{
+        const row = table.querySelectorAll('tbody tr')[ii]; if(!row) return;
+        const cell = row.children[4]; if(cell) cell.textContent=fmt(itemCost(it));
+      });
+      const subRow = table.querySelector('tr.subtot td:nth-child(2)');
+      if(subRow) subRow.textContent = fmt(c.itens.reduce((s,it)=>s+itemCost(it),0));
+    });
+  });
+  const m=menuCalc(h);
+  const k=circ.id+'_'+hi;
+  const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
+  set('ct_'+k, fmt(m.custo)); set('alc_'+k, fmt(m.alc)); set('mg_'+k, fmt(m.margem));
+  const ce=document.getElementById('cmv_'+k);
+  if(ce){ ce.textContent=m.cmv.toFixed(1)+'%'; ce.style.color = m.cmv<=30?'#b9f0cc':(m.cmv<=32?'#f6d48a':'#f3b0a5'); }
+  const eco=document.getElementById('eco_'+k);
+  if(eco){ eco.innerHTML = ecoMsg(m); }
+}
+
+document.addEventListener('change', e=>{
+  const t=e.target;
+  if(t.dataset.f==='insUn' && t.dataset.ins!==undefined){ const x=INSUMOS[+t.dataset.ins]; if(x){ x.un=t.value; store(); } return; }
+  if(t.dataset.f==='tempo'){
+    const circ=DATA.find(c=>c.id===ativoTopo), h=circ.casas[+t.dataset.hi];
+    h.pratos[+t.dataset.pi].tempo=t.value; store(); renderAll();
+  } else if(t.dataset.f==='u'){
+    const circ=DATA.find(c=>c.id===ativoTopo), h=circ.casas[+t.dataset.hi];
+    h.pratos[+t.dataset.pi].comps[+t.dataset.ci].itens[+t.dataset.ii][2]=t.value;
+    store(); refreshCasaCalc(circ,h,+t.dataset.hi);
+  }
+});
+
+document.addEventListener('click', e=>{
+  const t=e.target.closest('[data-act]'); if(!t) return;
+  const act=t.dataset.act;
+  if(act==='delInsumo'){
+    const ix=+t.dataset.ins, x=INSUMOS[ix]; if(!x) return;
+    const u=usoInsumos()[x.id]||0;
+    if(!confirm('Excluir o insumo "'+x.nome+'"?'+(u?' '+u+' ingrediente(s) ligado(s) voltam ao preço da linha.':''))) return;
+    DATA.forEach(c=>c.casas.forEach(h=>h.pratos.forEach(p=>p.comps.forEach(cc=>cc.itens.forEach(it=>{ if(it[4]===x.id) it[4]=undefined; })))));
+    INSUMOS.splice(ix,1); store(); renderInsumos(); return;
+  }
+  if(act==='linkItem'){ openLink(t); return; }
+  const circ = DATA.find(c=>c.id===ativoTopo); if(!circ) return;
+
+  if(act==='delCasa'){
+    const h=circ.casas[+t.dataset.hi];
+    if(!confirm('Excluir a casa "'+h.nome+'" e todo o menu dela?')) return;
+    circ.casas.splice(+t.dataset.hi,1);
+    ativaCasa[circ.id] = circ.casas[0]?circ.casas[0].id:null; store(); renderAll(); return;
+  }
+  const h=circ.casas[+t.dataset.hi]; if(!h) return;
+
+  if(act==='addPrato'){ h.pratos.push({tempo:'À mesa', nome:'Novo prato', desc:'descrição', ref:0, comps:[{t:'Novo componente', itens:[['Novo ingrediente',10,'g',10]]}]}); }
+  else if(act==='delPrato'){ if(!confirm('Excluir este prato?')) return; h.pratos.splice(+t.dataset.pi,1); }
+  else if(act==='addComp'){ h.pratos[+t.dataset.pi].comps.push({t:'Novo componente', itens:[['Novo ingrediente',10,'g',10]]}); }
+  else if(act==='delComp'){ if(!confirm('Excluir este componente e seus ingredientes?')) return; h.pratos[+t.dataset.pi].comps.splice(+t.dataset.ci,1); }
+  else if(act==='addItem'){ h.pratos[+t.dataset.pi].comps[+t.dataset.ci].itens.push(['Novo ingrediente',10,'g',10]); }
+  else if(act==='delItem'){ h.pratos[+t.dataset.pi].comps[+t.dataset.ci].itens.splice(+t.dataset.ii,1); }
+  else if(act==='addIdeia'){
+    const d=h.ideias[+t.dataset.di];
+    h.pratos.push({tempo:d.tempo, nome:d.nome, desc:d.desc, ref:d.ref,
+      comps:[{t:'A detalhar', itens:[[d.nome+' — custo agregado (detalhar item a item)',1,'un',d.custo]]}]});
+  }
+  else return;
+  store(); renderAll();
+});
+
+function criarCircuito(){
+  const nome=document.getElementById('ncNome').value.trim();
+  if(!nome){ alert('Dá um nome pro circuito.'); return; }
+  const id='c'+Date.now();
+  DATA.push({id, nome, casas:[]});
+  ativoTopo=id; ativaCasa[id]=null; store();
+  document.getElementById('ovCirc').classList.remove('on');
+  document.getElementById('ncNome').value='';
+  renderAll();
+}
+
+function criarCasa(){
+  const circId=document.getElementById('ovCasa').dataset.circ;
+  const circ = DATA.find(c=>c.id===circId); if(!circ) return;
+  const nome=document.getElementById('nhNome').value.trim();
+  if(!nome){ alert('Dá um nome pra casa.'); return; }
+  const id='h'+Date.now();
+  circ.casas.push({
+    id, nome, menuNome:document.getElementById('nhMenu').value.trim()||'Menu do Circuito',
+    quem:document.getElementById('nhQuem').value.trim(),
+    precoMenu:parseFloat(document.getElementById('nhPreco').value)||99.90,
+    pratos:[{tempo:'À mesa', nome:'Novo prato', desc:'descrição', ref:0, comps:[{t:'Novo componente', itens:[['Novo ingrediente',10,'g',10]]}]}],
+    ideias:[]
+  });
+  ativoTopo=circId; ativaCasa[circId]=id; store();
+  document.getElementById('ovCasa').classList.remove('on');
+  ['nhNome','nhQuem','nhMenu'].forEach(id2=>document.getElementById(id2).value='');
+  renderAll();
+}
+
+function resetAll(){
+  if(!confirm('Restaurar os dados originais? Tudo que foi editado, criado ou excluído será perdido.')) return;
+  DATA=JSON.parse(JSON.stringify(BASE)); INSUMOS=[]; delete saved.circuitos; delete saved.insumos; delete saved.ativoTopo; delete saved.ativaCasa;
+  ativoTopo=DATA[0].id; ativaCasa={}; DATA.forEach(c=>ativaCasa[c.id]=c.casas[0]?c.casas[0].id:null);
+  store(); renderAll();
+}
+
+function exportDOC(){
+  const dm='"Cormorant Garamond",Georgia,serif';
+  let body='';
+  DATA.forEach(c=>{
+    c.casas.forEach(h=>{
+      if(!h.pratos.length) return;
+      const m=menuCalc(h);
+      body+=`<div class="casa">
+        <div class="kcirc">${escHtml(c.nome)}</div>
+        <h1>${escHtml(h.nome)} — ${escHtml(h.menuNome)}</h1>
+        ${h.quem?`<div class="kquem">${escHtml(h.quem)}</div>`:''}
+        <div class="menuline">Menu fechado ${fmt(h.precoMenu)} · Custo 3 tempos ${fmt(m.custo)} · CMV ${m.cmv.toFixed(1)}%${m.alc>m.preco&&m.preco>0?' · Economia '+((1-m.preco/m.alc)*100).toFixed(0)+'% vs à la carte':''}</div>`;
+      h.pratos.forEach(p=>{
+        const custo=pratoCost(p), cmv=p.ref>0?custo/p.ref*100:null;
+        body+=`<div class="ficha">
+          <div class="ftempo">${escHtml(p.tempo)}${NO_MENU(p.tempo)?'':' · fora do menu fechado'}</div>
+          <div class="fnome">${escHtml(p.nome)}</div>
+          ${p.desc?`<div class="fdesc">${escHtml(p.desc)}</div>`:''}
+          <div class="secao">Ingredientes</div>`;
+        p.comps.forEach(cc=>{
+          body+=`<div class="comp">${escHtml(cc.t)}</div><table class="ing"><tr><th>Ingrediente</th><th class="r">Qtd</th><th>Un</th></tr>`;
+          cc.itens.forEach(it=>{ body+=`<tr><td>${escHtml(it[0])}</td><td class="r">${escHtml(String(it[1]))}</td><td>${escHtml(it[2])}</td></tr>`; });
+          body+=`</table>`;
+        });
+        body+=`<div class="preco">Custo ${fmt(custo)} · Preço de venda/ref. ${fmt(p.ref)}${cmv!==null?' · CMV '+cmv.toFixed(1)+'%':''}</div></div>`;
+      });
+      body+=`</div>`;
+    });
+  });
+  if(!body){ alert('Não há fichas para exportar.'); return; }
+  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Eatlooper Fichas</title><style>
+  body{font-family:Calibri,Arial,sans-serif;color:#1a1a1a;font-size:11pt;line-height:1.45}
+  .casa{page-break-after:always}
+  .kcirc{font-size:8pt;letter-spacing:2px;text-transform:uppercase;color:#d99a2b;font-weight:bold}
+  h1{font-family:${dm};color:#b51d27;font-size:21pt;margin:2pt 0}
+  .kquem{font-style:italic;color:#3f3a34;margin-bottom:4pt}
+  .menuline{background:#f6e6c8;padding:5pt 8pt;font-size:9.5pt;margin-bottom:6pt}
+  .ficha{border-top:1.5pt solid #d99a2b;padding-top:7pt;margin-top:12pt}
+  .ftempo{font-size:8pt;letter-spacing:1.5px;text-transform:uppercase;color:#d99a2b;font-weight:bold}
+  .fnome{font-family:${dm};color:#b51d27;font-size:15pt;font-weight:bold}
+  .fdesc{font-style:italic;color:#3f3a34}
+  .secao{font-size:8.5pt;letter-spacing:1px;text-transform:uppercase;color:#b51d27;font-weight:bold;margin:9pt 0 3pt;border-bottom:.75pt solid #e6dccf}
+  .comp{font-weight:bold;color:#b51d27;font-size:10pt;margin:6pt 0 2pt}
+  table.ing{border-collapse:collapse;width:60%;margin-bottom:4pt}
+  table.ing th{text-align:left;font-size:8pt;text-transform:uppercase;color:#3f3a34;border-bottom:.75pt solid #999;padding:2pt 6pt}
+  table.ing th.r,table.ing td.r{text-align:right}
+  table.ing td{padding:2pt 6pt;border-bottom:.5pt solid #ddd}
+  .preco{margin-top:7pt;font-size:9pt;color:#3f3a34;background:#f6ece0;padding:5pt 8pt}
+  </style></head><body>${body}</body></html>`;
+  const blob=new Blob(['\ufeff'+html],{type:'application/msword'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='Eatlooper_Fichas_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.doc';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function exportXLSX(){
+  const go=()=>{
+    const wb=XLSX.utils.book_new();
+    const geral=[['Circuito','Casa','Menu','Preço fechado R$','Custo 3 tempos R$','CMV %','Soma à la carte R$','Economia %','Margem bruta R$']];
+    DATA.forEach(circ=>circ.casas.forEach(h=>{
+      const m=menuCalc(h);
+      const rows=[[circ.nome+' — '+h.nome+' — '+h.menuNome],[h.quem],[],
+        ['Tempo','Prato','Descrição','Componente','Ingrediente','Qtd','Un','Preço R$/kg·L·un','Custo R$','Fonte do preço']];
+      h.pratos.forEach(p=>{
+        p.comps.forEach(c=>c.itens.forEach(it=>{
+          const ins=itemInsumo(it);
+          rows.push([p.tempo,p.nome,p.desc||'',c.t,it[0],it[1],it[2],effPrice(it),+itemCost(it).toFixed(2),ins?('catálogo: '+ins.nome):'linha']);
+        }));
+        rows.push(['','','','','','','','Custo do prato',+pratoCost(p).toFixed(2)]);
+        rows.push(['','','','','','','','Preço de venda / ref.',+(p.ref||0).toFixed(2)]);
+        rows.push([]);
+      });
+      rows.push([],['','','','','','','MENU FECHADO',''],
+        ['','','','','','','Preço fechado','',+m.preco.toFixed(2)],
+        ['','','','','','','Custo 3 tempos','',+m.custo.toFixed(2)],
+        ['','','','','','','CMV %','',+m.cmv.toFixed(1)],
+        ['','','','','','','Soma à la carte','',+m.alc.toFixed(2)],
+        ['','','','','','','Margem bruta','',+m.margem.toFixed(2)]);
+      const ws=XLSX.utils.aoa_to_sheet(rows);
+      ws['!cols']=[{wch:16},{wch:26},{wch:40},{wch:20},{wch:26},{wch:8},{wch:6},{wch:16},{wch:12}];
+      let nm=(h.nome).slice(0,28).replace(/[\\\/\?\*\[\]:]/g,'')||'Casa';
+      XLSX.utils.book_append_sheet(wb, ws, nm);
+      const eco = m.alc>m.preco && m.preco>0 ? +((1-m.preco/m.alc)*100).toFixed(0) : 0;
+      geral.push([circ.nome,h.nome,h.menuNome,+m.preco.toFixed(2),+m.custo.toFixed(2),+m.cmv.toFixed(1),+m.alc.toFixed(2),eco,+m.margem.toFixed(2)]);
+    }));
+    const wsG=XLSX.utils.aoa_to_sheet(geral);
+    wsG['!cols']=[{wch:22},{wch:22},{wch:20},{wch:16},{wch:16},{wch:9},{wch:18},{wch:12},{wch:16}];
+    XLSX.utils.book_append_sheet(wb, wsG, 'Resumo Geral');
+    const uso=usoInsumos();
+    const insArr=[['Insumo','Unidade base','Preço R$','Fichas usando']];
+    INSUMOS.forEach(x=>insArr.push([x.nome,x.un||'kg',+(+x.preco).toFixed(2),uso[x.id]||0]));
+    const wsI=XLSX.utils.aoa_to_sheet(insArr); wsI['!cols']=[{wch:34},{wch:14},{wch:12},{wch:14}];
+    XLSX.utils.book_append_sheet(wb, wsI, 'Insumos');
+    XLSX.writeFile(wb,'Eatlooper_Fichas_Portfolio_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.xlsx');
+  };
+  if(window.XLSX) return go();
+  const s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  s.onload=go;
+  s.onerror=()=>alert('Sem internet para o gerador de XLSX — use o botão de PDF ou tente de novo conectado.');
+  document.head.appendChild(s);
+}
+
+init();
+</script>
+</body>
+</html>
