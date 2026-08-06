@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eatlooper · Páginas das casas · uso interno</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bordo:#B51D27;--beige:#FDF6EE;--beige2:#f6ece0;--white:#fffdfa;--ink:#1A1A1A;
+--ink2:#4a443d;--ink3:#7a736a;--line:#e6dccf;--ok:#2e7d4f;--warn:#b07a12;--bad:#a33327;
+--mar:#2b5a72;--medit:#a8622a;--croc:#3a3330;--shadow:0 8px 28px rgba(45,31,28,.09)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--beige);color:var(--ink);font-family:'Outfit',sans-serif;line-height:1.6;padding-bottom:60px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.top{text-align:center;padding:46px 16px 6px}
+.ki{color:var(--bordo);letter-spacing:.24em;font-size:.66rem;font-weight:700;text-transform:uppercase}
+h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(2rem,5.4vw,3.2rem);margin:8px 0 2px;line-height:1.08}
+h1 em{color:var(--bordo);font-style:italic;font-weight:500}
+.sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink2);font-size:1.12rem}
+.meta{margin-top:12px;font-size:.78rem;color:var(--ink3)}
+.aviso{background:#fbf0d8;border:1px solid #e6d29b;border-left:4px solid var(--warn);border-radius:10px;padding:15px 19px;font-size:.87rem;margin-top:26px}
+.aviso b{color:#8a5f0c}
+h2.sec{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:600;color:var(--bordo);border-bottom:1.5px solid var(--line);padding-bottom:8px;margin:44px 0 6px}
+.seclead{font-size:.9rem;color:var(--ink2);margin-bottom:18px;max-width:780px}
+.casa{background:var(--white);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow);margin-top:15px;padding:19px 24px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.casa.mar{border-left:5px solid var(--mar)} .casa.medit{border-left:5px solid var(--medit)} .casa.croc{border-left:5px solid var(--croc)}
+.casa .loop{font-size:.6rem;letter-spacing:.19em;text-transform:uppercase;font-weight:700}
+.casa.mar .loop{color:var(--mar)} .casa.medit .loop{color:var(--medit)} .casa.croc .loop{color:var(--croc)}
+.casa h3{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;line-height:1.1;margin:2px 0}
+.casa .quem{font-size:.79rem;color:var(--ink3)}
+.casa .nums{font-size:.82rem;color:var(--ink2);margin-top:6px}
+.casa .nums b{color:var(--ink)}
+.cmv{font-weight:700}
+.cmv.ok{color:var(--ok)} .cmv.warn{color:var(--warn)} .cmv.bad{color:var(--bad)}
+.acoes{display:flex;flex-direction:column;gap:7px}
+a.bt{font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;padding:8px 17px;border-radius:20px;border:1.5px solid var(--bordo);background:transparent;color:var(--bordo);text-decoration:none;text-align:center;white-space:nowrap;transition:.15s}
+a.bt:hover{background:var(--bordo);color:#fff}
+a.bt.pri{background:var(--bordo);color:#fff}
+a.bt.pri:hover{background:#8d1620;border-color:#8d1620}
+.regras{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--bordo);border-radius:12px;padding:20px 24px;box-shadow:var(--shadow);margin-top:14px}
+.regras ul{margin-left:18px;font-size:.87rem;color:var(--ink2)} .regras li{margin-bottom:8px}
+.regras li b{color:var(--ink)}
+code{font-family:ui-monospace,monospace;font-size:.82em;background:var(--beige2);padding:1px 6px;border-radius:4px}
+table{width:100%;border-collapse:collapse;margin-top:14px;background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.85rem;box-shadow:var(--shadow)}
+th{background:var(--beige2);text-align:left;padding:10px 13px;font-weight:600;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+td{padding:9px 13px;border-bottom:1px solid var(--beige2);color:var(--ink2)}
+tr:last-child td{border-bottom:none}
+td b{color:var(--ink)}
+footer{margin-top:52px;text-align:center;font-size:.74rem;color:var(--ink3);font-style:italic;border-top:1px solid var(--line);padding-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="ki">eatlooper · uso interno · não linkar da home</div>
+  <h1>Páginas das <em>casas</em></h1>
+  <div class="sub">Uma página por restaurante — menu, ficha técnica editável, modo de preparo e calculadora</div>
+  <div class="meta">06 de agosto de 2026 · v1 · cinco casas do lançamento · Chef Curador François Ozanne</div>
+</header>
+
+<div class="aviso">
+  <b>Como usar.</b> Manda o link da casa direto para o chef, por WhatsApp. A página abre pronta: as cinco decisões vêm primeiro, o modo de preparo já está escrito e a ficha já está preenchida.
+  O chef corrige a gramatura e o preço, escreve o que quiser no preparo, responde as decisões e clica em <b>Enviar alterações</b>. Tudo o que ele digitar fica salvo no navegador dele mesmo que feche a aba.
+</div>
+
+<section>
+  <h2 class="sec">As cinco do lançamento</h2>
+  <p class="seclead">Roster definido na reunião de 06/08: não se lança com nove. Essas cinco são as que estão prontas ou destraváveis esta semana. Preços e CMV já com a decisão do Gratto a R$110 e os frutos do mar 20% mais baratos.</p>
+
+  <div class="casa mar">
+    <div>
+      <div class="loop">Do Mar à Mesa</div>
+      <h3>Gratto</h3>
+      <div class="quem">Samuel Benson · autoral · brasa · alta técnica</div>
+      <div class="nums">Menu <b>R$ 110,00</b> · custo <b>R$ 33,15</b> · CMV <span class="cmv ok">30,1%</span> · <i>menu praticamente fechado, falta trocar o camarão grelhado pelo frito</i></div>
+    </div>
+    <div class="acoes"><a class="bt pri" href="gratto/">abrir página</a></div>
+  </div>
+
+  <div class="casa mar">
+    <div>
+      <div class="loop">Do Mar à Mesa</div>
+      <h3>Mykonos</h3>
+      <div class="quem">Geraldo Neto · cozinha da chef Elane Farias · Treze de Julho</div>
+      <div class="nums">Menu <b>R$ 129,90</b> · custo <b>R$ 37,76</b> · CMV <span class="cmv ok">29,1%</span> · <i>todos os ingredientes já existem na casa; o único item novo é a cúpula</i></div>
+    </div>
+    <div class="acoes"><a class="bt pri" href="mykonos/">abrir página</a></div>
+  </div>
+
+  <div class="casa mar">
+    <div>
+      <div class="loop">Do Mar à Mesa</div>
+      <h3>Samore</h3>
+      <div class="quem">Farolândia · napolitana · forno a lenha · longa fermentação</div>
+      <div class="nums">Menu <b>R$ 119,90</b> · custo <b>R$ 33,98</b> · CMV <span class="cmv ok">28,3%</span> · <i>teste de ponto do camarão sobre a muçarela ainda pendente</i></div>
+    </div>
+    <div class="acoes"><a class="bt pri" href="samore/">abrir página</a></div>
+  </div>
+
+  <div class="casa croc">
+    <div>
+      <div class="loop">Croc &amp; Croc · âncora</div>
+      <h3>Espelunca</h3>
+      <div class="quem">Camila · Inácio Barbosa · fritura autoral</div>
+      <div class="nums">Menu <b>R$ 69,00</b> · custo <b>R$ 14,60</b> · CMV <span class="cmv warn">21,2%</span> · <i>ficha fechada pela casa; a página serve de conferência e de ajuste de porção</i></div>
+    </div>
+    <div class="acoes"><a class="bt pri" href="espelunca/">abrir página</a></div>
+  </div>
+
+  <div class="casa medit">
+    <div>
+      <div class="loop">Amor à Primeira Garfada</div>
+      <h3>Di Vino Vinhos &amp; Gourmet</h3>
+      <div class="quem">Sergio · Treze de Julho · a única adega com sommelier da praça</div>
+      <div class="nums">Menu <b>R$ 149,90</b> · custo <b>R$ 45,09</b> · CMV <span class="cmv ok">30,1%</span> · <i>menu nunca foi enviado; esta página é a primeira conversa</i></div>
+    </div>
+    <div class="acoes"><a class="bt pri" href="di-vino/">abrir página</a></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">As quatro que ficam para a sequência</h2>
+  <p class="seclead">Não entram nesta rodada, mas as fichas já existem no arquivo matriz — a página se gera em minutos quando cada uma destravar.</p>
+  <table>
+    <thead><tr><th>Casa</th><th>Circuito</th><th>Menu</th><th>CMV</th><th>O que trava</th></tr></thead>
+    <tbody>
+      <tr><td><b>Mi Piace</b></td><td>Amor à Primeira Garfada</td><td>R$ 74,90</td><td>29,3%</td><td>Custo real da massa do Pão do Sino — só a Shenia sabe</td></tr>
+      <tr><td><b>Casa Mitarakis</b></td><td>Amor à Primeira Garfada</td><td>R$ 99,90</td><td>31,1%</td><td>Equipe em reestruturação; cardápio novo ainda não enviado</td></tr>
+      <tr><td><b>Argo</b></td><td>Croc &amp; Croc</td><td>R$ 59,90</td><td>28,9%</td><td>Wagner indisponível — Victor liga hoje</td></tr>
+      <tr><td><b>Blend Burger</b></td><td>Croc &amp; Croc</td><td>R$ 69,00</td><td>29,4%</td><td>Relacionamento em compasso de espera; provavelmente não fecha</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2 class="sec">Notas de repositório</h2>
+  <div class="regras"><ul>
+    <li><b>Onde isto vive.</b> <code>/casas/index.html</code> e <code>/casas/&lt;slug&gt;/index.html</code>, ao lado de <code>/loops/</code>. Não linkar da home enquanto o lançamento for às cegas — o link vai direto para o chef.</li>
+    <li><b>O README está desatualizado.</b> Ele descreve o loop <i>Sinta-se em Casa</i> com Casa do Mangue, Mi Piace e Mitarakis. A v7 renomeou para <i>Amor à Primeira Garfada</i> e trocou a Casa do Mangue pelo Di Vino. O Samore também subiu para o Do Mar à Mesa.</li>
+    <li><b>Vermelho.</b> O README usa <code>#D42B2B</code>; o bordô real, extraído do arquivo do logo, é <code>#B51D27</code> — que é o que estas páginas usam. Vale reconciliar os dois no repositório.</li>
+    <li><b>Persistência.</b> Enquanto o Apps Script de <code>_backend/</code> não estiver publicado, o botão <i>Enviar alterações</i> baixa o JSON e abre o WhatsApp com o resumo. Depois de publicado, cai direto na planilha matriz. Instruções em <code>_backend/COMO_INSTALAR.md</code>.</li>
+    <li><b>Trocar o número.</b> Em cada página, na constante <code>WHATSAPP</code>, está um número de exemplo. Trocar antes de mandar para qualquer casa.</li>
+  </ul></div>
+</section>
+
+<footer>
+  eatlooper · páginas das casas · v1 · 06/08/2026 · uso interno<br>
+  Curadoria: François Ozanne · Conselho Ozanne
+</footer>
+
+</div>
+</body>
+</html>

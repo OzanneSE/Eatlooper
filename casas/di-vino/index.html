@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eatlooper · Di Vino · menu, ficha técnica e calculadora</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bordo:#B51D27;--beige:#FDF6EE;--beige2:#f6ece0;--white:#fffdfa;--ink:#1A1A1A;
+--ink2:#4a443d;--ink3:#7a736a;--line:#e6dccf;--ok:#2e7d4f;--warn:#b07a12;--bad:#a33327;
+--casa:#a8622a;--casaSoft:#f7e9dc;--shadow:0 8px 28px rgba(45,31,28,.09)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--beige);color:var(--ink);font-family:'Outfit',sans-serif;line-height:1.6;padding-bottom:120px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.top{text-align:center;padding:44px 16px 6px}
+.ki{color:var(--casa);letter-spacing:.24em;font-size:.66rem;font-weight:700;text-transform:uppercase}
+h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(2rem,5.4vw,3.2rem);margin:8px 0 2px;line-height:1.08}
+.sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink2);font-size:1.12rem;max-width:660px;margin:6px auto 0}
+.meta{margin-top:12px;font-size:.78rem;color:var(--ink3)}
+.painel{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:24px}
+.kpi{background:var(--white);border:1px solid var(--line);border-top:4px solid var(--casa);border-radius:13px;padding:14px 16px;box-shadow:var(--shadow);text-align:center}
+.kpi .l{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+.kpi .v{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:700;line-height:1.15;margin-top:2px}
+.kpi .n{font-size:.7rem;color:var(--ink3)}
+.v.ok{color:var(--ok)}.v.warn{color:var(--warn)}.v.bad{color:var(--bad)}
+h2.sec{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:600;color:var(--bordo);border-bottom:1.5px solid var(--line);padding-bottom:8px;margin:44px 0 6px}
+h2.sec small{font-family:'Outfit',sans-serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);font-weight:700;display:block;margin-bottom:2px}
+.seclead{font-size:.9rem;color:var(--ink2);margin-bottom:16px;max-width:760px}
+.dec{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--bordo);border-radius:13px;padding:18px 22px;box-shadow:var(--shadow);margin-top:13px}
+.dec .n{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--bordo)}
+.dec h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;margin:2px 0 5px}
+.dec p{font-size:.87rem;color:var(--ink2)}
+.resp{margin-top:11px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.resp label{font-size:.74rem;font-weight:600;color:var(--ink2);display:flex;gap:5px;align-items:center;cursor:pointer;background:var(--beige2);padding:5px 12px;border-radius:20px;border:1.5px solid transparent}
+.resp label:has(input:checked){border-color:var(--casa);background:var(--casaSoft);color:var(--ink)}
+textarea{width:100%;font-family:'Outfit',sans-serif;font-size:.86rem;line-height:1.62;color:var(--ink2);background:#fbf7f1;border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-top:9px;resize:vertical}
+textarea:focus{outline:2px solid var(--casa);outline-offset:-1px;background:#fff}
+.prato{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-top:24px;overflow:hidden;border-top:4px solid var(--casa)}
+.ph{padding:18px 24px 14px;border-bottom:1px solid var(--beige2);display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.ph .t{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--casa)}
+.ph h3{font-family:'Cormorant Garamond',serif;font-size:1.62rem;font-weight:600;line-height:1.12;margin:2px 0}
+.ph .cc{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink3);font-size:1rem}
+.ph .st{font-size:.66rem;color:var(--ink3);background:var(--beige2);padding:5px 11px;border-radius:20px;white-space:nowrap}
+.bloco{padding:16px 24px;border-top:1px solid var(--beige2)}
+.bloco h4{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--casa);margin-bottom:7px}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+th{background:var(--beige2);text-align:left;padding:8px 10px;font-weight:600;font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
+th.n,td.n{text-align:right}
+td{padding:5px 10px;border-bottom:1px solid var(--beige2);color:var(--ink2)}
+td input{width:74px;font-family:'Outfit',sans-serif;font-size:.83rem;text-align:right;padding:4px 7px;border:1px solid var(--line);border-radius:6px;background:#fff}
+td input:focus{outline:2px solid var(--casa);outline-offset:-1px}
+.fl{display:inline-block;font-size:.54rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;padding:1px 6px;border-radius:20px;margin-left:6px;vertical-align:1px}
+.fl.ok{background:#e4f2e9;color:var(--ok)}.fl.warn{background:#fbf0d8;color:var(--warn)}.fl.bad{background:#fae5e2;color:var(--bad)}
+.linhatot td{background:#f4ece0;font-weight:700;color:var(--ink);border-top:1px solid var(--line)}
+.crit{background:#fbf0d8;border:1px solid #e6d29b;border-left:4px solid var(--warn);border-radius:9px;padding:11px 15px;font-size:.83rem;margin-top:11px}
+.crit b{color:#8a5f0c}
+.mise{font-size:.8rem;color:var(--ink3);margin-top:9px}
+.regras{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--bordo);border-radius:12px;padding:19px 23px;box-shadow:var(--shadow);margin-top:14px}
+.regras ul{margin-left:18px;font-size:.87rem;color:var(--ink2)}.regras li{margin-bottom:8px}
+.barra{position:fixed;left:0;right:0;bottom:0;background:rgba(253,246,238,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:11px 0;z-index:50;box-shadow:0 -4px 20px rgba(45,31,28,.08)}
+.barra .inner{max-width:980px;margin:0 auto;padding:0 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.barra .stat{font-size:.76rem;color:var(--ink3)}
+.barra .stat b{color:var(--ink)}
+button{font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;padding:9px 18px;border-radius:22px;cursor:pointer;border:1.5px solid var(--bordo);background:transparent;color:var(--bordo);transition:.15s;white-space:nowrap}
+button:hover{background:var(--bordo);color:#fff}
+button.pri{background:var(--bordo);color:#fff}
+button.pri:hover{background:#8d1620;border-color:#8d1620}
+button.done{background:var(--ok);border-color:var(--ok);color:#fff}
+footer{margin-top:50px;text-align:center;font-size:.74rem;color:var(--ink3);font-style:italic;border-top:1px solid var(--line);padding-top:20px}
+footer a{color:var(--casa)}
+@media print{.barra{display:none}body{background:#fff;padding-bottom:0}.prato,.kpi,.regras,.dec{box-shadow:none;page-break-inside:avoid}}
+</style></head><body>
+
+<div class="wrap">
+<header class="top">
+  <div class="ki">eatlooper · circuito Amor à Primeira Garfada · temporada zero</div>
+  <h1>Di Vino</h1>
+  <div class="sub">Um espaço intimista pro casal, um bom vinho, uma boa comida. Ninguém em Aracaju vende tempo a dois — nós vamos.</div>
+  <div class="meta">Sergio · R. José Ramos da Silva, 99 · Treze de Julho · a única adega com sommelier da praça<br>Menu de três tempos — Cheguei · À mesa · Fica mais um pouco · <b>documento de trabalho, editável nesta página</b></div>
+</header>
+
+<div class="painel">
+  <div class="kpi"><div class="l">Preço do menu</div><div class="v">R$ <span id="kPreco">0</span></div><div class="n">para o assinante</div></div>
+  <div class="kpi"><div class="l">Custo dos 3 tempos</div><div class="v">R$ <span id="kCusto">0</span></div><div class="n">soma das fichas</div></div>
+  <div class="kpi"><div class="l">CMV do menu</div><div class="v" id="kCmv">0%</div><div class="n">régua 28–32%</div></div>
+  <div class="kpi"><div class="l">Margem por menu</div><div class="v" style="font-size:1.5rem">R$ <span id="kMargem">0</span></div><div class="n">preço menos insumo</div></div>
+</div>
+
+<section>
+  <h2 class="sec"><small>Antes de tudo</small>O que precisa ser decidido</h2>
+  <p class="seclead">Cinco decisões. Elas vêm primeiro de propósito: sem elas, o resto da página é hipótese. Marque a resposta e escreva o que for preciso — <b>tudo o que você digitar aqui fica salvo</b>.</p>
+  <div id="decisoes"></div>
+</section>
+
+<section>
+  <h2 class="sec"><small>O menu</small>Os três tempos</h2>
+  <p class="seclead">Cada prato traz a ficha técnica com <b>gramatura e preço editáveis</b> — mexa nos números e o custo recalcula na hora — e o modo de preparo já escrito, para você apenas personalizar. O que você escrever substitui o nosso.</p>
+  <div id="pratos"></div>
+</section>
+
+<section>
+  <h2 class="sec"><small>Operação</small>Como o circuito funciona na prática</h2>
+  <div class="regras"><ul>
+    <li><b>Preço de assinante.</b> O assinante paga <b>direto na casa</b>. O Eatlooper não entra na transação e não cobra comissão. Nunca chamamos de desconto — é <b>preço de assinante</b>, e ele vem sempre junto da garantia de uso.</li>
+    <li><b>Garantia de uso.</b> Garantia de uso: quem não usou o mês tem o próximo grátis; quem usou uma vez paga metade no seguinte. É o que tira o medo de assinar.</li>
+    <li><b>Autoria.</b> <b>A autoria pública do prato é da casa.</b> Nenhuma peça nossa mostra transferência de ficha técnica. O que a gente assina é a curadoria do circuito, não a sua receita.</li>
+    <li><b>Duração.</b> O loop dura de 30 a 45 dias. Ao fechar, a casa é recolocada em outro circuito com outro menu.</li>
+    <li><b>Aviso antes do movimento.</b> A gente avisa a casa <b>antes</b> do movimento chegar: quantos assinantes entraram, quantos viram o seu restaurante e qual dia tem gravação. Ninguém é pego de surpresa com um prato que nunca fez.</li>
+    <li><b>Treino antes de abrir.</b> Antes de o menu abrir, a equipe precisa ter executado cada prato <b>pelo menos uma vez</b>. A primeira vez é sempre a difícil — ela não pode acontecer com o cliente na mesa.</li>
+  </ul></div>
+
+  <h2 class="sec" style="font-size:1.5rem;margin-top:34px"><small>Antes da primeira noite</small>Checklist</h2>
+  <div class="regras"><ul>
+    <li><b>Comprar</b> os itens que não estão na sua rotina — a lista sai da ficha, e os marcados como <i>a confirmar</i> são justamente os que a gente não sabe o seu preço.</li>
+    <li><b>Executar cada prato uma vez</b> com a equipe inteira presente, antes de o menu abrir.</li>
+    <li><b>Definir quem monta</b> cada tempo no serviço, e onde fica o mise en place de cada um.</li>
+    <li><b>Fechar dia e hora da gravação</b> — uma visita só, com o menu pronto.</li>
+    <li><b>Devolver esta página</b> com as suas correções, pelo botão <i>Enviar alterações</i> aqui embaixo.</li>
+  </ul></div>
+</section>
+
+<footer>
+  eatlooper · Di Vino · circuito Amor à Primeira Garfada · v1 · 06/08/2026<br>
+  Curadoria: François Ozanne · <a href="mailto:fran.ozanne@gmail.com">fran.ozanne@gmail.com</a> · <a href="../../">voltar aos circuitos</a>
+</footer>
+</div>
+
+<div class="barra"><div class="inner">
+  <div class="stat" id="stat">Nada alterado ainda.</div>
+  <div style="display:flex;gap:9px;flex-wrap:wrap">
+    <button onclick="restaurar()">Restaurar original</button>
+    <button onclick="exportarDoc()">Exportar em DOC</button>
+    <button onclick="baixarJson()">Baixar JSON</button>
+    <button class="pri" id="btEnviar" onclick="enviar()">Enviar alterações</button>
+  </div>
+</div></div>
+
+<script>
+// ===== CONFIG =====
+// Cole aqui a URL do Web App do Google Apps Script (ver _backend/COMO_INSTALAR.md).
+// Enquanto estiver vazio, o botão "Enviar alterações" cai no WhatsApp + JSON.
+const ENDPOINT = "";
+const WHATSAPP = "5579981622665"; // François
+
+const ORIG = {"casa": "Di Vino", "slug": "di-vino", "circuito": "Amor à Primeira Garfada", "chef": "Sergio", "bairro": "R. José Ramos da Silva, 99 · Treze de Julho · a única adega com sommelier da praça", "conceito": "Um espaço intimista pro casal, um bom vinho, uma boa comida. Ninguém em Aracaju vende tempo a dois — nós vamos.", "preco": 149.9, "decisoes": [{"t": "Este circuito é para dois", "d": "O Amor à Primeira Garfada é o circuito de casal: <b>entrada compartilhada, mesa demorada, preço pensado para a dupla</b>. A bruschetta já está desenhada para dividir. Faz sentido para o seu salão?"}, {"t": "Qual rótulo entra na dose de sobremesa", "d": "A dose de 60ml é dois terços do custo do terceiro tempo. Calculamos com garrafa de R$115 rendendo 12 doses. <b>Com a sua curadoria e o seu preço de compra, esse número cai.</b> Qual rótulo você colocaria?"}, {"t": "Dose única ou múltipla escolha", "d": "A v7 deixou o formato em aberto: uma sobremesa harmonizada fixa, ou 2 a 3 opções de valores similares para o cliente escolher. <b>Múltipla escolha vende melhor, dose fixa opera melhor.</b> Você decide."}, {"t": "O preço real do ossobuco", "d": "Estamos com R$34,90/kg. A pesquisa achou de R$20 a R$70 dependendo do corte e do açougue — <b>é a maior incerteza desta ficha</b>. Qual é o seu número?"}, {"t": "A narração do sommelier é o produto", "d": "O que transforma sobremesa em experiência aqui não é o doce, é alguém contando a taça. <b>Isso precisa estar no serviço, não só na ficha.</b>"}], "pratos": [{"tempo": "Cheguei", "nome": "Bruschetta de Linguiça na Brasa pra Dois", "status": "a validar", "conceito": "A taça certa chegando antes do prato — o fogo abre a noite no pão da casa.", "preparo": "1. Linguiça artesanal marcada inteira na brasa e depois fatiada em rodelas grossas. Fatiar antes resseca.\n2. Pão da casa fatiado e tostado no mesmo fogo, para pegar a fumaça.\n3. Esfrega alho cru no pão ainda quente.\n4. Monta: pão, tomate confit, rodelas de linguiça, ervas frescas e azeite por cima.\n5. Vai em travessa de centro, para dividir. É o gesto que abre o circuito do casal.", "critico": "Serve em travessa, não em pratos separados. O formato é a mensagem.", "mise": "Linguiça pré-marcada · pão fatiado · tomate confit", "itens": [{"n": "Linguica Artesanal", "un": "KG", "unl": "kg", "q": 0.12, "r": 0.9, "p": 32.0, "fl": "a confirmar", "fc": "bad"}, {"n": "Pao Rustico Da Casa", "un": "KG", "unl": "kg", "q": 0.12, "r": 1.0, "p": 14.0, "fl": "a confirmar", "fc": "bad"}, {"n": "Tomate Confit", "un": "KG", "unl": "kg", "q": 0.05, "r": 1.0, "p": 53.8522, "fl": "base de cozinha", "fc": "ok"}, {"n": "Azeite Extra Virgem", "un": "KG", "unl": "kg", "q": 0.015, "r": 1.0, "p": 31.5, "fl": "cotação", "fc": "ok"}, {"n": "Alho", "un": "KG", "unl": "kg", "q": 0.005, "r": 1.0, "p": 45.0, "fl": "cotação", "fc": "ok"}, {"n": "Ervas Finas", "un": "KG", "unl": "kg", "q": 0.004, "r": 1.0, "p": 60.0, "fl": "cotação", "fc": "ok"}]}, {"tempo": "À mesa", "nome": "Ossobuco de 6 Horas com Risoto", "status": "técnica da casa", "conceito": "Seis horas de fogo — o luxo que não aparece, se prova.", "preparo": "1. COCÇÃO LONGA, EM VOLUME E NA VÉSPERA. Seis horas é o argumento de venda e não pode ser feito no pedido.\n2. Sela o ossobuco, refoga mirepoix, deglaceia com vinho tinto, junta pomodoro e fundo, e vai ao forno baixo tampado por 6 horas.\n3. Resfria dentro do próprio caldo — é assim que ele não resseca na regeneração.\n4. No pedido: regenera a peça no molho reduzido enquanto o risoto é montado.\n5. RISOTO: arbóreo, caldo, montagem com manteiga e parmesão fora do fogo.\n6. Monta o risoto na base e a peça inteira por cima, com o tutano à vista e o molho denso regado.", "critico": "A carne tem que ceder ao garfo sem faca. Se precisar de faca, faltou tempo.", "mise": "Ossobuco cozido na véspera · molho reduzido · caldo do risoto quente", "itens": [{"n": "Ossobuco Bovino", "un": "KG", "unl": "kg", "q": 0.34, "r": 0.85, "p": 34.9, "fl": "pesquisa", "fc": "warn"}, {"n": "Vinho Tinto", "un": "KG", "unl": "L", "q": 0.06, "r": 1.0, "p": 20.0, "fl": "cotação", "fc": "ok"}, {"n": "Cebola", "un": "KG", "unl": "kg", "q": 0.04, "r": 0.9, "p": 3.5, "fl": "cotação", "fc": "ok"}, {"n": "Cenoura", "un": "KG", "unl": "kg", "q": 0.035, "r": 0.85, "p": 3.0, "fl": "cotação", "fc": "ok"}, {"n": "Molho Pomodoro", "un": "KG", "unl": "kg", "q": 0.05, "r": 1.0, "p": 6.1477, "fl": "base de cozinha", "fc": "ok"}, {"n": "Alho", "un": "KG", "unl": "kg", "q": 0.006, "r": 1.0, "p": 45.0, "fl": "cotação", "fc": "ok"}, {"n": "Demi Glace", "un": "KG", "unl": "kg", "q": 0.07, "r": 1.0, "p": 13.565, "fl": "base de cozinha", "fc": "ok"}, {"n": "Arroz Arborio (Base Risoto)", "un": "KG", "unl": "kg", "q": 0.12, "r": 1.0, "p": 14.1084, "fl": "base de cozinha", "fc": "ok"}, {"n": "Manteiga", "un": "KG", "unl": "kg", "q": 0.02, "r": 1.0, "p": 34.0, "fl": "cotação", "fc": "ok"}, {"n": "Parmesao", "un": "KG", "unl": "kg", "q": 0.025, "r": 1.0, "p": 62.9, "fl": "cotação", "fc": "ok"}]}, {"tempo": "Fica mais um pouco", "nome": "Sobremesa da Casa + Vinho de Sobremesa em Dose", "status": "formato a definir", "conceito": "O motivo de não pedir a conta.", "preparo": "1. Fondant assado no pedido, massa congelada em forma individual.\n2. Sorvete ao lado, quenelle tirada na hora.\n3. A dose de 60ml é servida pelo sommelier, com narração — de onde vem, por que harmoniza, o que procurar na boca.\n4. A narração é o produto. Sem ela, é sobremesa com vinho; com ela, é o fecho do circuito.", "critico": "A dose chega junto com a sobremesa, nunca depois.", "mise": "Fondants congelados · taça de dose separada · rótulo aberto e em temperatura", "itens": [{"n": "Chocolate 70%", "un": "KG", "unl": "kg", "q": 0.045, "r": 1.0, "p": 62.0, "fl": "a confirmar", "fc": "bad"}, {"n": "Manteiga", "un": "KG", "unl": "kg", "q": 0.02, "r": 1.0, "p": 34.0, "fl": "cotação", "fc": "ok"}, {"n": "Ovo", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 0.6, "fl": "cotação", "fc": "ok"}, {"n": "Acucar Refinado", "un": "KG", "unl": "kg", "q": 0.022, "r": 1.0, "p": 6.09, "fl": "cotação", "fc": "ok"}, {"n": "Farinha De Trigo", "un": "KG", "unl": "kg", "q": 0.014, "r": 1.0, "p": 3.6, "fl": "cotação", "fc": "ok"}, {"n": "Sorvete / Gelato", "un": "KG", "unl": "kg", "q": 0.05, "r": 1.0, "p": 15.4, "fl": "cotação", "fc": "ok"}, {"n": "Vinho De Sobremesa (Dose 60Ml)", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 9.58, "fl": "a confirmar", "fc": "bad"}]}]};
+const LS = 'eatlooper_ficha_' + ORIG.slug;
+let D = carregar();
+
+function carregar(){
+  try{ const s=localStorage.getItem(LS); if(s){ const j=JSON.parse(s); if(j && j.slug===ORIG.slug) return j; } }catch(e){}
+  return JSON.parse(JSON.stringify(ORIG));
+}
+function salvar(){
+  D.alterado_em = new Date().toISOString();
+  try{ localStorage.setItem(LS, JSON.stringify(D)); }catch(e){}
+  render_totais(); marcar();
+}
+const brl = v => v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const custoItem = it => (it.q/it.r)*it.p;
+const custoPrato = p => p.itens.reduce((s,it)=>s+custoItem(it),0);
+const custoMenu = () => D.pratos.reduce((s,p)=>s+custoPrato(p),0);
+
+function qtdTxt(it,v){ return it.un==='UN' ? (Math.round(v*1000)/1000)+' un' : Math.round(v*1000)+' g'; }
+
+function render(){
+  // decisoes
+  document.getElementById('decisoes').innerHTML = D.decisoes.map((d,i)=>`
+   <div class="dec">
+     <div class="n">Decisão ${i+1} de ${D.decisoes.length}</div>
+     <h3>${d.t}</h3><p>${d.d}</p>
+     <div class="resp">
+       ${['Confirmado','Precisa ajustar','Não dá'].map(o=>`
+        <label><input type="radio" name="dec${i}" value="${o}" ${d.resposta===o?'checked':''}
+          onchange="D.decisoes[${i}].resposta=this.value;salvar()">${o}</label>`).join('')}
+     </div>
+     <textarea rows="2" placeholder="Escreva aqui o que precisa mudar, o preço real, a data que dá…"
+       oninput="D.decisoes[${i}].nota=this.value;salvarDebounce()">${d.nota||''}</textarea>
+   </div>`).join('');
+
+  // pratos
+  document.getElementById('pratos').innerHTML = D.pratos.map((p,pi)=>`
+   <div class="prato">
+     <div class="ph"><div>
+       <div class="t">${p.tempo}</div><h3>${p.nome}</h3>
+       <div class="cc">${p.conceito}</div></div>
+       <div class="st">${p.status}</div></div>
+
+     <div class="bloco"><h4>Ficha técnica — edite a gramatura e o preço</h4>
+       <table><thead><tr>
+         <th>Ingrediente</th><th class="n">Qtd</th><th class="n">Rend.</th>
+         <th class="n">Bruta</th><th class="n">Preço</th><th class="n">Custo</th></tr></thead><tbody>
+       ${p.itens.map((it,ii)=>`<tr>
+         <td>${it.n}<span class="fl ${it.fc}">${it.fl}</span></td>
+         <td class="n"><input type="number" step="any" min="0" value="${it.un==='UN'?it.q:Math.round(it.q*1000)}"
+            onchange="setQ(${pi},${ii},this.value)"> <span style="font-size:.7rem;color:var(--ink3)">${it.un==='UN'?'un':'g'}</span></td>
+         <td class="n"><input type="number" step="1" min="1" max="100" value="${Math.round(it.r*100)}"
+            onchange="setR(${pi},${ii},this.value)">%</td>
+         <td class="n" id="b_${pi}_${ii}"></td>
+         <td class="n"><input type="number" step="any" min="0" value="${it.p}"
+            onchange="setP(${pi},${ii},this.value)"> <span style="font-size:.7rem;color:var(--ink3)">/${it.unl}</span></td>
+         <td class="n" id="c_${pi}_${ii}"></td></tr>`).join('')}
+         <tr class="linhatot"><td>Custo do preparo</td><td colspan="4"></td>
+           <td class="n" id="tp_${pi}"></td></tr>
+       </tbody></table>
+     </div>
+
+     <div class="bloco"><h4>Modo de preparo — pronto, é só personalizar</h4>
+       <textarea rows="${Math.max(6, p.preparo.split('\n').length+1)}"
+         oninput="D.pratos[${pi}].preparo=this.value;salvarDebounce()">${p.preparo}</textarea>
+       <div class="crit"><b>Ponto crítico:</b> ${p.critico}</div>
+       <div class="mise"><b>Mise en place:</b> ${p.mise}</div>
+     </div>
+   </div>`).join('');
+  render_totais();
+}
+
+function setQ(pi,ii,v){ const it=D.pratos[pi].itens[ii];
+  it.q = it.un==='UN' ? (+v||0) : (+v||0)/1000; salvar(); }
+function setR(pi,ii,v){ D.pratos[pi].itens[ii].r = Math.min(1,Math.max(.01,(+v||100)/100)); salvar(); }
+function setP(pi,ii,v){ D.pratos[pi].itens[ii].p = +v||0; salvar(); }
+
+function render_totais(){
+  D.pratos.forEach((p,pi)=>{
+    p.itens.forEach((it,ii)=>{
+      const b=it.q/it.r;
+      const eb=document.getElementById(`b_${pi}_${ii}`); if(eb) eb.textContent=qtdTxt(it,b);
+      const ec=document.getElementById(`c_${pi}_${ii}`); if(ec) ec.textContent='R$ '+brl(custoItem(it));
+    });
+    const tp=document.getElementById(`tp_${pi}`); if(tp) tp.textContent='R$ '+brl(custoPrato(p));
+  });
+  const c=custoMenu(), cmv=c/D.preco;
+  document.getElementById('kPreco').textContent=brl(D.preco);
+  document.getElementById('kCusto').textContent=brl(c);
+  document.getElementById('kMargem').textContent=brl(D.preco-c);
+  const el=document.getElementById('kCmv');
+  el.textContent=(cmv*100).toFixed(1)+'%';
+  el.className='v '+(cmv>=.28&&cmv<=.32?'ok':(cmv<.28?'warn':'bad'));
+}
+
+let deb; function salvarDebounce(){ clearTimeout(deb); deb=setTimeout(salvar,600); }
+function marcar(){
+  const dif = JSON.stringify({p:D.pratos,d:D.decisoes}) !== JSON.stringify({p:ORIG.pratos,d:ORIG.decisoes});
+  document.getElementById('stat').innerHTML = dif
+    ? '<b>Alterado.</b> Salvo neste navegador — clique em Enviar alterações para chegar até nós.'
+    : 'Nada alterado ainda.';
+}
+function restaurar(){
+  if(!confirm('Isso apaga suas alterações e volta ao original. Continuar?')) return;
+  localStorage.removeItem(LS); D=JSON.parse(JSON.stringify(ORIG)); render(); marcar();
+}
+function baixarJson(){
+  const b=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
+  a.download='eatlooper_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.json';
+  a.click();
+}
+
+function docHtml(){
+  const c=custoMenu(), cmv=c/D.preco;
+  let h=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+  <head><meta charset="utf-8"><title>Ficha ${D.casa}</title>
+  <style>body{font-family:Calibri,sans-serif;font-size:11pt;color:#1A1A1A}
+  h1{font-size:22pt;color:#B51D27;margin-bottom:2pt}h2{font-size:15pt;color:${'#a8622a'};border-bottom:1px solid #ccc;margin-top:18pt}
+  h3{font-size:12pt;margin-bottom:2pt}table{border-collapse:collapse;width:100%;font-size:9.5pt}
+  th{background:#f6ece0;text-align:left;padding:4pt;border:1px solid #ddd}
+  td{padding:4pt;border:1px solid #eee}.n{text-align:right}
+  .box{background:#fbf0d8;border-left:3px solid #b07a12;padding:6pt 9pt;margin:6pt 0}
+  .cc{font-style:italic;color:#666}</style></head><body>
+  <h1>${D.casa}</h1>
+  <p><b>Circuito ${D.circuito}</b> · ${D.chef} · ${D.bairro}<br>
+  Menu de três tempos · Preço R$ ${brl(D.preco)} · Custo R$ ${brl(c)} · CMV ${(cmv*100).toFixed(1)}%</p>
+  <p class="cc">${D.conceito}</p>
+  <h2>Decisões</h2>`;
+  D.decisoes.forEach((d,i)=>{ h+=`<h3>${i+1}. ${d.t}</h3><p>${d.d}</p>
+    <p><b>Resposta:</b> ${d.resposta||'— não respondido —'}${d.nota?'<br><b>Nota:</b> '+d.nota.replace(/\n/g,'<br>'):''}</p>`; });
+  D.pratos.forEach(p=>{
+    h+=`<h2>${p.tempo} — ${p.nome}</h2><p class="cc">${p.conceito}</p>
+    <table><tr><th>Ingrediente</th><th class="n">Qtd líq.</th><th class="n">Rend.</th><th class="n">Qtd bruta</th><th class="n">Preço</th><th class="n">Custo</th></tr>`;
+    p.itens.forEach(it=>{ h+=`<tr><td>${it.n}</td><td class="n">${qtdTxt(it,it.q)}</td>
+      <td class="n">${Math.round(it.r*100)}%</td><td class="n">${qtdTxt(it,it.q/it.r)}</td>
+      <td class="n">R$ ${brl(it.p)}/${it.unl}</td><td class="n">R$ ${brl(custoItem(it))}</td></tr>`; });
+    h+=`<tr><td><b>Custo do preparo</b></td><td colspan="4"></td><td class="n"><b>R$ ${brl(custoPrato(p))}</b></td></tr></table>
+    <h3>Modo de preparo</h3><p>${p.preparo.replace(/\n/g,'<br>')}</p>
+    <div class="box"><b>Ponto crítico:</b> ${p.critico}<br><b>Mise en place:</b> ${p.mise}</div>`;
+  });
+  h+=`<h2>Como o circuito funciona</h2><ul>
+   <li>O assinante paga <b>direto na casa</b>. O Eatlooper não entra na transação e não cobra comissão. Nunca chamamos de desconto — é <b>preço de assinante</b>, e ele vem sempre junto da garantia de uso.</li><li>Garantia de uso: quem não usou o mês tem o próximo grátis; quem usou uma vez paga metade no seguinte. É o que tira o medo de assinar.</li><li><b>A autoria pública do prato é da casa.</b> Nenhuma peça nossa mostra transferência de ficha técnica. O que a gente assina é a curadoria do circuito, não a sua receita.</li>
+   <li>O loop dura de 30 a 45 dias. Ao fechar, a casa é recolocada em outro circuito com outro menu.</li><li>A gente avisa a casa <b>antes</b> do movimento chegar: quantos assinantes entraram, quantos viram o seu restaurante e qual dia tem gravação. Ninguém é pego de surpresa com um prato que nunca fez.</li><li>Antes de o menu abrir, a equipe precisa ter executado cada prato <b>pelo menos uma vez</b>. A primeira vez é sempre a difícil — ela não pode acontecer com o cliente na mesa.</li></ul>
+   <p style="font-size:9pt;color:#888;margin-top:18pt"><i>eatlooper · ficha técnica · ${D.casa} · gerada em ${new Date().toLocaleDateString('pt-BR')} · curadoria François Ozanne</i></p>
+   </body></html>`;
+  return h;
+}
+function exportarDoc(){
+  const b=new Blob(['﻿'+docHtml()],{type:'application/msword'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
+  a.download='Ficha_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.doc';
+  a.click();
+}
+
+async function enviar(){
+  const bt=document.getElementById('btEnviar');
+  const payload={casa:D.casa,slug:D.slug,circuito:D.circuito,preco:D.preco,
+    custo:+custoMenu().toFixed(2),cmv:+(custoMenu()/D.preco).toFixed(4),
+    enviado_em:new Date().toISOString(),decisoes:D.decisoes,pratos:D.pratos};
+  if(ENDPOINT){
+    bt.textContent='enviando…';
+    try{
+      await fetch(ENDPOINT,{method:'POST',mode:'no-cors',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+      bt.textContent='enviado'; bt.classList.add('done');
+      setTimeout(()=>{bt.textContent='Enviar alterações';bt.classList.remove('done')},2500);
+      return;
+    }catch(e){ bt.textContent='Enviar alterações'; }
+  }
+  baixarJson();
+  const resumo=D.decisoes.map((d,i)=>`${i+1}. ${d.t}: ${d.resposta||'—'}${d.nota?' ('+d.nota+')':''}`).join('\n');
+  const msg=`*${D.casa}* — ficha do circuito ${D.circuito}\nCusto R$ ${brl(custoMenu())} · CMV ${((custoMenu()/D.preco)*100).toFixed(1)}%\n\n${resumo}\n\n(o arquivo JSON foi baixado junto)`;
+  window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+render(); marcar();
+</script>
+</body></html>

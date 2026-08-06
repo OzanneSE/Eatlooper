@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eatlooper · Espelunca · menu, ficha técnica e calculadora</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bordo:#B51D27;--beige:#FDF6EE;--beige2:#f6ece0;--white:#fffdfa;--ink:#1A1A1A;
+--ink2:#4a443d;--ink3:#7a736a;--line:#e6dccf;--ok:#2e7d4f;--warn:#b07a12;--bad:#a33327;
+--casa:#3a3330;--casaSoft:#e8e4e1;--shadow:0 8px 28px rgba(45,31,28,.09)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--beige);color:var(--ink);font-family:'Outfit',sans-serif;line-height:1.6;padding-bottom:120px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.top{text-align:center;padding:44px 16px 6px}
+.ki{color:var(--casa);letter-spacing:.24em;font-size:.66rem;font-weight:700;text-transform:uppercase}
+h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(2rem,5.4vw,3.2rem);margin:8px 0 2px;line-height:1.08}
+.sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink2);font-size:1.12rem;max-width:660px;margin:6px auto 0}
+.meta{margin-top:12px;font-size:.78rem;color:var(--ink3)}
+.painel{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:24px}
+.kpi{background:var(--white);border:1px solid var(--line);border-top:4px solid var(--casa);border-radius:13px;padding:14px 16px;box-shadow:var(--shadow);text-align:center}
+.kpi .l{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+.kpi .v{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:700;line-height:1.15;margin-top:2px}
+.kpi .n{font-size:.7rem;color:var(--ink3)}
+.v.ok{color:var(--ok)}.v.warn{color:var(--warn)}.v.bad{color:var(--bad)}
+h2.sec{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:600;color:var(--bordo);border-bottom:1.5px solid var(--line);padding-bottom:8px;margin:44px 0 6px}
+h2.sec small{font-family:'Outfit',sans-serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);font-weight:700;display:block;margin-bottom:2px}
+.seclead{font-size:.9rem;color:var(--ink2);margin-bottom:16px;max-width:760px}
+.dec{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--bordo);border-radius:13px;padding:18px 22px;box-shadow:var(--shadow);margin-top:13px}
+.dec .n{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--bordo)}
+.dec h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;margin:2px 0 5px}
+.dec p{font-size:.87rem;color:var(--ink2)}
+.resp{margin-top:11px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.resp label{font-size:.74rem;font-weight:600;color:var(--ink2);display:flex;gap:5px;align-items:center;cursor:pointer;background:var(--beige2);padding:5px 12px;border-radius:20px;border:1.5px solid transparent}
+.resp label:has(input:checked){border-color:var(--casa);background:var(--casaSoft);color:var(--ink)}
+textarea{width:100%;font-family:'Outfit',sans-serif;font-size:.86rem;line-height:1.62;color:var(--ink2);background:#fbf7f1;border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-top:9px;resize:vertical}
+textarea:focus{outline:2px solid var(--casa);outline-offset:-1px;background:#fff}
+.prato{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-top:24px;overflow:hidden;border-top:4px solid var(--casa)}
+.ph{padding:18px 24px 14px;border-bottom:1px solid var(--beige2);display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.ph .t{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--casa)}
+.ph h3{font-family:'Cormorant Garamond',serif;font-size:1.62rem;font-weight:600;line-height:1.12;margin:2px 0}
+.ph .cc{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink3);font-size:1rem}
+.ph .st{font-size:.66rem;color:var(--ink3);background:var(--beige2);padding:5px 11px;border-radius:20px;white-space:nowrap}
+.bloco{padding:16px 24px;border-top:1px solid var(--beige2)}
+.bloco h4{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--casa);margin-bottom:7px}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+th{background:var(--beige2);text-align:left;padding:8px 10px;font-weight:600;font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
+th.n,td.n{text-align:right}
+td{padding:5px 10px;border-bottom:1px solid var(--beige2);color:var(--ink2)}
+td input{width:74px;font-family:'Outfit',sans-serif;font-size:.83rem;text-align:right;padding:4px 7px;border:1px solid var(--line);border-radius:6px;background:#fff}
+td input:focus{outline:2px solid var(--casa);outline-offset:-1px}
+.fl{display:inline-block;font-size:.54rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;padding:1px 6px;border-radius:20px;margin-left:6px;vertical-align:1px}
+.fl.ok{background:#e4f2e9;color:var(--ok)}.fl.warn{background:#fbf0d8;color:var(--warn)}.fl.bad{background:#fae5e2;color:var(--bad)}
+.linhatot td{background:#f4ece0;font-weight:700;color:var(--ink);border-top:1px solid var(--line)}
+.crit{background:#fbf0d8;border:1px solid #e6d29b;border-left:4px solid var(--warn);border-radius:9px;padding:11px 15px;font-size:.83rem;margin-top:11px}
+.crit b{color:#8a5f0c}
+.mise{font-size:.8rem;color:var(--ink3);margin-top:9px}
+.regras{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--bordo);border-radius:12px;padding:19px 23px;box-shadow:var(--shadow);margin-top:14px}
+.regras ul{margin-left:18px;font-size:.87rem;color:var(--ink2)}.regras li{margin-bottom:8px}
+.barra{position:fixed;left:0;right:0;bottom:0;background:rgba(253,246,238,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:11px 0;z-index:50;box-shadow:0 -4px 20px rgba(45,31,28,.08)}
+.barra .inner{max-width:980px;margin:0 auto;padding:0 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.barra .stat{font-size:.76rem;color:var(--ink3)}
+.barra .stat b{color:var(--ink)}
+button{font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;padding:9px 18px;border-radius:22px;cursor:pointer;border:1.5px solid var(--bordo);background:transparent;color:var(--bordo);transition:.15s;white-space:nowrap}
+button:hover{background:var(--bordo);color:#fff}
+button.pri{background:var(--bordo);color:#fff}
+button.pri:hover{background:#8d1620;border-color:#8d1620}
+button.done{background:var(--ok);border-color:var(--ok);color:#fff}
+footer{margin-top:50px;text-align:center;font-size:.74rem;color:var(--ink3);font-style:italic;border-top:1px solid var(--line);padding-top:20px}
+footer a{color:var(--casa)}
+@media print{.barra{display:none}body{background:#fff;padding-bottom:0}.prato,.kpi,.regras,.dec{box-shadow:none;page-break-inside:avoid}}
+</style></head><body>
+
+<div class="wrap">
+<header class="top">
+  <div class="ki">eatlooper · circuito Croc &amp; Croc · temporada zero</div>
+  <h1>Espelunca</h1>
+  <div class="sub">O crunch que se ouve da mesa ao lado — o som chega antes do sabor. É a casa que ensina o idioma do circuito.</div>
+  <div class="meta">Camila · Inácio Barbosa · fritura autoral · âncora do circuito<br>Menu de três tempos — Cheguei · À mesa · Fica mais um pouco · <b>documento de trabalho, editável nesta página</b></div>
+</header>
+
+<div class="painel">
+  <div class="kpi"><div class="l">Preço do menu</div><div class="v">R$ <span id="kPreco">0</span></div><div class="n">para o assinante</div></div>
+  <div class="kpi"><div class="l">Custo dos 3 tempos</div><div class="v">R$ <span id="kCusto">0</span></div><div class="n">soma das fichas</div></div>
+  <div class="kpi"><div class="l">CMV do menu</div><div class="v" id="kCmv">0%</div><div class="n">régua 28–32%</div></div>
+  <div class="kpi"><div class="l">Margem por menu</div><div class="v" style="font-size:1.5rem">R$ <span id="kMargem">0</span></div><div class="n">preço menos insumo</div></div>
+</div>
+
+<section>
+  <h2 class="sec"><small>Antes de tudo</small>O que precisa ser decidido</h2>
+  <p class="seclead">Cinco decisões. Elas vêm primeiro de propósito: sem elas, o resto da página é hipótese. Marque a resposta e escreva o que for preciso — <b>tudo o que você digitar aqui fica salvo</b>.</p>
+  <div id="decisoes"></div>
+</section>
+
+<section>
+  <h2 class="sec"><small>O menu</small>Os três tempos</h2>
+  <p class="seclead">Cada prato traz a ficha técnica com <b>gramatura e preço editáveis</b> — mexa nos números e o custo recalcula na hora — e o modo de preparo já escrito, para você apenas personalizar. O que você escrever substitui o nosso.</p>
+  <div id="pratos"></div>
+</section>
+
+<section>
+  <h2 class="sec"><small>Operação</small>Como o circuito funciona na prática</h2>
+  <div class="regras"><ul>
+    <li><b>Preço de assinante.</b> O assinante paga <b>direto na casa</b>. O Eatlooper não entra na transação e não cobra comissão. Nunca chamamos de desconto — é <b>preço de assinante</b>, e ele vem sempre junto da garantia de uso.</li>
+    <li><b>Garantia de uso.</b> Garantia de uso: quem não usou o mês tem o próximo grátis; quem usou uma vez paga metade no seguinte. É o que tira o medo de assinar.</li>
+    <li><b>Autoria.</b> <b>A autoria pública do prato é da casa.</b> Nenhuma peça nossa mostra transferência de ficha técnica. O que a gente assina é a curadoria do circuito, não a sua receita.</li>
+    <li><b>Duração.</b> O loop dura de 30 a 45 dias. Ao fechar, a casa é recolocada em outro circuito com outro menu.</li>
+    <li><b>Aviso antes do movimento.</b> A gente avisa a casa <b>antes</b> do movimento chegar: quantos assinantes entraram, quantos viram o seu restaurante e qual dia tem gravação. Ninguém é pego de surpresa com um prato que nunca fez.</li>
+    <li><b>Treino antes de abrir.</b> Antes de o menu abrir, a equipe precisa ter executado cada prato <b>pelo menos uma vez</b>. A primeira vez é sempre a difícil — ela não pode acontecer com o cliente na mesa.</li>
+  </ul></div>
+
+  <h2 class="sec" style="font-size:1.5rem;margin-top:34px"><small>Antes da primeira noite</small>Checklist</h2>
+  <div class="regras"><ul>
+    <li><b>Comprar</b> os itens que não estão na sua rotina — a lista sai da ficha, e os marcados como <i>a confirmar</i> são justamente os que a gente não sabe o seu preço.</li>
+    <li><b>Executar cada prato uma vez</b> com a equipe inteira presente, antes de o menu abrir.</li>
+    <li><b>Definir quem monta</b> cada tempo no serviço, e onde fica o mise en place de cada um.</li>
+    <li><b>Fechar dia e hora da gravação</b> — uma visita só, com o menu pronto.</li>
+    <li><b>Devolver esta página</b> com as suas correções, pelo botão <i>Enviar alterações</i> aqui embaixo.</li>
+  </ul></div>
+</section>
+
+<footer>
+  eatlooper · Espelunca · circuito Croc &amp; Croc · v1 · 06/08/2026<br>
+  Curadoria: François Ozanne · <a href="mailto:fran.ozanne@gmail.com">fran.ozanne@gmail.com</a> · <a href="../../">voltar aos circuitos</a>
+</footer>
+</div>
+
+<div class="barra"><div class="inner">
+  <div class="stat" id="stat">Nada alterado ainda.</div>
+  <div style="display:flex;gap:9px;flex-wrap:wrap">
+    <button onclick="restaurar()">Restaurar original</button>
+    <button onclick="exportarDoc()">Exportar em DOC</button>
+    <button onclick="baixarJson()">Baixar JSON</button>
+    <button class="pri" id="btEnviar" onclick="enviar()">Enviar alterações</button>
+  </div>
+</div></div>
+
+<script>
+// ===== CONFIG =====
+// Cole aqui a URL do Web App do Google Apps Script (ver _backend/COMO_INSTALAR.md).
+// Enquanto estiver vazio, o botão "Enviar alterações" cai no WhatsApp + JSON.
+const ENDPOINT = "";
+const WHATSAPP = "5579981622665"; // François
+
+const ORIG = {"casa": "Espelunca", "slug": "espelunca", "circuito": "Croc & Croc", "chef": "Camila", "bairro": "Inácio Barbosa · fritura autoral · âncora do circuito", "conceito": "O crunch que se ouve da mesa ao lado — o som chega antes do sabor. É a casa que ensina o idioma do circuito.", "preco": 69.0, "decisoes": [{"t": "O menu já está fechado — esta página é conferência", "d": "Sua ficha técnica é a única da temporada com custo por porção fechado pela própria casa. <b>O que está aqui é a nossa recomposição, para conferir</b> — chegamos a R$14,60 contra os seus R$15,03, diferença de 2,8%. Onde divergir, o seu número vale."}, {"t": "A porção precisa diminuir", "d": "Na visita ficou muita comida: fritura na entrada, fritura no principal e a sobremesa num pote grande. <b>Não é reclamação de custo, é de experiência</b> — três tempos pesados cansam antes do fim. Sugerimos reduzir o pote da sobremesa e enxugar a porção de tempurá."}, {"t": "A cerveja do tempurá pode zerar", "d": "A cerveja custa R$1,67 por receita. Se a Cervejaria Uçá fechar cota de insumo com a gente, esse custo zera <b>e o rótulo dela aparece no vídeo da massa sendo batida</b>. Você topa?"}, {"t": "O preço: R$69 ou R$70", "d": "Sua ficha calcula sobre R$70; o roster fechou a casa em R$69. <b>Precisamos definir qual vale antes de imprimir.</b>"}, {"t": "O material de vídeo que já existe", "d": "Temos cerca de 5 minutos de material bom gravado aqui em 23/07 que nunca foi cortado. É a base da linguagem visual de todo o circuito. Vamos usar."}], "pratos": [{"tempo": "Cheguei", "nome": "Tempurá de Quiabo com Tarê de Mangaba", "status": "ficha técnica fechada", "conceito": "O tempurá que o Japão trouxe de Portugal, servido com o molho de uma fruta que só nasce na restinga.", "preparo": "1. Quiabo cortado no comprimento e SECO antes de empanar. Se entrar úmido, baba.\n2. MASSA: farinha, amido e cerveja gelada, batida na hora e nunca em excesso. Grumo é o que dá a casca fina que estala — massa lisa demais vira capa de pastel.\n3. Fritura em óleo alto e curto, escorre em grade, nunca em papel amassado.\n4. TARÊ DE MANGABA (base, feita em volume): polpa de mangaba, shoyu, açúcar, melado e gengibre reduzidos até napar a colher.\n5. O tarê é regado por cima na saída, na frente de quem come. Gergelim por último.", "critico": "Quiabo seco e massa gelada. Os dois erros que existem aqui são esses.", "mise": "Quiabo cortado e seco · cerveja na geladeira · tarê reduzido e coado", "itens": [{"n": "Quiabo", "un": "KG", "unl": "kg", "q": 0.12, "r": 0.9, "p": 6.5, "fl": "pesquisa", "fc": "warn"}, {"n": "Massa De Tempura", "un": "KG", "unl": "kg", "q": 0.07, "r": 1.0, "p": 7.1413, "fl": "base de cozinha", "fc": "ok"}, {"n": "Tare De Mangaba", "un": "KG", "unl": "kg", "q": 0.045, "r": 1.0, "p": 15.0417, "fl": "base de cozinha", "fc": "ok"}, {"n": "Gergelim", "un": "KG", "unl": "kg", "q": 0.002, "r": 1.0, "p": 33.9, "fl": "a revalidar", "fc": "warn"}, {"n": "Taxa De Fritura (Gas/Oleo)", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 1.0, "fl": "a revalidar", "fc": "warn"}]}, {"tempo": "À mesa", "nome": "Hambúrguer de Feijão Verde", "status": "ficha técnica fechada", "conceito": "O burger americano feito com o feijão que aqui se come com farinha — e a crosta que dá nome ao circuito.", "preparo": "1. DISCO (base, feita em volume): feijão verde cozido e temperado com coentro, cebolinha, cebola e fumaça. Liga com farinha, porciona em disco e gela — disco gelado não se abre na fritura.\n2. Passa no mingau e empana no panko. Frita até a crosta ficar grossa e escura.\n3. Pão panetta selado na manteiga.\n4. Monta: molho de coentro na base, disco, queijo coalho, banana da terra caramelizada por cima.\n5. O primeiro corte na crosta abrindo é o take que a gente vai filmar — o burger é servido inteiro e cortado na mesa.", "critico": "O disco tem que estar bem gelado antes de empanar.", "mise": "Discos porcionados e gelados · molho de coentro · banana caramelizada · coalho fatiado", "itens": [{"n": "Burger De Feijao Verde (Disco 120G)", "un": "KG", "unl": "kg", "q": 0.13, "r": 1.0, "p": 13.16, "fl": "base de cozinha", "fc": "ok"}, {"n": "Farinha Panko", "un": "KG", "unl": "kg", "q": 0.035, "r": 1.0, "p": 18.5, "fl": "cotação", "fc": "ok"}, {"n": "Mingau Para Empanar", "un": "KG", "unl": "kg", "q": 0.04, "r": 1.0, "p": 3.3791, "fl": "base de cozinha", "fc": "ok"}, {"n": "Pao Panetta/Brioche", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 1.6, "fl": "a confirmar", "fc": "bad"}, {"n": "Molho De Coentro", "un": "KG", "unl": "kg", "q": 0.03, "r": 1.0, "p": 13.8105, "fl": "base de cozinha", "fc": "ok"}, {"n": "Queijo Coalho", "un": "KG", "unl": "kg", "q": 0.04, "r": 1.0, "p": 28.08, "fl": "cotação", "fc": "ok"}, {"n": "Banana Da Terra", "un": "KG", "unl": "kg", "q": 0.06, "r": 0.7, "p": 6.5, "fl": "cotação", "fc": "ok"}, {"n": "Taxa De Fritura (Gas/Oleo)", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 1.0, "fl": "a revalidar", "fc": "warn"}]}, {"tempo": "Fica mais um pouco", "nome": "Creme de Umbu com Coco Queimado e Farofa", "status": "ficha técnica fechada", "conceito": "A fruta do sertão no lugar onde a sobremesa europeia põe a baunilha.", "preparo": "1. CREME (véspera): polpa de umbu, leite de coco, leite condensado e castanha batidos e levados ao frio. Monta em copo baixo de vidro — copo, não taça: o registro desta casa é balcão, não louça fina.\n2. Coco fresco ralado tostado na frigideira seca até escurecer nas pontas.\n3. FAROFA DOCE: castanha de caju, farinha, manteiga e açúcar tostados juntos.\n4. No pedido: coco queimado por cima, farofa caindo na hora.\n5. Termina estralando igual começou.", "critico": "A farofa cai na hora, na frente do cliente. Guardada em cima do creme, ela umedece em minutos.", "mise": "Copos montados na geladeira · coco tostado · farofa em pote fechado", "itens": [{"n": "Creme De Umbu", "un": "KG", "unl": "kg", "q": 0.12, "r": 1.0, "p": 21.3995, "fl": "base de cozinha", "fc": "ok"}, {"n": "Coco Fresco Ralado", "un": "KG", "unl": "kg", "q": 0.02, "r": 1.0, "p": 26.0, "fl": "a confirmar", "fc": "bad"}, {"n": "Farofa De Castanha (Doce)", "un": "KG", "unl": "kg", "q": 0.03, "r": 1.0, "p": 40.567, "fl": "base de cozinha", "fc": "ok"}]}]};
+const LS = 'eatlooper_ficha_' + ORIG.slug;
+let D = carregar();
+
+function carregar(){
+  try{ const s=localStorage.getItem(LS); if(s){ const j=JSON.parse(s); if(j && j.slug===ORIG.slug) return j; } }catch(e){}
+  return JSON.parse(JSON.stringify(ORIG));
+}
+function salvar(){
+  D.alterado_em = new Date().toISOString();
+  try{ localStorage.setItem(LS, JSON.stringify(D)); }catch(e){}
+  render_totais(); marcar();
+}
+const brl = v => v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const custoItem = it => (it.q/it.r)*it.p;
+const custoPrato = p => p.itens.reduce((s,it)=>s+custoItem(it),0);
+const custoMenu = () => D.pratos.reduce((s,p)=>s+custoPrato(p),0);
+
+function qtdTxt(it,v){ return it.un==='UN' ? (Math.round(v*1000)/1000)+' un' : Math.round(v*1000)+' g'; }
+
+function render(){
+  // decisoes
+  document.getElementById('decisoes').innerHTML = D.decisoes.map((d,i)=>`
+   <div class="dec">
+     <div class="n">Decisão ${i+1} de ${D.decisoes.length}</div>
+     <h3>${d.t}</h3><p>${d.d}</p>
+     <div class="resp">
+       ${['Confirmado','Precisa ajustar','Não dá'].map(o=>`
+        <label><input type="radio" name="dec${i}" value="${o}" ${d.resposta===o?'checked':''}
+          onchange="D.decisoes[${i}].resposta=this.value;salvar()">${o}</label>`).join('')}
+     </div>
+     <textarea rows="2" placeholder="Escreva aqui o que precisa mudar, o preço real, a data que dá…"
+       oninput="D.decisoes[${i}].nota=this.value;salvarDebounce()">${d.nota||''}</textarea>
+   </div>`).join('');
+
+  // pratos
+  document.getElementById('pratos').innerHTML = D.pratos.map((p,pi)=>`
+   <div class="prato">
+     <div class="ph"><div>
+       <div class="t">${p.tempo}</div><h3>${p.nome}</h3>
+       <div class="cc">${p.conceito}</div></div>
+       <div class="st">${p.status}</div></div>
+
+     <div class="bloco"><h4>Ficha técnica — edite a gramatura e o preço</h4>
+       <table><thead><tr>
+         <th>Ingrediente</th><th class="n">Qtd</th><th class="n">Rend.</th>
+         <th class="n">Bruta</th><th class="n">Preço</th><th class="n">Custo</th></tr></thead><tbody>
+       ${p.itens.map((it,ii)=>`<tr>
+         <td>${it.n}<span class="fl ${it.fc}">${it.fl}</span></td>
+         <td class="n"><input type="number" step="any" min="0" value="${it.un==='UN'?it.q:Math.round(it.q*1000)}"
+            onchange="setQ(${pi},${ii},this.value)"> <span style="font-size:.7rem;color:var(--ink3)">${it.un==='UN'?'un':'g'}</span></td>
+         <td class="n"><input type="number" step="1" min="1" max="100" value="${Math.round(it.r*100)}"
+            onchange="setR(${pi},${ii},this.value)">%</td>
+         <td class="n" id="b_${pi}_${ii}"></td>
+         <td class="n"><input type="number" step="any" min="0" value="${it.p}"
+            onchange="setP(${pi},${ii},this.value)"> <span style="font-size:.7rem;color:var(--ink3)">/${it.unl}</span></td>
+         <td class="n" id="c_${pi}_${ii}"></td></tr>`).join('')}
+         <tr class="linhatot"><td>Custo do preparo</td><td colspan="4"></td>
+           <td class="n" id="tp_${pi}"></td></tr>
+       </tbody></table>
+     </div>
+
+     <div class="bloco"><h4>Modo de preparo — pronto, é só personalizar</h4>
+       <textarea rows="${Math.max(6, p.preparo.split('\n').length+1)}"
+         oninput="D.pratos[${pi}].preparo=this.value;salvarDebounce()">${p.preparo}</textarea>
+       <div class="crit"><b>Ponto crítico:</b> ${p.critico}</div>
+       <div class="mise"><b>Mise en place:</b> ${p.mise}</div>
+     </div>
+   </div>`).join('');
+  render_totais();
+}
+
+function setQ(pi,ii,v){ const it=D.pratos[pi].itens[ii];
+  it.q = it.un==='UN' ? (+v||0) : (+v||0)/1000; salvar(); }
+function setR(pi,ii,v){ D.pratos[pi].itens[ii].r = Math.min(1,Math.max(.01,(+v||100)/100)); salvar(); }
+function setP(pi,ii,v){ D.pratos[pi].itens[ii].p = +v||0; salvar(); }
+
+function render_totais(){
+  D.pratos.forEach((p,pi)=>{
+    p.itens.forEach((it,ii)=>{
+      const b=it.q/it.r;
+      const eb=document.getElementById(`b_${pi}_${ii}`); if(eb) eb.textContent=qtdTxt(it,b);
+      const ec=document.getElementById(`c_${pi}_${ii}`); if(ec) ec.textContent='R$ '+brl(custoItem(it));
+    });
+    const tp=document.getElementById(`tp_${pi}`); if(tp) tp.textContent='R$ '+brl(custoPrato(p));
+  });
+  const c=custoMenu(), cmv=c/D.preco;
+  document.getElementById('kPreco').textContent=brl(D.preco);
+  document.getElementById('kCusto').textContent=brl(c);
+  document.getElementById('kMargem').textContent=brl(D.preco-c);
+  const el=document.getElementById('kCmv');
+  el.textContent=(cmv*100).toFixed(1)+'%';
+  el.className='v '+(cmv>=.28&&cmv<=.32?'ok':(cmv<.28?'warn':'bad'));
+}
+
+let deb; function salvarDebounce(){ clearTimeout(deb); deb=setTimeout(salvar,600); }
+function marcar(){
+  const dif = JSON.stringify({p:D.pratos,d:D.decisoes}) !== JSON.stringify({p:ORIG.pratos,d:ORIG.decisoes});
+  document.getElementById('stat').innerHTML = dif
+    ? '<b>Alterado.</b> Salvo neste navegador — clique em Enviar alterações para chegar até nós.'
+    : 'Nada alterado ainda.';
+}
+function restaurar(){
+  if(!confirm('Isso apaga suas alterações e volta ao original. Continuar?')) return;
+  localStorage.removeItem(LS); D=JSON.parse(JSON.stringify(ORIG)); render(); marcar();
+}
+function baixarJson(){
+  const b=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
+  a.download='eatlooper_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.json';
+  a.click();
+}
+
+function docHtml(){
+  const c=custoMenu(), cmv=c/D.preco;
+  let h=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+  <head><meta charset="utf-8"><title>Ficha ${D.casa}</title>
+  <style>body{font-family:Calibri,sans-serif;font-size:11pt;color:#1A1A1A}
+  h1{font-size:22pt;color:#B51D27;margin-bottom:2pt}h2{font-size:15pt;color:${'#3a3330'};border-bottom:1px solid #ccc;margin-top:18pt}
+  h3{font-size:12pt;margin-bottom:2pt}table{border-collapse:collapse;width:100%;font-size:9.5pt}
+  th{background:#f6ece0;text-align:left;padding:4pt;border:1px solid #ddd}
+  td{padding:4pt;border:1px solid #eee}.n{text-align:right}
+  .box{background:#fbf0d8;border-left:3px solid #b07a12;padding:6pt 9pt;margin:6pt 0}
+  .cc{font-style:italic;color:#666}</style></head><body>
+  <h1>${D.casa}</h1>
+  <p><b>Circuito ${D.circuito}</b> · ${D.chef} · ${D.bairro}<br>
+  Menu de três tempos · Preço R$ ${brl(D.preco)} · Custo R$ ${brl(c)} · CMV ${(cmv*100).toFixed(1)}%</p>
+  <p class="cc">${D.conceito}</p>
+  <h2>Decisões</h2>`;
+  D.decisoes.forEach((d,i)=>{ h+=`<h3>${i+1}. ${d.t}</h3><p>${d.d}</p>
+    <p><b>Resposta:</b> ${d.resposta||'— não respondido —'}${d.nota?'<br><b>Nota:</b> '+d.nota.replace(/\n/g,'<br>'):''}</p>`; });
+  D.pratos.forEach(p=>{
+    h+=`<h2>${p.tempo} — ${p.nome}</h2><p class="cc">${p.conceito}</p>
+    <table><tr><th>Ingrediente</th><th class="n">Qtd líq.</th><th class="n">Rend.</th><th class="n">Qtd bruta</th><th class="n">Preço</th><th class="n">Custo</th></tr>`;
+    p.itens.forEach(it=>{ h+=`<tr><td>${it.n}</td><td class="n">${qtdTxt(it,it.q)}</td>
+      <td class="n">${Math.round(it.r*100)}%</td><td class="n">${qtdTxt(it,it.q/it.r)}</td>
+      <td class="n">R$ ${brl(it.p)}/${it.unl}</td><td class="n">R$ ${brl(custoItem(it))}</td></tr>`; });
+    h+=`<tr><td><b>Custo do preparo</b></td><td colspan="4"></td><td class="n"><b>R$ ${brl(custoPrato(p))}</b></td></tr></table>
+    <h3>Modo de preparo</h3><p>${p.preparo.replace(/\n/g,'<br>')}</p>
+    <div class="box"><b>Ponto crítico:</b> ${p.critico}<br><b>Mise en place:</b> ${p.mise}</div>`;
+  });
+  h+=`<h2>Como o circuito funciona</h2><ul>
+   <li>O assinante paga <b>direto na casa</b>. O Eatlooper não entra na transação e não cobra comissão. Nunca chamamos de desconto — é <b>preço de assinante</b>, e ele vem sempre junto da garantia de uso.</li><li>Garantia de uso: quem não usou o mês tem o próximo grátis; quem usou uma vez paga metade no seguinte. É o que tira o medo de assinar.</li><li><b>A autoria pública do prato é da casa.</b> Nenhuma peça nossa mostra transferência de ficha técnica. O que a gente assina é a curadoria do circuito, não a sua receita.</li>
+   <li>O loop dura de 30 a 45 dias. Ao fechar, a casa é recolocada em outro circuito com outro menu.</li><li>A gente avisa a casa <b>antes</b> do movimento chegar: quantos assinantes entraram, quantos viram o seu restaurante e qual dia tem gravação. Ninguém é pego de surpresa com um prato que nunca fez.</li><li>Antes de o menu abrir, a equipe precisa ter executado cada prato <b>pelo menos uma vez</b>. A primeira vez é sempre a difícil — ela não pode acontecer com o cliente na mesa.</li></ul>
+   <p style="font-size:9pt;color:#888;margin-top:18pt"><i>eatlooper · ficha técnica · ${D.casa} · gerada em ${new Date().toLocaleDateString('pt-BR')} · curadoria François Ozanne</i></p>
+   </body></html>`;
+  return h;
+}
+function exportarDoc(){
+  const b=new Blob(['﻿'+docHtml()],{type:'application/msword'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
+  a.download='Ficha_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.doc';
+  a.click();
+}
+
+async function enviar(){
+  const bt=document.getElementById('btEnviar');
+  const payload={casa:D.casa,slug:D.slug,circuito:D.circuito,preco:D.preco,
+    custo:+custoMenu().toFixed(2),cmv:+(custoMenu()/D.preco).toFixed(4),
+    enviado_em:new Date().toISOString(),decisoes:D.decisoes,pratos:D.pratos};
+  if(ENDPOINT){
+    bt.textContent='enviando…';
+    try{
+      await fetch(ENDPOINT,{method:'POST',mode:'no-cors',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+      bt.textContent='enviado'; bt.classList.add('done');
+      setTimeout(()=>{bt.textContent='Enviar alterações';bt.classList.remove('done')},2500);
+      return;
+    }catch(e){ bt.textContent='Enviar alterações'; }
+  }
+  baixarJson();
+  const resumo=D.decisoes.map((d,i)=>`${i+1}. ${d.t}: ${d.resposta||'—'}${d.nota?' ('+d.nota+')':''}`).join('\n');
+  const msg=`*${D.casa}* — ficha do circuito ${D.circuito}\nCusto R$ ${brl(custoMenu())} · CMV ${((custoMenu()/D.preco)*100).toFixed(1)}%\n\n${resumo}\n\n(o arquivo JSON foi baixado junto)`;
+  window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+render(); marcar();
+</script>
+</body></html>
