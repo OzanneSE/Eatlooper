@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eatlooper · Samore · menu, ficha técnica e calculadora</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -8,7 +8,7 @@
 --ink2:#4a443d;--ink3:#7a736a;--line:#e6dccf;--ok:#2e7d4f;--warn:#b07a12;--bad:#a33327;
 --casa:#2b5a72;--casaSoft:#e3edf2;--shadow:0 8px 28px rgba(45,31,28,.09)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--beige);color:var(--ink);font-family:'Outfit',sans-serif;line-height:1.6;padding-bottom:120px;-webkit-font-smoothing:antialiased}
+body{background:var(--beige);color:var(--ink);font-family:'Outfit',sans-serif;line-height:1.6;padding-bottom:calc(130px + env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow-x:hidden}
 .wrap{max-width:980px;margin:0 auto;padding:0 20px}
 header.top{text-align:center;padding:44px 16px 6px}
 .ki{color:var(--casa);letter-spacing:.24em;font-size:.66rem;font-weight:700;text-transform:uppercase}
@@ -30,7 +30,7 @@ h2.sec small{font-family:'Outfit',sans-serif;font-size:.58rem;letter-spacing:.2e
 .dec p{font-size:.87rem;color:var(--ink2)}
 .resp{margin-top:11px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .resp label{font-size:.74rem;font-weight:600;color:var(--ink2);display:flex;gap:5px;align-items:center;cursor:pointer;background:var(--beige2);padding:5px 12px;border-radius:20px;border:1.5px solid transparent}
-.resp label:has(input:checked){border-color:var(--casa);background:var(--casaSoft);color:var(--ink)}
+.resp label.on{border-color:var(--casa);background:var(--casaSoft);color:var(--ink)}
 textarea{width:100%;font-family:'Outfit',sans-serif;font-size:.86rem;line-height:1.62;color:var(--ink2);background:#fbf7f1;border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-top:9px;resize:vertical}
 textarea:focus{outline:2px solid var(--casa);outline-offset:-1px;background:#fff}
 .prato{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-top:24px;overflow:hidden;border-top:4px solid var(--casa)}
@@ -41,6 +41,7 @@ textarea:focus{outline:2px solid var(--casa);outline-offset:-1px;background:#fff
 .ph .st{font-size:.66rem;color:var(--ink3);background:var(--beige2);padding:5px 11px;border-radius:20px;white-space:nowrap}
 .bloco{padding:16px 24px;border-top:1px solid var(--beige2)}
 .bloco h4{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--casa);margin-bottom:7px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-size:.83rem}
 th{background:var(--beige2);text-align:left;padding:8px 10px;font-weight:600;font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
 th.n,td.n{text-align:right}
@@ -55,7 +56,7 @@ td input:focus{outline:2px solid var(--casa);outline-offset:-1px}
 .mise{font-size:.8rem;color:var(--ink3);margin-top:9px}
 .regras{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--bordo);border-radius:12px;padding:19px 23px;box-shadow:var(--shadow);margin-top:14px}
 .regras ul{margin-left:18px;font-size:.87rem;color:var(--ink2)}.regras li{margin-bottom:8px}
-.barra{position:fixed;left:0;right:0;bottom:0;background:rgba(253,246,238,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:11px 0;z-index:50;box-shadow:0 -4px 20px rgba(45,31,28,.08)}
+.barra{position:fixed;left:0;right:0;bottom:0;background:rgba(253,246,238,.98);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:11px 0 calc(11px + env(safe-area-inset-bottom));z-index:50;box-shadow:0 -4px 20px rgba(45,31,28,.08)}
 .barra .inner{max-width:980px;margin:0 auto;padding:0 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
 .barra .stat{font-size:.76rem;color:var(--ink3)}
 .barra .stat b{color:var(--ink)}
@@ -63,9 +64,31 @@ button{font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;padding:9
 button:hover{background:var(--bordo);color:#fff}
 button.pri{background:var(--bordo);color:#fff}
 button.pri:hover{background:#8d1620;border-color:#8d1620}
-button.done{background:var(--ok);border-color:var(--ok);color:#fff}
+button.done{background:var(--ok);border-color:var(--ok);color:#fff}\na.lnk{font-size:.76rem;color:var(--ink3);text-decoration:underline;white-space:nowrap}\na.lnk:hover{color:var(--bad)}
 footer{margin-top:50px;text-align:center;font-size:.74rem;color:var(--ink3);font-style:italic;border-top:1px solid var(--line);padding-top:20px}
 footer a{color:var(--casa)}
+@media (max-width:620px){
+  .wrap{padding:0 14px}
+  .bloco,.ph{padding-left:16px;padding-right:16px}
+  .dec{padding:16px 17px}
+  .barra .inner{padding:0 14px;justify-content:center}
+  .barra .stat{width:100%;text-align:center;font-size:.72rem;order:2}
+  /* a ficha vira cartão: tabela de 6 colunas não cabe em tela de celular */
+  table thead{display:none}
+  table tbody,table tr,table td{display:block;width:100%}
+  table tr{padding:11px 0;border-bottom:1px solid var(--line)}
+  table tr:last-child{border-bottom:none}
+  table td{display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:4px 0;border:none;text-align:right}
+  table td::before{content:attr(data-l);font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--ink3);font-weight:700;text-align:left;flex:0 0 auto}
+  table td.ing{display:block;text-align:left;font-weight:600;color:var(--ink);margin-bottom:4px}
+  table td.ing::before{content:none}
+  .linhatot td{background:none}
+  .linhatot td.ing{background:#f4ece0;padding:7px 10px;border-radius:7px}
+  td input{width:96px;font-size:16px}
+  textarea{font-size:16px}
+}
 @media print{.barra{display:none}body{background:#fff;padding-bottom:0}.prato,.kpi,.regras,.dec{box-shadow:none;page-break-inside:avoid}}
 </style></head><body>
 
@@ -125,21 +148,13 @@ footer a{color:var(--casa)}
 
 <div class="barra"><div class="inner">
   <div class="stat" id="stat">Nada alterado ainda.</div>
-  <div style="display:flex;gap:9px;flex-wrap:wrap">
-    <button onclick="restaurar()">Restaurar original</button>
-    <button onclick="exportarDoc()">Exportar em DOC</button>
-    <button onclick="baixarJson()">Baixar JSON</button>
-    <button class="pri" id="btEnviar" onclick="enviar()">Enviar alterações</button>
+  <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+    <a href="#" class="lnk" onclick="restaurar();return false">restaurar original</a>
+    <button class="pri" id="btDoc" onclick="exportarDoc()">Exportar em DOC</button>
   </div>
 </div></div>
 
 <script>
-// ===== CONFIG =====
-// Cole aqui a URL do Web App do Google Apps Script (ver backend/COMO_INSTALAR.md).
-// Enquanto estiver vazio, o botão "Enviar alterações" cai no WhatsApp + JSON.
-const ENDPOINT = "";
-const WHATSAPP = "5579981622665"; // François
-
 const ORIG = {"casa": "Samore", "slug": "samore", "circuito": "Do Mar à Mesa", "chef": "Samore", "bairro": "R. Dr. Lúcio Prado, 55 · Farolândia · napolitana · forno a lenha", "conceito": "A pimenta americana que virou Coreia, frita à moda de Seul e servida sobre a tela que Nápoles inventou.", "preco": 119.9, "decisoes": [{"t": "O camarão entra DEPOIS do forno — sempre", "d": "A 450°C a crosta queima e a fritura murcha na umidade da muçarela. Montagem na saída, laqueado na hora, servido imediatamente. <b>Se a pizza esperar no balcão, o prato perde a razão de existir.</b>"}, {"t": "Teste de ponto pendente", "d": "Precisamos saber <b>quanto tempo a crosta do camarão aguenta sobre a muçarela quente antes de murchar</b>. A resposta define se este prato pode sair para delivery ou só no salão. É o teste mais importante do circuito."}, {"t": "O gochujang já está na casa ou é compra nova", "d": "Calculamos a R$78/kg. Se for compra nova, vale comprar em volume — ele dura e é o que dá identidade ao prato."}, {"t": "A foto atual não serve mais", "d": "A imagem que temos é da versão com camarão selado. Com o empanado por cima o prato mudou de aparência. <b>Precisamos de foto nova na diária de gravação antes de virar peça de campanha.</b>"}, {"t": "A data da gravação", "d": "O gesto é o camarão sendo laqueado no gochujang e caindo sobre a pizza recém-saída da lenha. Som de fritura, vapor, o vermelho contra a massa."}], "pratos": [{"tempo": "Cheguei", "nome": "Crostata do Tabuleiro", "status": "a validar", "conceito": "A crostata toscana tostada em fogo de lenha sergipano.", "preparo": "1. Disco fino de massa aberto sobre papel, coberto de parmesão ralado grosso.\n2. Tomate confit distribuído por cima.\n3. Direto na lenha, até o parmesão render e a borda tostar.\n4. A rúcula entra DEPOIS de sair do forno. Se entrar antes, queima e amarga.\n5. Sai inteira, quebra na mesa.", "critico": "A rúcula é sempre depois do forno.", "mise": "Discos abertos · tomate confit em pote · parmesão ralado", "itens": [{"n": "Parmesao", "un": "KG", "unl": "kg", "q": 0.055, "r": 1.0, "p": 62.9, "fl": "cotação", "fc": "ok"}, {"n": "Tomate Confit", "un": "KG", "unl": "kg", "q": 0.045, "r": 1.0, "p": 53.8522, "fl": "base de cozinha", "fc": "ok"}, {"n": "Rucula", "un": "KG", "unl": "kg", "q": 0.02, "r": 0.8, "p": 9.0, "fl": "cotação", "fc": "ok"}, {"n": "Farinha De Trigo", "un": "KG", "unl": "kg", "q": 0.03, "r": 1.0, "p": 3.6, "fl": "cotação", "fc": "ok"}, {"n": "Azeite Extra Virgem", "un": "KG", "unl": "kg", "q": 0.008, "r": 1.0, "p": 31.5, "fl": "cotação", "fc": "ok"}, {"n": "Oregano", "un": "KG", "unl": "kg", "q": 0.001, "r": 1.0, "p": 65.0, "fl": "cotação", "fc": "ok"}]}, {"tempo": "À mesa", "nome": "Pizza Napolitana de Camarão Frito Gochujang", "status": "ajustado", "conceito": "A pimenta americana que virou Coreia, frita à moda de Seul e servida sobre a tela que Nápoles inventou.", "preparo": "1. Pizza napolitana montada normal: pomodoro e muçarela, borda alta, forno a lenha até o leopardo aparecer.\n2. Em paralelo, camarão passado no mingau e empanado no panko, DUPLA FRITURA — uma para cozinhar, uma para dourar e secar.\n3. Assim que a pizza sai da lenha, o camarão frito é laqueado no gochujang ainda quente, na frigideira ou na tigela, e vai por cima.\n4. Fitas finas de cenoura crua, gergelim preto e branco, cebolinha cortada na diagonal.\n5. Serve imediatamente. A crosta do camarão estala sobre a massa mole — são as duas texturas que nenhuma outra pizza da praça tem junta.", "critico": "O camarão nunca vai ao forno. Monta na saída, laqueia na hora, serve na hora.", "mise": "Camarão empanado e reservado cru · gochujang em ponto de laquear · cenoura em fitas · gergelim misturado", "itens": [{"n": "Massa De Pizza", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 5.0, "fl": "cotação", "fc": "ok"}, {"n": "Molho Pomodoro", "un": "KG", "unl": "kg", "q": 0.09, "r": 1.0, "p": 6.1477, "fl": "base de cozinha", "fc": "ok"}, {"n": "Mussarela", "un": "KG", "unl": "kg", "q": 0.15, "r": 1.0, "p": 28.0, "fl": "cotação", "fc": "ok"}, {"n": "Camarao 36/40 S/ Cabeca", "un": "KG", "unl": "kg", "q": 0.12, "r": 0.75, "p": 58.32, "fl": "cotação", "fc": "ok"}, {"n": "Mingau Para Empanar", "un": "KG", "unl": "kg", "q": 0.045, "r": 1.0, "p": 3.3791, "fl": "base de cozinha", "fc": "ok"}, {"n": "Farinha Panko", "un": "KG", "unl": "kg", "q": 0.035, "r": 1.0, "p": 18.5, "fl": "cotação", "fc": "ok"}, {"n": "Gochujang", "un": "KG", "unl": "kg", "q": 0.03, "r": 1.0, "p": 78.0, "fl": "a confirmar", "fc": "bad"}, {"n": "Cenoura", "un": "KG", "unl": "kg", "q": 0.03, "r": 0.85, "p": 3.0, "fl": "cotação", "fc": "ok"}, {"n": "Gergelim", "un": "KG", "unl": "kg", "q": 0.004, "r": 1.0, "p": 33.9, "fl": "a revalidar", "fc": "warn"}, {"n": "Cebolinha", "un": "KG", "unl": "kg", "q": 0.006, "r": 0.8, "p": 10.0, "fl": "cotação", "fc": "ok"}, {"n": "Taxa De Fritura (Gas/Oleo)", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 1.0, "fl": "a revalidar", "fc": "warn"}]}, {"tempo": "Fica mais um pouco", "nome": "Cartola de Lenha", "status": "a validar", "conceito": "A sobremesa pernambucana atravessando pro forno de Nápoles.", "preparo": "1. Banana da terra em rodelas grossas, caramelizada na manteiga com açúcar na boca da lenha. Aproveita o calor residual do forno — custo de energia zero.\n2. Queijo coalho em fatias, tostado na mesma boca até marcar.\n3. Monta em prato de cerâmica: banana embaixo, coalho por cima.\n4. Canela peneirada SÓ na saída. Peneirada antes, ela empapa.", "critico": "A canela é a última coisa a tocar o prato.", "mise": "Banana descascada e cortada · coalho fatiado · peneira de canela na expedição", "itens": [{"n": "Banana Da Terra", "un": "KG", "unl": "kg", "q": 0.13, "r": 0.7, "p": 6.5, "fl": "cotação", "fc": "ok"}, {"n": "Queijo Coalho", "un": "KG", "unl": "kg", "q": 0.07, "r": 1.0, "p": 28.08, "fl": "cotação", "fc": "ok"}, {"n": "Manteiga", "un": "KG", "unl": "kg", "q": 0.015, "r": 1.0, "p": 34.0, "fl": "cotação", "fc": "ok"}, {"n": "Acucar Cristal", "un": "KG", "unl": "kg", "q": 0.012, "r": 1.0, "p": 3.08, "fl": "cotação", "fc": "ok"}, {"n": "Canela Em Pau", "un": "KG", "unl": "kg", "q": 0.002, "r": 1.0, "p": 95.0, "fl": "cotação", "fc": "ok"}]}]};
 const LS = 'eatlooper_ficha_' + ORIG.slug;
 let D = carregar();
@@ -168,8 +183,8 @@ function render(){
      <h3>${d.t}</h3><p>${d.d}</p>
      <div class="resp">
        ${['Confirmado','Precisa ajustar','Não dá'].map(o=>`
-        <label><input type="radio" name="dec${i}" value="${o}" ${d.resposta===o?'checked':''}
-          onchange="D.decisoes[${i}].resposta=this.value;salvar()">${o}</label>`).join('')}
+        <label class="${d.resposta===o?'on':''}"><input type="radio" name="dec${i}" value="${o}" ${d.resposta===o?'checked':''}
+          onchange="marcarRadio(this);D.decisoes[${i}].resposta=this.value;salvar()">${o}</label>`).join('')}
      </div>
      <textarea rows="2" placeholder="Escreva aqui o que precisa mudar, o preço real, a data que dá…"
        oninput="D.decisoes[${i}].nota=this.value;salvarDebounce()">${d.nota||''}</textarea>
@@ -184,22 +199,22 @@ function render(){
        <div class="st">${p.status}</div></div>
 
      <div class="bloco"><h4>Ficha técnica — edite a gramatura e o preço</h4>
-       <table><thead><tr>
+       <div class="tw"><table><thead><tr>
          <th>Ingrediente</th><th class="n">Qtd</th><th class="n">Rend.</th>
          <th class="n">Bruta</th><th class="n">Preço</th><th class="n">Custo</th></tr></thead><tbody>
        ${p.itens.map((it,ii)=>`<tr>
-         <td>${it.n}<span class="fl ${it.fc}">${it.fl}</span></td>
-         <td class="n"><input type="number" step="any" min="0" value="${it.un==='UN'?it.q:Math.round(it.q*1000)}"
-            onchange="setQ(${pi},${ii},this.value)"> <span style="font-size:.7rem;color:var(--ink3)">${it.un==='UN'?'un':'g'}</span></td>
-         <td class="n"><input type="number" step="1" min="1" max="100" value="${Math.round(it.r*100)}"
-            onchange="setR(${pi},${ii},this.value)">%</td>
-         <td class="n" id="b_${pi}_${ii}"></td>
-         <td class="n"><input type="number" step="any" min="0" value="${it.p}"
-            onchange="setP(${pi},${ii},this.value)"> <span style="font-size:.7rem;color:var(--ink3)">/${it.unl}</span></td>
-         <td class="n" id="c_${pi}_${ii}"></td></tr>`).join('')}
-         <tr class="linhatot"><td>Custo do preparo</td><td colspan="4"></td>
-           <td class="n" id="tp_${pi}"></td></tr>
-       </tbody></table>
+         <td class="ing">${it.n}<span class="fl ${it.fc}">${it.fl}</span></td>
+         <td class="n" data-l="Qtd"><input type="text" inputmode="decimal" value="${it.un==='UN'?it.q:Math.round(it.q*1000)}"
+            onchange="setQ(${pi},${ii},this.value,this)"> <span style="font-size:.7rem;color:var(--ink3)">${it.un==='UN'?'un':'g'}</span></td>
+         <td class="n" data-l="Rendimento"><input type="text" inputmode="numeric" value="${Math.round(it.r*100)}"
+            onchange="setR(${pi},${ii},this.value,this)">%</td>
+         <td class="n" data-l="Qtd bruta" id="b_${pi}_${ii}"></td>
+         <td class="n" data-l="Preço"><input type="text" inputmode="decimal" value="${it.p}"
+            onchange="setP(${pi},${ii},this.value,this)"> <span style="font-size:.7rem;color:var(--ink3)">/${it.unl}</span></td>
+         <td class="n" data-l="Custo" id="c_${pi}_${ii}"></td></tr>`).join('')}
+         <tr class="linhatot"><td class="ing">Custo do preparo</td><td colspan="4"></td>
+           <td class="n" data-l="Total" id="tp_${pi}"></td></tr>
+       </tbody></table></div>
      </div>
 
      <div class="bloco"><h4>Modo de preparo — pronto, é só personalizar</h4>
@@ -212,10 +227,21 @@ function render(){
   render_totais();
 }
 
-function setQ(pi,ii,v){ const it=D.pratos[pi].itens[ii];
-  it.q = it.un==='UN' ? (+v||0) : (+v||0)/1000; salvar(); }
-function setR(pi,ii,v){ D.pratos[pi].itens[ii].r = Math.min(1,Math.max(.01,(+v||100)/100)); salvar(); }
-function setP(pi,ii,v){ D.pratos[pi].itens[ii].p = +v||0; salvar(); }
+// teclado pt-BR manda vírgula, e +'2,5' vira NaN
+const num = v => { const n = parseFloat(String(v).replace(',','.')); return isFinite(n)?n:0; };
+function setQ(pi,ii,v,el){ const it=D.pratos[pi].itens[ii];
+  const n=Math.max(0,num(v));
+  it.q = it.un==='UN' ? n : n/1000;
+  if(el) el.value = it.un==='UN' ? n : Math.round(n);
+  salvar(); }
+function setR(pi,ii,v,el){ const n=Math.min(100,Math.max(1,num(v)||100));
+  D.pratos[pi].itens[ii].r = n/100; if(el) el.value=Math.round(n); salvar(); }
+function setP(pi,ii,v,el){ const n=Math.max(0,num(v));
+  D.pratos[pi].itens[ii].p = n; if(el) el.value=n; salvar(); }
+function marcarRadio(el){
+  el.closest('.resp').querySelectorAll('label').forEach(l=>l.classList.remove('on'));
+  el.closest('label').classList.add('on');
+}
 
 function render_totais(){
   D.pratos.forEach((p,pi)=>{
@@ -239,20 +265,13 @@ let deb; function salvarDebounce(){ clearTimeout(deb); deb=setTimeout(salvar,600
 function marcar(){
   const dif = JSON.stringify({p:D.pratos,d:D.decisoes}) !== JSON.stringify({p:ORIG.pratos,d:ORIG.decisoes});
   document.getElementById('stat').innerHTML = dif
-    ? '<b>Alterado.</b> Salvo neste navegador — clique em Enviar alterações para chegar até nós.'
-    : 'Nada alterado ainda.';
+    ? '<b>Alterado.</b> Salvo neste aparelho — exporte em DOC e mande pra gente.'
+    : 'Nada alterado ainda. Suas edições ficam salvas neste aparelho.';
 }
 function restaurar(){
   if(!confirm('Isso apaga suas alterações e volta ao original. Continuar?')) return;
   localStorage.removeItem(LS); D=JSON.parse(JSON.stringify(ORIG)); render(); marcar();
 }
-function baixarJson(){
-  const b=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
-  a.download='eatlooper_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.json';
-  a.click();
-}
-
 function docHtml(){
   const c=custoMenu(), cmv=c/D.preco;
   let h=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
@@ -288,32 +307,30 @@ function docHtml(){
    </body></html>`;
   return h;
 }
-function exportarDoc(){
-  const b=new Blob(['﻿'+docHtml()],{type:'application/msword'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
-  a.download='Ficha_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.doc';
-  a.click();
-}
-
-async function enviar(){
-  const bt=document.getElementById('btEnviar');
-  const payload={casa:D.casa,slug:D.slug,circuito:D.circuito,preco:D.preco,
-    custo:+custoMenu().toFixed(2),cmv:+(custoMenu()/D.preco).toFixed(4),
-    enviado_em:new Date().toISOString(),decisoes:D.decisoes,pratos:D.pratos};
-  if(ENDPOINT){
-    bt.textContent='enviando…';
-    try{
-      await fetch(ENDPOINT,{method:'POST',mode:'no-cors',
-        headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
-      bt.textContent='enviado'; bt.classList.add('done');
-      setTimeout(()=>{bt.textContent='Enviar alterações';bt.classList.remove('done')},2500);
+async function exportarDoc(){
+  const bt=document.getElementById('btDoc');
+  const nome='Ficha_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.doc';
+  const b=new Blob(['\ufeff'+docHtml()],{type:'application/msword'});
+  // no Safari do iPhone o atributo download e ignorado: o arquivo abriria na tela
+  // em vez de baixar. Quando o aparelho tem folha de compartilhamento, usamos ela.
+  try{
+    const f=new File([b],nome,{type:'application/msword'});
+    if(navigator.canShare && navigator.canShare({files:[f]})){
+      await navigator.share({files:[f],title:'Ficha '+D.casa});
       return;
-    }catch(e){ bt.textContent='Enviar alterações'; }
+    }
+  }catch(e){ if(e && e.name==='AbortError') return; }
+  try{
+    const url=URL.createObjectURL(b);
+    const a=document.createElement('a');
+    a.href=url; a.download=nome; a.rel='noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},4000);
+    bt.textContent='baixado'; bt.classList.add('done');
+    setTimeout(function(){bt.textContent='Exportar em DOC';bt.classList.remove('done');},2200);
+  }catch(e){
+    alert('Nao consegui baixar por aqui. Abra esta pagina no Chrome ou no Safari mais recente, ou use Imprimir e salve em PDF.');
   }
-  baixarJson();
-  const resumo=D.decisoes.map((d,i)=>`${i+1}. ${d.t}: ${d.resposta||'—'}${d.nota?' ('+d.nota+')':''}`).join('\n');
-  const msg=`*${D.casa}* — ficha do circuito ${D.circuito}\nCusto R$ ${brl(custoMenu())} · CMV ${((custoMenu()/D.preco)*100).toFixed(1)}%\n\n${resumo}\n\n(o arquivo JSON foi baixado junto)`;
-  window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg),'_blank');
 }
 
 render(); marcar();

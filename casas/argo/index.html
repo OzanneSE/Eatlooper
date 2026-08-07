@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eatlooper · Argo · menu, ficha técnica e calculadora</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -8,7 +8,7 @@
 --ink2:#4a443d;--ink3:#7a736a;--line:#e6dccf;--ok:#2e7d4f;--warn:#b07a12;--bad:#a33327;
 --casa:#3a3330;--casaSoft:#e8e4e1;--shadow:0 8px 28px rgba(45,31,28,.09)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--beige);color:var(--ink);font-family:'Outfit',sans-serif;line-height:1.6;padding-bottom:120px;-webkit-font-smoothing:antialiased}
+body{background:var(--beige);color:var(--ink);font-family:'Outfit',sans-serif;line-height:1.6;padding-bottom:calc(130px + env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow-x:hidden}
 .wrap{max-width:980px;margin:0 auto;padding:0 20px}
 header.top{text-align:center;padding:44px 16px 6px}
 .ki{color:var(--casa);letter-spacing:.24em;font-size:.66rem;font-weight:700;text-transform:uppercase}
@@ -30,7 +30,7 @@ h2.sec small{font-family:'Outfit',sans-serif;font-size:.58rem;letter-spacing:.2e
 .dec p{font-size:.87rem;color:var(--ink2)}
 .resp{margin-top:11px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .resp label{font-size:.74rem;font-weight:600;color:var(--ink2);display:flex;gap:5px;align-items:center;cursor:pointer;background:var(--beige2);padding:5px 12px;border-radius:20px;border:1.5px solid transparent}
-.resp label:has(input:checked){border-color:var(--casa);background:var(--casaSoft);color:var(--ink)}
+.resp label.on{border-color:var(--casa);background:var(--casaSoft);color:var(--ink)}
 textarea{width:100%;font-family:'Outfit',sans-serif;font-size:.86rem;line-height:1.62;color:var(--ink2);background:#fbf7f1;border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-top:9px;resize:vertical}
 textarea:focus{outline:2px solid var(--casa);outline-offset:-1px;background:#fff}
 .prato{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-top:24px;overflow:hidden;border-top:4px solid var(--casa)}
@@ -41,6 +41,7 @@ textarea:focus{outline:2px solid var(--casa);outline-offset:-1px;background:#fff
 .ph .st{font-size:.66rem;color:var(--ink3);background:var(--beige2);padding:5px 11px;border-radius:20px;white-space:nowrap}
 .bloco{padding:16px 24px;border-top:1px solid var(--beige2)}
 .bloco h4{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--casa);margin-bottom:7px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-size:.83rem}
 th{background:var(--beige2);text-align:left;padding:8px 10px;font-weight:600;font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
 th.n,td.n{text-align:right}
@@ -55,7 +56,7 @@ td input:focus{outline:2px solid var(--casa);outline-offset:-1px}
 .mise{font-size:.8rem;color:var(--ink3);margin-top:9px}
 .regras{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--bordo);border-radius:12px;padding:19px 23px;box-shadow:var(--shadow);margin-top:14px}
 .regras ul{margin-left:18px;font-size:.87rem;color:var(--ink2)}.regras li{margin-bottom:8px}
-.barra{position:fixed;left:0;right:0;bottom:0;background:rgba(253,246,238,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:11px 0;z-index:50;box-shadow:0 -4px 20px rgba(45,31,28,.08)}
+.barra{position:fixed;left:0;right:0;bottom:0;background:rgba(253,246,238,.98);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:11px 0 calc(11px + env(safe-area-inset-bottom));z-index:50;box-shadow:0 -4px 20px rgba(45,31,28,.08)}
 .barra .inner{max-width:980px;margin:0 auto;padding:0 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
 .barra .stat{font-size:.76rem;color:var(--ink3)}
 .barra .stat b{color:var(--ink)}
@@ -63,9 +64,31 @@ button{font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;padding:9
 button:hover{background:var(--bordo);color:#fff}
 button.pri{background:var(--bordo);color:#fff}
 button.pri:hover{background:#8d1620;border-color:#8d1620}
-button.done{background:var(--ok);border-color:var(--ok);color:#fff}
+button.done{background:var(--ok);border-color:var(--ok);color:#fff}\na.lnk{font-size:.76rem;color:var(--ink3);text-decoration:underline;white-space:nowrap}\na.lnk:hover{color:var(--bad)}
 footer{margin-top:50px;text-align:center;font-size:.74rem;color:var(--ink3);font-style:italic;border-top:1px solid var(--line);padding-top:20px}
 footer a{color:var(--casa)}
+@media (max-width:620px){
+  .wrap{padding:0 14px}
+  .bloco,.ph{padding-left:16px;padding-right:16px}
+  .dec{padding:16px 17px}
+  .barra .inner{padding:0 14px;justify-content:center}
+  .barra .stat{width:100%;text-align:center;font-size:.72rem;order:2}
+  /* a ficha vira cartão: tabela de 6 colunas não cabe em tela de celular */
+  table thead{display:none}
+  table tbody,table tr,table td{display:block;width:100%}
+  table tr{padding:11px 0;border-bottom:1px solid var(--line)}
+  table tr:last-child{border-bottom:none}
+  table td{display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:4px 0;border:none;text-align:right}
+  table td::before{content:attr(data-l);font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--ink3);font-weight:700;text-align:left;flex:0 0 auto}
+  table td.ing{display:block;text-align:left;font-weight:600;color:var(--ink);margin-bottom:4px}
+  table td.ing::before{content:none}
+  .linhatot td{background:none}
+  .linhatot td.ing{background:#f4ece0;padding:7px 10px;border-radius:7px}
+  td input{width:96px;font-size:16px}
+  textarea{font-size:16px}
+}
 @media print{.barra{display:none}body{background:#fff;padding-bottom:0}.prato,.kpi,.regras,.dec{box-shadow:none;page-break-inside:avoid}}
 </style></head><body>
 
@@ -125,21 +148,13 @@ footer a{color:var(--casa)}
 
 <div class="barra"><div class="inner">
   <div class="stat" id="stat">Nada alterado ainda.</div>
-  <div style="display:flex;gap:9px;flex-wrap:wrap">
-    <button onclick="restaurar()">Restaurar original</button>
-    <button onclick="exportarDoc()">Exportar em DOC</button>
-    <button onclick="baixarJson()">Baixar JSON</button>
-    <button class="pri" id="btEnviar" onclick="enviar()">Enviar alterações</button>
+  <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+    <a href="#" class="lnk" onclick="restaurar();return false">restaurar original</a>
+    <button class="pri" id="btDoc" onclick="exportarDoc()">Exportar em DOC</button>
   </div>
 </div></div>
 
 <script>
-// ===== CONFIG =====
-// Cole aqui a URL do Web App do Google Apps Script (ver backend/COMO_INSTALAR.md).
-// Enquanto estiver vazio, o botão "Enviar alterações" cai no WhatsApp + JSON.
-const ENDPOINT = "";
-const WHATSAPP = "5579981622665"; // François
-
 const ORIG = {"casa": "Argo", "slug": "argo", "circuito": "Croc & Croc", "chef": "Wagner Morais", "bairro": "Praça José Fernandes, 37, box 06 · Inácio Barbosa · quinta a segunda, 17h30", "conceito": "O crunch que se ouve da mesa ao lado — o som chega antes do sabor. Casa de noite, nomenclatura inteira tirada dos argonautas.", "preco": 59.9, "decisoes": [{"t": "A Clemilda entra como ela já é", "d": "A macaxeira frita com manteiga de alho é do cardápio real e não muda nada. <b>É a única da nau que não é da mitologia e a mais amada da tripulação</b> — ela abre o menu do jeito que já abre a casa hoje."}, {"t": "O Ikaro é proposta nossa — o frango crocante da casa", "d": "Um frango empanado de crosta grossa, na linha dos argonautas, que estala no primeiro corte. <b>Você já faz alguma coisa nessa direção?</b> Se tiver, a sua vale mais que a nossa: manda que a gente recalcula."}, {"t": "O Dadinho Doce reaproveita o que já existe", "d": "Os dadinhos de tapioca em versão doce — açúcar, canela e doce de leite pra afundar. <b>Mesma fritadeira, mesma massa, zero compra nova.</b> Se você quiser botar uma calda de goiabada no lugar do doce de leite, fica melhor ainda. Não amarramos de propósito."}, {"t": "O microfone importa tanto quanto a câmera aqui", "d": "Este circuito se chama Croc &amp; Croc porque o som é o produto. No dia da gravação a gente vai gravar <b>o crunch do Ikaro isolado</b>, antes de qualquer imagem. É o take que abre a peça."}, {"t": "A data da gravação", "d": "Uma visita só, com o menu pronto. Como a casa abre 17h30, a diária precisa começar antes de o salão encher — <b>proposta: chegar 16h30</b>. Confirma o dia e a hora que dá."}], "pratos": [{"tempo": "Cheguei", "nome": "Clemilda", "status": "cardápio real", "conceito": "A única da nau que não é da mitologia — e a mais amada da tripulação.", "preparo": "Prato do cardápio real — o preparo abaixo é só registro. Corrija o que estiver diferente.\n\n1. Macaxeira descascada, cozida até ficar macia mas sem desmanchar, resfriada e cortada em lascas grossas. Cozida na véspera fica melhor: seca mais e frita mais crocante.\n2. Frita no pedido, óleo alto, até as pontas escurecerem.\n3. MANTEIGA DE ALHO: manteiga batida com alho, salsa e sal, feita em volume e guardada.\n4. Joga a manteiga de alho sobre a macaxeira ainda quente — o vapor leva o cheiro até a mesa antes do prato chegar.", "critico": "Macaxeira cozida na véspera e bem seca. Úmida, ela não estala.", "mise": "Macaxeira cozida e cortada · manteiga de alho em pote · óleo em temperatura", "itens": [{"n": "Macaxeira", "un": "KG", "unl": "kg", "q": 0.22, "r": 0.8, "p": 5.2, "fl": "cotação", "fc": "ok"}, {"n": "Manteiga De Alho", "un": "KG", "unl": "kg", "q": 0.03, "r": 1.0, "p": 34.361, "fl": "base de cozinha", "fc": "ok"}, {"n": "Salsa", "un": "KG", "unl": "kg", "q": 0.003, "r": 0.8, "p": 17.0, "fl": "cotação", "fc": "ok"}, {"n": "Sal", "un": "KG", "unl": "kg", "q": 0.002, "r": 1.0, "p": 1.1, "fl": "cotação", "fc": "ok"}, {"n": "Taxa De Fritura (Gas/Oleo)", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 1.0, "fl": "a revalidar", "fc": "warn"}]}, {"tempo": "À mesa", "nome": "Ikaro", "status": "a validar com Wagner", "conceito": "Voou perto do sol e voltou com crosta.", "preparo": "1. Frango em pedaços, temperado e reservado gelado.\n2. Passa no mingau e empana no panko em <b>dupla passagem</b> — é o que dá a crosta grossa e irregular que estala.\n3. DUPLA FRITURA: primeira para cozinhar, em óleo mais baixo; segunda, rápida e alta, para dourar e secar. É a segunda que faz barulho.\n4. Escorre em grade. Serve com aioli ao lado e lascas de macaxeira.\n5. O crunch do primeiro corte é o take de abertura da casa — o prato tem que chegar à mesa ainda estalando.", "critico": "A dupla fritura. Uma passagem só dá crosta mole e o prato perde a razão de existir neste circuito.", "mise": "Frango porcionado e temperado · panko em bandeja · aioli pronto", "itens": [{"n": "File De Peito", "un": "KG", "unl": "kg", "q": 0.215, "r": 0.7, "p": 23.0, "fl": "cotação", "fc": "ok"}, {"n": "Mingau Para Empanar", "un": "KG", "unl": "kg", "q": 0.055, "r": 1.0, "p": 3.3791, "fl": "base de cozinha", "fc": "ok"}, {"n": "Farinha Panko", "un": "KG", "unl": "kg", "q": 0.05, "r": 1.0, "p": 18.5, "fl": "cotação", "fc": "ok"}, {"n": "Molho Aioli", "un": "KG", "unl": "kg", "q": 0.035, "r": 1.0, "p": 11.4006, "fl": "base de cozinha", "fc": "ok"}, {"n": "Macaxeira", "un": "KG", "unl": "kg", "q": 0.08, "r": 0.8, "p": 5.2, "fl": "cotação", "fc": "ok"}, {"n": "Taxa De Fritura (Gas/Oleo)", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 1.0, "fl": "a revalidar", "fc": "warn"}]}, {"tempo": "Fica mais um pouco", "nome": "Dadinho Doce", "status": "a validar com Wagner", "conceito": "O dado da tapioca indígena jogado no açúcar.", "preparo": "1. MASSA (a mesma do dadinho salgado, se a casa já faz): tapioca granulada hidratada em leite quente com o queijo, espalhada em assadeira e gelada até firmar.\n2. Corta em cubos e frita no pedido, na mesma fritadeira do resto do menu.\n3. Ainda quente, passa no açúcar com canela.\n4. Fio de doce de leite por cima para afundar. Se preferir calda de goiabada, funciona igual ou melhor — fica a seu critério.", "critico": "A massa precisa estar bem gelada antes de cortar, senão o cubo se abre na fritura.", "mise": "Massa gelada e cortada · açúcar com canela em pote · doce de leite morno", "itens": [{"n": "Massa De Dadinho De Tapioca", "un": "KG", "unl": "kg", "q": 0.13, "r": 1.0, "p": 12.2415, "fl": "base de cozinha", "fc": "ok"}, {"n": "Acucar Cristal", "un": "KG", "unl": "kg", "q": 0.012, "r": 1.0, "p": 3.08, "fl": "cotação", "fc": "ok"}, {"n": "Canela Em Pau", "un": "KG", "unl": "kg", "q": 0.002, "r": 1.0, "p": 95.0, "fl": "cotação", "fc": "ok"}, {"n": "Doce De Leite Pastoso", "un": "KG", "unl": "kg", "q": 0.045, "r": 1.0, "p": 18.9, "fl": "a confirmar", "fc": "bad"}, {"n": "Taxa De Fritura (Gas/Oleo)", "un": "UN", "unl": "un", "q": 1, "r": 1.0, "p": 1.0, "fl": "a revalidar", "fc": "warn"}]}]};
 const LS = 'eatlooper_ficha_' + ORIG.slug;
 let D = carregar();
@@ -168,8 +183,8 @@ function render(){
      <h3>${d.t}</h3><p>${d.d}</p>
      <div class="resp">
        ${['Confirmado','Precisa ajustar','Não dá'].map(o=>`
-        <label><input type="radio" name="dec${i}" value="${o}" ${d.resposta===o?'checked':''}
-          onchange="D.decisoes[${i}].resposta=this.value;salvar()">${o}</label>`).join('')}
+        <label class="${d.resposta===o?'on':''}"><input type="radio" name="dec${i}" value="${o}" ${d.resposta===o?'checked':''}
+          onchange="marcarRadio(this);D.decisoes[${i}].resposta=this.value;salvar()">${o}</label>`).join('')}
      </div>
      <textarea rows="2" placeholder="Escreva aqui o que precisa mudar, o preço real, a data que dá…"
        oninput="D.decisoes[${i}].nota=this.value;salvarDebounce()">${d.nota||''}</textarea>
@@ -184,22 +199,22 @@ function render(){
        <div class="st">${p.status}</div></div>
 
      <div class="bloco"><h4>Ficha técnica — edite a gramatura e o preço</h4>
-       <table><thead><tr>
+       <div class="tw"><table><thead><tr>
          <th>Ingrediente</th><th class="n">Qtd</th><th class="n">Rend.</th>
          <th class="n">Bruta</th><th class="n">Preço</th><th class="n">Custo</th></tr></thead><tbody>
        ${p.itens.map((it,ii)=>`<tr>
-         <td>${it.n}<span class="fl ${it.fc}">${it.fl}</span></td>
-         <td class="n"><input type="number" step="any" min="0" value="${it.un==='UN'?it.q:Math.round(it.q*1000)}"
-            onchange="setQ(${pi},${ii},this.value)"> <span style="font-size:.7rem;color:var(--ink3)">${it.un==='UN'?'un':'g'}</span></td>
-         <td class="n"><input type="number" step="1" min="1" max="100" value="${Math.round(it.r*100)}"
-            onchange="setR(${pi},${ii},this.value)">%</td>
-         <td class="n" id="b_${pi}_${ii}"></td>
-         <td class="n"><input type="number" step="any" min="0" value="${it.p}"
-            onchange="setP(${pi},${ii},this.value)"> <span style="font-size:.7rem;color:var(--ink3)">/${it.unl}</span></td>
-         <td class="n" id="c_${pi}_${ii}"></td></tr>`).join('')}
-         <tr class="linhatot"><td>Custo do preparo</td><td colspan="4"></td>
-           <td class="n" id="tp_${pi}"></td></tr>
-       </tbody></table>
+         <td class="ing">${it.n}<span class="fl ${it.fc}">${it.fl}</span></td>
+         <td class="n" data-l="Qtd"><input type="text" inputmode="decimal" value="${it.un==='UN'?it.q:Math.round(it.q*1000)}"
+            onchange="setQ(${pi},${ii},this.value,this)"> <span style="font-size:.7rem;color:var(--ink3)">${it.un==='UN'?'un':'g'}</span></td>
+         <td class="n" data-l="Rendimento"><input type="text" inputmode="numeric" value="${Math.round(it.r*100)}"
+            onchange="setR(${pi},${ii},this.value,this)">%</td>
+         <td class="n" data-l="Qtd bruta" id="b_${pi}_${ii}"></td>
+         <td class="n" data-l="Preço"><input type="text" inputmode="decimal" value="${it.p}"
+            onchange="setP(${pi},${ii},this.value,this)"> <span style="font-size:.7rem;color:var(--ink3)">/${it.unl}</span></td>
+         <td class="n" data-l="Custo" id="c_${pi}_${ii}"></td></tr>`).join('')}
+         <tr class="linhatot"><td class="ing">Custo do preparo</td><td colspan="4"></td>
+           <td class="n" data-l="Total" id="tp_${pi}"></td></tr>
+       </tbody></table></div>
      </div>
 
      <div class="bloco"><h4>Modo de preparo — pronto, é só personalizar</h4>
@@ -212,10 +227,21 @@ function render(){
   render_totais();
 }
 
-function setQ(pi,ii,v){ const it=D.pratos[pi].itens[ii];
-  it.q = it.un==='UN' ? (+v||0) : (+v||0)/1000; salvar(); }
-function setR(pi,ii,v){ D.pratos[pi].itens[ii].r = Math.min(1,Math.max(.01,(+v||100)/100)); salvar(); }
-function setP(pi,ii,v){ D.pratos[pi].itens[ii].p = +v||0; salvar(); }
+// teclado pt-BR manda vírgula, e +'2,5' vira NaN
+const num = v => { const n = parseFloat(String(v).replace(',','.')); return isFinite(n)?n:0; };
+function setQ(pi,ii,v,el){ const it=D.pratos[pi].itens[ii];
+  const n=Math.max(0,num(v));
+  it.q = it.un==='UN' ? n : n/1000;
+  if(el) el.value = it.un==='UN' ? n : Math.round(n);
+  salvar(); }
+function setR(pi,ii,v,el){ const n=Math.min(100,Math.max(1,num(v)||100));
+  D.pratos[pi].itens[ii].r = n/100; if(el) el.value=Math.round(n); salvar(); }
+function setP(pi,ii,v,el){ const n=Math.max(0,num(v));
+  D.pratos[pi].itens[ii].p = n; if(el) el.value=n; salvar(); }
+function marcarRadio(el){
+  el.closest('.resp').querySelectorAll('label').forEach(l=>l.classList.remove('on'));
+  el.closest('label').classList.add('on');
+}
 
 function render_totais(){
   D.pratos.forEach((p,pi)=>{
@@ -239,20 +265,13 @@ let deb; function salvarDebounce(){ clearTimeout(deb); deb=setTimeout(salvar,600
 function marcar(){
   const dif = JSON.stringify({p:D.pratos,d:D.decisoes}) !== JSON.stringify({p:ORIG.pratos,d:ORIG.decisoes});
   document.getElementById('stat').innerHTML = dif
-    ? '<b>Alterado.</b> Salvo neste navegador — clique em Enviar alterações para chegar até nós.'
-    : 'Nada alterado ainda.';
+    ? '<b>Alterado.</b> Salvo neste aparelho — exporte em DOC e mande pra gente.'
+    : 'Nada alterado ainda. Suas edições ficam salvas neste aparelho.';
 }
 function restaurar(){
   if(!confirm('Isso apaga suas alterações e volta ao original. Continuar?')) return;
   localStorage.removeItem(LS); D=JSON.parse(JSON.stringify(ORIG)); render(); marcar();
 }
-function baixarJson(){
-  const b=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
-  a.download='eatlooper_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.json';
-  a.click();
-}
-
 function docHtml(){
   const c=custoMenu(), cmv=c/D.preco;
   let h=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
@@ -288,32 +307,30 @@ function docHtml(){
    </body></html>`;
   return h;
 }
-function exportarDoc(){
-  const b=new Blob(['﻿'+docHtml()],{type:'application/msword'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
-  a.download='Ficha_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.doc';
-  a.click();
-}
-
-async function enviar(){
-  const bt=document.getElementById('btEnviar');
-  const payload={casa:D.casa,slug:D.slug,circuito:D.circuito,preco:D.preco,
-    custo:+custoMenu().toFixed(2),cmv:+(custoMenu()/D.preco).toFixed(4),
-    enviado_em:new Date().toISOString(),decisoes:D.decisoes,pratos:D.pratos};
-  if(ENDPOINT){
-    bt.textContent='enviando…';
-    try{
-      await fetch(ENDPOINT,{method:'POST',mode:'no-cors',
-        headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
-      bt.textContent='enviado'; bt.classList.add('done');
-      setTimeout(()=>{bt.textContent='Enviar alterações';bt.classList.remove('done')},2500);
+async function exportarDoc(){
+  const bt=document.getElementById('btDoc');
+  const nome='Ficha_'+D.slug+'_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.doc';
+  const b=new Blob(['\ufeff'+docHtml()],{type:'application/msword'});
+  // no Safari do iPhone o atributo download e ignorado: o arquivo abriria na tela
+  // em vez de baixar. Quando o aparelho tem folha de compartilhamento, usamos ela.
+  try{
+    const f=new File([b],nome,{type:'application/msword'});
+    if(navigator.canShare && navigator.canShare({files:[f]})){
+      await navigator.share({files:[f],title:'Ficha '+D.casa});
       return;
-    }catch(e){ bt.textContent='Enviar alterações'; }
+    }
+  }catch(e){ if(e && e.name==='AbortError') return; }
+  try{
+    const url=URL.createObjectURL(b);
+    const a=document.createElement('a');
+    a.href=url; a.download=nome; a.rel='noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},4000);
+    bt.textContent='baixado'; bt.classList.add('done');
+    setTimeout(function(){bt.textContent='Exportar em DOC';bt.classList.remove('done');},2200);
+  }catch(e){
+    alert('Nao consegui baixar por aqui. Abra esta pagina no Chrome ou no Safari mais recente, ou use Imprimir e salve em PDF.');
   }
-  baixarJson();
-  const resumo=D.decisoes.map((d,i)=>`${i+1}. ${d.t}: ${d.resposta||'—'}${d.nota?' ('+d.nota+')':''}`).join('\n');
-  const msg=`*${D.casa}* — ficha do circuito ${D.circuito}\nCusto R$ ${brl(custoMenu())} · CMV ${((custoMenu()/D.preco)*100).toFixed(1)}%\n\n${resumo}\n\n(o arquivo JSON foi baixado junto)`;
-  window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg),'_blank');
 }
 
 render(); marcar();
